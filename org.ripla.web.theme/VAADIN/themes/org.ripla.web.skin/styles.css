@@ -1,0 +1,87 @@
+@import "../reindeer/styles.css";
+
+.ripla-main {
+    background-color:#F5FFE0;
+}
+
+.ripla-header {
+    color:white;
+    background-color:#269999;
+}
+
+.ripla-toolbar {
+    background-image: url(./images/toolbar.png);
+    background-color:#6FCCCC;
+}
+
+.ripla-menubar {
+    background-color:#C9E574;
+}
+
+.ripla-menubar .ripla-menu {
+    position:relative;
+    top:9px;
+}
+.ripla-menubar .v-menubar {
+    color:white;
+    background-color:#C9E574;
+    background-image:none;
+    text-shadow:0 1px 0 #FFFFFF;
+}
+.ripla-menubar .v-menubar-menuitem {
+    color:#269999;
+    background-color:#C9E574;
+    margin:0 5px 0 5px;
+}
+.v-menubar-menuitem-selected,
+.v-menubar-menuitem:hover {
+    background-color:#269999;
+    background-image:none;
+}
+
+.ripla-sidebar {
+    background-image: url(./images/sidebar.png);
+}
+
+.ripla-sidebar-text {
+    background-image: url(./images/sidebar.png);
+}
+
+.ripla-content {
+    background-image: url(./images/content.png);
+    background-repeat:no-repeat;    
+}
+
+.ripla-footer {
+    color:white;
+    background-color:#269999;    
+}
+
+.ripla-lookup .ripla-lookup-close {
+    position:absolute;
+    bottom:25px;
+    right:25px;
+}
+
+.ripla-lookup div.ripla-label-table .ripla-label {
+    font-style:italic;
+    vertical-align:top;
+    margin-right:7px;
+}
+
+.ripla-lookup div.ripla-label-table .ripla-label,
+.ripla-lookup div.ripla-label-table .ripla-value, 
+.ripla-lookup div.ripla-label-table .ripla-value-emphasized {
+    margin-top:3px;
+}
+
+.ripla-view div.ripla-label-table .ripla-value,
+.ripla-view div.ripla-label-table .ripla-input {
+    margin-left:5px;    
+    margin-right:5px;    
+}
+
+.ripla-view div.ripla-label-table .ripla-value-emphasized,
+.ripla-lookup div.ripla-label-table .ripla-value-emphasized  {
+    font-weight:bold;
+}
