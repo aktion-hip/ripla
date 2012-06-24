@@ -1,0 +1,53 @@
+/*******************************************************************************
+* Copyright (c) 2012 RelationWare, Benno Luthiger
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+* RelationWare, Benno Luthiger
+******************************************************************************/
+
+package org.ripla.web.internal.services;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import org.ripla.web.services.IToolbarItem;
+
+/**
+ * The toolbar helper class to manage toolbar items.
+ *
+ * @author Luthiger
+ */
+public class ToolbarItemRegistry {
+	private List<IToolbarItem> toolbarItems = Collections.synchronizedList(new ArrayList<IToolbarItem>());
+
+	public void registerToolbarItem(IToolbarItem inItem) {
+		toolbarItems.add(inItem);
+	}
+
+	public void unregisterToolbarItem(IToolbarItem inItem) {
+		toolbarItems.remove(inItem);		
+	}
+
+	/**
+	 * @return Collection&lt;IToolbarItem> the sorted list of toolbar items.
+	 */
+	public Collection<IToolbarItem> getSortedItems() {
+		Collections.sort(toolbarItems, new ItemComparator());
+		return toolbarItems;
+	}
+	
+	private static class ItemComparator implements Comparator<IToolbarItem> {
+		@Override
+		public int compare(IToolbarItem inItem1, IToolbarItem inItem2) {
+			return inItem2.getPosition() - inItem1.getPosition();
+		}
+	}
+	
+}

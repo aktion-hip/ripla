@@ -1,0 +1,221 @@
+/*******************************************************************************
+* Copyright (c) 2012 RelationWare, Benno Luthiger
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+* RelationWare, Benno Luthiger
+******************************************************************************/
+
+package org.ripla.demo.widgets.views;
+
+import org.ripla.demo.widgets.Activator;
+import org.ripla.demo.widgets.controllers.FormController;
+import org.ripla.web.interfaces.IMessages;
+import org.ripla.web.util.AbstractFormCreator;
+import org.ripla.web.util.LabelValueTable;
+import org.ripla.web.util.RiplaViewHelper;
+
+import com.vaadin.data.Validator.InvalidValueException;
+import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.terminal.Sizeable;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.ListSelect;
+import com.vaadin.ui.PopupView;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
+
+/**
+ * View displaying the form example.
+ * 
+ * @author Luthiger
+ */
+@SuppressWarnings("serial")
+public class FormView extends AbstractWidgetsView {
+	private static final int FIELD_WITDH = 250;
+
+	/**
+	 * FormView constructor.
+	 * 
+	 * @param inController {@link FormController} this view's controller
+	 */
+	public FormView(final FormController inController) {
+		IMessages lMessages = Activator.getMessages();
+		VerticalLayout lLayout = initLayout(lMessages, "widgets.title.page.form"); //$NON-NLS-1$
+		
+		final RegistrationFormCreator lFormCreator = new RegistrationFormCreator();
+		lLayout.addComponent(lFormCreator.createForm());
+		
+		final PopupContent lPopupContent = new PopupContent();
+		final PopupView lPopup = new PopupView(lPopupContent);
+		lPopup.setHideOnMouseOut(false);
+		lPopup.setPopupVisible(false);
+		lLayout.addComponent(lPopup);
+		
+		Button lSave = new Button(lMessages.getMessage("widgets.view.button.label.save"));
+		lSave.setClickShortcut(KeyCode.ENTER);
+		lSave.addListener(new Button.ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent inEvent) {
+				try {
+					lFormCreator.commit();
+					String lFeedback = inController.save(lFormCreator.getGender(),
+							lFormCreator.getName(),
+							lFormCreator.getFirstName(),
+							lFormCreator.getStreet(),
+							lFormCreator.getPostal(),
+							lFormCreator.getCity(),
+							lFormCreator.getMail(),
+							lFormCreator.getAge(),
+							lFormCreator.getEducation(),
+							lFormCreator.getWorkArea());
+					lPopupContent.setFeedback(lFeedback);
+					lPopup.setPopupVisible(true);
+				}
+				catch (InvalidValueException exc) {}
+			}
+		});
+		lLayout.addComponent(lSave);
+	}
+	
+	private static class RegistrationFormCreator extends AbstractFormCreator {
+		private LabelValueTable table = new LabelValueTable();
+		private ListSelect gender = new ListSelect();
+		private TextField name = RiplaViewHelper.createTextField("", FIELD_WITDH, null);
+		private TextField firstname = RiplaViewHelper.createTextField("", FIELD_WITDH, null);
+		private TextField street = RiplaViewHelper.createTextField("", FIELD_WITDH, null);
+		private TextField postal = new TextField();
+		private TextField city = new TextField();
+		private TextField mail = RiplaViewHelper.createTextField("", FIELD_WITDH, null);
+		private TextField age = RiplaViewHelper.createTextField("", 40, null);
+		private ListSelect education = new ListSelect();
+		private ListSelect workarea = new ListSelect();
+		
+		
+		/* (non-Javadoc)
+		 * @see org.ripla.web.util.AbstractFormCreator#createTable()
+		 */
+		@Override
+		protected Component createTable() {
+			IMessages lMessages = Activator.getMessages();
+			
+			fillSelect(gender, new String[] {lMessages.getMessage("widgets.view.form.select.sex.1"), lMessages.getMessage("widgets.view.form.select.sex.2")});
+			fillSelect(education, new String[] {lMessages.getMessage("widgets.view.form.select.educ.1"),
+					lMessages.getMessage("widgets.view.form.select.educ.2"),
+					lMessages.getMessage("widgets.view.form.select.educ.3"),
+					lMessages.getMessage("widgets.view.form.select.educ.4")});
+			fillSelect(workarea, new String[] {lMessages.getMessage("widgets.view.form.select.work.1"),
+					lMessages.getMessage("widgets.view.form.select.work.2"),
+					lMessages.getMessage("widgets.view.form.select.work.3"),
+					lMessages.getMessage("widgets.view.form.select.work.4"),
+					lMessages.getMessage("widgets.view.form.select.work.5"),
+					lMessages.getMessage("widgets.view.form.select.work.6")});
+			age.setMaxLength(3);
+			
+			table.addRow(lMessages.getMessage("widgets.view.form.gender"), addField("gender", gender));
+			table.addRowEmphasized(lMessages.getMessage("widgets.view.form.name"), addFieldRequired("familyname", name, lMessages.getMessage("widgets.view.form.name")));
+			table.addRowEmphasized(lMessages.getMessage("widgets.view.form.firstname"), addFieldRequired("firstname", firstname, lMessages.getMessage("widgets.view.form.firstname")));
+			table.addRow(lMessages.getMessage("widgets.view.form.street"), addField("street", street));
+			table.addRow(lMessages.getMessage("widgets.view.form.city"), createPostalCity());
+			table.addRowEmphasized(lMessages.getMessage("widgets.view.form.mail"), addFieldRequired("mail", mail, lMessages.getMessage("widgets.view.form.mail")));
+			table.addRow(lMessages.getMessage("widgets.view.form.age"), addField("age", age));
+			table.addRow(lMessages.getMessage("widgets.view.form.education"), addField("education", education));
+			table.addRow(lMessages.getMessage("widgets.view.form.workarea"), addField("workarea", workarea));
+			return table;
+		}
+		
+		private void fillSelect(ListSelect inSelect, String[] inValues) {
+			inSelect.setWidth(FIELD_WITDH, Sizeable.UNITS_PIXELS);
+			inSelect.setRows(1);
+			inSelect.setStyleName("ripla-input"); //$NON-NLS-1$
+			for (String lValue : inValues) {
+				inSelect.addItem(lValue);
+			}
+		}
+		
+		private HorizontalLayout createPostalCity() {
+			HorizontalLayout out = new HorizontalLayout();
+			out.setStyleName("ripla-input"); //$NON-NLS-1$
+			out.setSpacing(true);
+			postal.setWidth(54, Sizeable.UNITS_PIXELS);
+			postal.setMaxLength(6);
+			city.setWidth(190, Sizeable.UNITS_PIXELS);
+			out.addComponent(postal);
+			out.addComponent(city);
+			return out;
+		}
+		
+		public String getGender() {
+			return (String)gender.getValue();
+		}
+		public String getName() {
+			return (String)name.getValue();
+		}
+		public String getFirstName() {
+			return (String)firstname.getValue();
+		}
+		public String getStreet() {
+			return (String)street.getValue();
+		}
+		public String getPostal() {
+			return (String)postal.getValue();
+		}
+		public String getCity() {
+			return (String)city.getValue();
+		}
+		public String getMail() {
+			return (String)mail.getValue();
+		}
+		public String getAge() {
+			return (String)age.getValue();
+		}
+		public String getEducation() {
+			return (String)education.getValue();
+		}
+		public String getWorkArea() {
+			return (String)workarea.getValue();
+		}
+	}
+	
+	private static class PopupContent implements PopupView.Content {
+		private String feedback = "";
+		private VerticalLayout root;
+		
+		PopupContent() {
+			root = new VerticalLayout();
+			root.setSpacing(true);
+			root.setSizeUndefined();
+		}
+
+		/* (non-Javadoc)
+		 * @see com.vaadin.ui.PopupView.Content#getMinimizedValueAsHTML()
+		 */
+		@Override
+		public String getMinimizedValueAsHTML() {
+			return "";
+		}
+
+		/* (non-Javadoc)
+		 * @see com.vaadin.ui.PopupView.Content#getPopupComponent()
+		 */
+		@Override
+		public Component getPopupComponent() {
+			Label lLayout = new Label(String.format("<p>%s</p>%s", Activator.getMessages().getMessage("widgets.view.form.feedback"), feedback), Label.CONTENT_XHTML);
+			lLayout.setWidth(300, UNITS_PIXELS);
+			root.removeAllComponents();
+			root.addComponent(lLayout);
+			return root;
+		}
+		
+		void setFeedback(String inFeedback) {
+			feedback = inFeedback;
+		}
+	}
+	
+}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.demo.skin">
+   <implementation class="org.ripla.demo.skin.Skin"/>
+   <service>
+      <provide interface="org.ripla.web.services.ISkin"/>
+   </service>
+</scr:component>

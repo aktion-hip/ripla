@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Ripla User Admin
+Bundle-SymbolicName: org.ripla.useradmin
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.ripla.useradmin.Activator
+Bundle-Vendor: RelationWare
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.eclipse.osgi.framework.eventmgr;version="1.2.0",
+ org.osgi.framework;version="1.6.0",
+ org.osgi.service.component;version="1.1.0",
+ org.osgi.service.prefs;version="1.1.1",
+ org.osgi.service.useradmin;version="1.1.0",
+ org.osgi.util.tracker;version="1.5.0",
+ org.slf4j;version="1.6.4"
+Bundle-ActivationPolicy: lazy
+Export-Package: org.ripla.useradmin.admin,
+ org.ripla.useradmin.interfaces

@@ -1,0 +1,184 @@
+@import "../runo/styles.css";
+
+.ripla-main {
+    background-color:white;
+    font-family:Georgia, "Times New Roman", Times, serif;
+}
+.demo-main {
+    background-color:white;
+}
+
+.demo-header {
+    color:#FFFFFF;
+    background-color:#000000;
+}
+
+.demo-header-text {
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-weight:bold;
+    font-size:20px;
+}
+
+.ripla-toolbar,
+.ripla-toolbar .v-button-link .v-button-caption {
+    color:#FFFFFF;
+    background-color:#1e1e1e;
+}
+
+.ripla-toolbar .v-button-link .v-button-caption {
+    text-decoration:none;
+}
+
+.ripla-menubar {
+    background-color:#000000;    
+}
+
+.stylish-menubar {
+	background-image:url("images/nav.png");
+	background-repeat:repeat;
+}
+
+.stylish-menubar-left {
+	background-image:url("images/nav_left.png");
+	background-repeat:no-repeat;    
+}
+.stylish-menubar-right {
+	background-image:url("images/nav_right.png");
+	background-repeat:no-repeat;    
+}
+.v-menubar {
+    border:0;
+}
+.stylish-menubar .v-menubar-menuitem {
+	background-image:url("images/rollover.png");
+	background-repeat:no-repeat;
+	width:123px;
+	line-height:45px;
+	height:44px;    
+	text-align:center;
+	text-decoration:none;
+	color:#1e1e1e;
+    padding:0;
+	border:none;
+}
+.stylish-menubar .v-menubar-menuitem-selected,
+.stylish-menubar .v-menubar-menuitem a:hover {
+	background:url("images/rollover.png") no-repeat 0 -45px;
+	height:44px;    
+	color:#fb4e00;
+	text-decoration:none;
+	border:none;
+	padding:0;
+}
+.stylish-menubar a:hover,
+.stylish-menubar a:active { 
+    text-decoration: underline; 
+    color: #CCCCCC; 
+}
+.stylish-menubar .v-menubar-menuitem-ripla-menu-active {
+	background:url("images/active.png") no-repeat;    
+	border:none;
+	padding:0;
+}
+
+.v-menubar-submenu .v-menubar-menuitem {    
+    color:#1F4E8C;
+    background-color:inherit;
+}
+
+.v-menubar-submenu .v-menubar-menuitem-selected,
+.v-menubar-submenu .v-menubar-menuitem:hover {
+    color:#fb4e00;
+    background-color:inherit;
+}
+
+.v-menubar-submenu-ripla-menu {
+    position:relative;
+    left:8px;
+}
+
+.ripla-sidebar {
+    background-color:#FFFFFF;
+}
+
+.ripla-sidebar .ripla-contextmenu .ripla-contextmenu-item {
+    margin:0 0 10px 0;
+}
+.ripla-sidebar .ripla-contextmenu .ripla-contextmenu-item .v-button-caption {
+    color:#1F4E8C;
+    background-color:inherit;
+    text-decoration:none;
+}
+
+.demo-footer {
+	width: 802px;
+	height: 19px;
+	background-image:url("images/footer.gif");
+	background-repeat:no-repeat;
+	background-position:center;
+	clear:both;
+	text-align:center;
+}
+
+.demo-view .demo-pagetitle {
+    font-weight:bold;
+    color:#1F4E8C;
+    background-color:inherit;
+    font-size:14pt;
+    margin-bottom:10px;    
+}
+
+.ripla-lookup .demo-subtitle,
+.demo-view .demo-subtitle {
+    font-weight:bold;
+    color:#1F4E8C;
+    background-color:inherit;
+    font-size:11pt;
+    margin-top:7px;    
+    margin-bottom:5px;    
+}
+
+.ripla-lookup .ripla-lookup-close {
+    position:absolute;
+    bottom:25px;
+    right:25px;
+}
+
+.ripla-lookup div.ripla-label-table .ripla-label {
+    font-style:italic;
+    vertical-align:top;
+    margin-right:7px;
+}
+
+.ripla-lookup div.ripla-label-table .ripla-label,
+.ripla-lookup div.ripla-label-table .ripla-value, 
+.ripla-lookup div.ripla-label-table .ripla-value-emphasized {
+    margin-top:3px;
+}
+
+.demo-view div.ripla-label-table .ripla-value,
+.demo-view div.ripla-label-table .ripla-input {
+    margin-left:5px;    
+    margin-right:5px;    
+}
+
+.demo-view div.ripla-label-table .ripla-value-emphasized,
+.ripla-lookup div.ripla-label-table .ripla-value-emphasized  {
+    font-weight:bold;
+}
+
+.v-window-header {
+    color:#000000;
+    background-color:inherit;
+}
+
+.ripla-login-form {
+    margin-top:100px;
+}
+
+.ripla-login-form .v-form-description {
+    font-size:13pt;
+    font-weight:bold;
+    color:#000000;
+    background-color:inherit;    
+}
