@@ -305,6 +305,40 @@ a.buttons:hover {
 	text-decoration: none;
 }
 
+/* Sidebar */
+sidebar {
+  width:170px;
+  float:left;
+  position:fixed;
+  top:400px;
+	padding: 34px 25px 22px 50px;
+	margin: 30px 25px 0 0;
+	-webkit-font-smoothing: antialiased;
+}
+
+sidebar ul {
+  list-style:none;
+  padding:0;
+}
+
+sidebar ul li {
+  list-style:none;
+  padding-left: 0;
+}
+
+sidebar a {
+  font-weight:200;
+  color:#000;
+  text-decoration:none;
+}
+
+a.navigation {
+	-webkit-font-smoothing: antialiased;
+	background: url(../images/arrow-r.png) no-repeat left center;
+	font-weight: normal;
+	padding: 2px 2px 2px 22px;
+	height: 30px;
+}
 
 /* Section - for main page content */
 
