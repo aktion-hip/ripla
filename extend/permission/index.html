@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+
+    <title>Ripla</title>
+    <meta name="generator" content="Silva" />
+    <meta name="description"
+          content="Rich Platform project for Java web applications." />
+    
+
+    <meta name="robots" content="all,follow" />
+  
+    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="index" title="Home"
+          href="../.." />
+    
+
+  
+
+    <style media="all" type="text/css">
+      <!-- @import url("../../res/resource.css"); -->
+    </style>
+
+    
+
+  
+
+
+
+    <!-- Injector for content-specific css/js inclusion -->
+    
+
+
+    <!-- 
+    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
+     -->
+  </head>
+
+  <body>
+    <div class="wrapper">
+  <header>
+    <h1 class="header">
+        <a href="../.."
+           title="Ripla [Top]">Ripla</a>  
+    </h1>
+    <p class="header">Rich Platform project for Java web applications.</p>
+    <ul>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/downloads">Download Files</a></li>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/zipball/master">Download ZIP</a></li>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/tarball/master">Download TAR</a></li>
+      <li><a class="buttons github" href="https://github.com/aktion-hip/ripla">View On GitHub</a></li>
+    </ul>
+    <p class="header">This project is maintained by <a class="header name" href="https://github.com/aktion-hip">aktion-hip</a></p>
+  </header>
+  
+  <sidebar>
+    <ul>
+      <div class="navigation">
+  <ul id="navigation-menu" class="navigation-level-0">
+    
+      <li class="level-0">
+        <a href="../../impl"
+           title="Create Application">Create Application</a>
+        
+      </li>
+    
+    
+      <li class="level-0 selected">
+        <a href="../../extend"
+           class="onbranch" title="Extension Points">Extension Points</a>
+        
+          
+            <ul class="navigation-level-1">
+    
+      <li class="level-1">
+        <a href="../../extend/usecase"
+           title="Use Case Service">Use Case Service</a>
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../extend/skin"
+           title="Skin Service">Skin Service</a>
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../extend/toolbar"
+           title="Toolbar Service">Toolbar Service</a>
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../extend/extendible"
+           title="Extendible Menu Service">Extendible Menu Service</a>
+        
+      </li>
+    
+    
+      <li class="level-1 selected">
+        <a href="../../extend/permission"
+           class="onbranch" title="Permission Service">Permission Service</a>
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../extend/useadmin"
+           title="User Administration Service">User Administration Service</a>
+        
+      </li>
+    
+  </ul>
+          
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../../demo"
+           title="Ripla Demo Application">Ripla Demo Application</a>
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../../downloads"
+           title="Downloads">Downloads</a>
+        
+      </li>
+    
+  </ul>
+</div>
+
+    </ul>    
+  </sidebar>
+  
+  <section><h2 class="heading">Permission Service</h2><p class="p">A Ripla
+application is a dynamic system. Bundles providing business logic or visual
+aspects to the application can emerge or disappear during the application's
+life time. Therefore, it's impossible to define a system restricting the access to resources up front. Instead, use case bundles have to be given the possibility
+to define permissions to protect aspects of their functionality themselves.
+Plus they need the possibility to notify the system about the permissions they
+define.</p><p class="p">This is
+where <span class="underline">org.ripla.web.services.IPermissionEntry</span> comes into play. By
+implementing service providers for <span class="underline">IPermissionEntry</span>,
+bundles can define permissions and register them to the application’s permission
+registry.</p><p class="p"><strong>Note</strong>: the Ripla permission service collaborates with the OSGi user admin service (see <a href="../../extend/useadmin" title="User Administration Service" target="_self">User Administration Service</a>). In OSGi user admin wording, the permission is equivalent to an action group.</p><pre class="pre">public interface IPermissionEntry {
+    String getPermissionName();
+    String getPermissionDescription();
+    String[] getRequieredMemberNames();
+    String[] getMemberNames();
+}</pre><p class="p"><span class="underline">IPermissionEntry.getPermissionName()</span> returns the name (i.e. ID) of the permission. A use case controller can further on refer to this permission when implementing the <span class="underline">AbstractController.needsPermission()</span> method (see <a href="../../impl/usecase/controller.html" title="Use Case Controller Class" target="_self">Use Case Controller Class</a>).<br /></p><p class="p"><span class="underline">IPermissionEntry.getPermissionDescription()</span> returns the pemission's description, i.e. some information about the resources protected by this permission.<br /></p><p class="p"><span class="underline">IPermissionEntry.getRequieredMemberNames()</span> returns the set of required members (String array) of the group created with this permission name. If a resource is protected by this permission, i.e. the controller needs this permission, a user must have one of the specified roles (i.e. has to be member of <em>all</em> of those groups) for that he is authorized to access this resource.<br /></p><p class="p"><span class="underline">IPermissionEntry.getMemberNames()</span> returns the set of required members (String array) of the group created 
+with this permission name. If a resource is protected by this 
+permission, i.e. the controller needs this permission, a user must have 
+one of the specified roles (i.e. has to be member of <em>one</em> of those 
+groups) for that he is authorized to access this resource.</p><h4 class="heading">Example</h4><p class="p">In the Demo application, the skin select action is protected for that only admin users can access this functionality. This protection is implemented as follows:<br /></p><pre class="pre">public class PermissionEntry implements IPermissionEntry {
+    public String getPermissionName() {
+        return "config.skin";
+    }
+    public String getPermissionDescription() {
+        return "Permission to select the skins.";
+    }
+    public String[] getRequieredMemberNames() {
+        return new String[] {};
+    }
+    public String[] getMemberNames() {
+        return new String[] {"ripla.admin.group"};
+    }
+}</pre><p class="p">This examle registeres a permission with the name "config.skin" and states that every user of the admin group has this permission. The following controller refers to this permission to protect the resource it controls:<br /></p><pre class="pre">@UseCaseController
+public class SkinSelectController extends AbstractController {
+    protected String needsPermission() {
+        return "config.skin";
+    }
+//...
+}
+</pre><p class="p"> The controller class states that it needs the pemission "config.skin". This way, only users that are member of the amin group will be able to access the resouce controlled by this class.<br /></p></section>
+
+  <footer>
+    <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+  </footer>
+</div>
+<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  
+  </body>
+</html>

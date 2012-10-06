@@ -19,13 +19,13 @@
     <![endif]-->
 
     <link rel="index" title="Home"
-          href=".." />
+          href="../.." />
     
 
   
 
     <style media="all" type="text/css">
-      <!-- @import url("../res/resource.css"); -->
+      <!-- @import url("../../res/resource.css"); -->
     </style>
 
     
@@ -47,7 +47,7 @@
     <div class="wrapper">
   <header>
     <h1 class="header">
-        <a href=".."
+        <a href="../.."
            title="Ripla [Top]">Ripla</a>  
     </h1>
     <p class="header">Rich Platform project for Java web applications.</p>
@@ -66,56 +66,75 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0">
-        <a href="../impl"
+        <a href="../../impl"
            title="Create Application">Create Application</a>
         
       </li>
     
     
       <li class="level-0 selected">
-        <a href="../extend"
+        <a href="../../extend"
            class="onbranch" title="Extension Points">Extension Points</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1">
-        <a href="../extend/usecase"
+        <a href="../../extend/usecase"
            title="Use Case Service">Use Case Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../extend/skin"
+        <a href="../../extend/skin"
            title="Skin Service">Skin Service</a>
         
       </li>
     
     
-      <li class="level-1">
-        <a href="../extend/toolbar"
-           title="Toolbar Service">Toolbar Service</a>
+      <li class="level-1 selected">
+        <a href="../../extend/toolbar"
+           class="onbranch" title="Toolbar Service">Toolbar Service</a>
+        
+          
+            <ul class="navigation-level-2">
+    
+      <li class="level-2">
+        <a href="../../extend/toolbar/create.html"
+           title="Creating Toolbar Items">Creating Toolbar Items</a>
+        
+      </li>
+    
+    
+      <li class="level-2 selected">
+        <a href="../../extend/toolbar/listening.html"
+           class="selected" title="Toolbar Events">Toolbar Events</a>
+        
+      </li>
+    
+  </ul>
+          
         
       </li>
     
     
       <li class="level-1">
-        <a href="../extend/extendible"
+        <a href="../../extend/extendible"
            title="Extendible Menu Service">Extendible Menu Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../extend/permission"
+        <a href="../../extend/permission"
            title="Permission Service">Permission Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../extend/useadmin"
+        <a href="../../extend/useadmin"
            title="User Administration Service">User Administration Service</a>
         
       </li>
@@ -127,14 +146,14 @@
     
     
       <li class="level-0">
-        <a href="../demo"
+        <a href="../../demo"
            title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../downloads"
+        <a href="../../downloads"
            title="Downloads">Downloads</a>
         
       </li>
@@ -145,7 +164,11 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Ripla Extension Points</h2><p class="p">The Ripla platform defines various extension points where you can dynamically plug in functionality. These extension points are implemented using the <a href="http://wiki.osgi.org/wiki/Declarative_Services" title="" target="_blank"><em>OSGi Declarative Services</em></a> approach. A Ripla plug-in, therefore, is an OSGi bundle. Extending Ripla means that you have to write an OSGi component providing an implementation of a service defined by the Ripla platform.<br /></p><h3 class="heading">Ripla services</h3><p class="p">Here's the list of Ripla services you can write implementations for:<br /></p><dl class="dl"><dt><a href="../extend/usecase" title="Use Case Service" target="_self">org.ripla.web.services.IUseCase</a></dt><dd>the Ripla service to manage the configured use cases</dd><dt><a href="../extend/skin" title="Skin Service" target="_self">org.ripla.web.services.ISkin</a></dt><dd>the Ripla service to manage skins</dd><dt><a href="../extend/toolbar" title="Toolbar Service" target="_self">org.ripla.web.services.IToolbarItem</a></dt><dd>the Ripla service to manage the entries for the application's toolbar</dd><dt><a href="../extend/extendible" title="Extendible Menu Service" target="_self">org.ripla.web.services.IExtendibleMenuContribution</a></dt><dd>the Ripla service to manage the menus for an extendible menu</dd><dt><a href="../extend/permission" title="Permission Service" target="_self">org.ripla.web.services.IPermissionEntry</a></dt><dd>the Ripla service to manage permission entries</dd><dt><a href="../extend/useadmin" title="User Administration Service" target="_self">org.osgi.service.useradmin.UserAdmin</a></dt><dd>the OSGi user admin service for user administration</dd></dl></section>
+  <section><h2 class="heading">Toolbar Events</h2><p class="p">The method <span class="underline">IToolbarItem.registerToolbarActionListener(IToolbarActionListener)</span> registers an action listener instance to the toolbar item:</p><pre class="pre">public interface IToolbarActionListener {
+    void processAction(IToolbarAction inAction);
+}</pre><p class="p">This listener instance can be used to send an action for example if the user triggers an action on the toolbar item. The action to be processed has to implement the following interface:<br /></p><pre class="pre">public interface IToolbarAction {
+    void run(RiplaApplication inApplication, EventAdmin inEventAdmin);
+}</pre><p class="p">The <span class="underline">IToolbarAction.run()</span> method receives the Ripla application instance and the <span class="underline">org.osgi.service.event.EventAdmin</span>. This should be enough to bring the application to a state intended by the toolbar item provider (e.g. to do a logout).<br /></p></section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

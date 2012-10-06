@@ -19,13 +19,13 @@
     <![endif]-->
 
     <link rel="index" title="Home"
-          href=".." />
+          href="../.." />
     
 
   
 
     <style media="all" type="text/css">
-      <!-- @import url("../res/resource.css"); -->
+      <!-- @import url("../../res/resource.css"); -->
     </style>
 
     
@@ -47,7 +47,7 @@
     <div class="wrapper">
   <header>
     <h1 class="header">
-        <a href=".."
+        <a href="../.."
            title="Ripla [Top]">Ripla</a>  
     </h1>
     <p class="header">Rich Platform project for Java web applications.</p>
@@ -66,56 +66,68 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0">
-        <a href="../impl"
+        <a href="../../impl"
            title="Create Application">Create Application</a>
         
       </li>
     
     
       <li class="level-0 selected">
-        <a href="../extend"
+        <a href="../../extend"
            class="onbranch" title="Extension Points">Extension Points</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1">
-        <a href="../extend/usecase"
+        <a href="../../extend/usecase"
            title="Use Case Service">Use Case Service</a>
         
       </li>
     
     
-      <li class="level-1">
-        <a href="../extend/skin"
-           title="Skin Service">Skin Service</a>
+      <li class="level-1 selected">
+        <a href="../../extend/skin"
+           class="onbranch" title="Skin Service">Skin Service</a>
+        
+          
+            <ul class="navigation-level-2">
+    
+      <li class="level-2 selected">
+        <a href="../../extend/skin/style.html"
+           class="selected" title="Style Bundle">Style Bundle</a>
+        
+      </li>
+    
+  </ul>
+          
         
       </li>
     
     
       <li class="level-1">
-        <a href="../extend/toolbar"
+        <a href="../../extend/toolbar"
            title="Toolbar Service">Toolbar Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../extend/extendible"
+        <a href="../../extend/extendible"
            title="Extendible Menu Service">Extendible Menu Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../extend/permission"
+        <a href="../../extend/permission"
            title="Permission Service">Permission Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../extend/useadmin"
+        <a href="../../extend/useadmin"
            title="User Administration Service">User Administration Service</a>
         
       </li>
@@ -127,14 +139,14 @@
     
     
       <li class="level-0">
-        <a href="../demo"
+        <a href="../../demo"
            title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../downloads"
+        <a href="../../downloads"
            title="Downloads">Downloads</a>
         
       </li>
@@ -145,7 +157,7 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Ripla Extension Points</h2><p class="p">The Ripla platform defines various extension points where you can dynamically plug in functionality. These extension points are implemented using the <a href="http://wiki.osgi.org/wiki/Declarative_Services" title="" target="_blank"><em>OSGi Declarative Services</em></a> approach. A Ripla plug-in, therefore, is an OSGi bundle. Extending Ripla means that you have to write an OSGi component providing an implementation of a service defined by the Ripla platform.<br /></p><h3 class="heading">Ripla services</h3><p class="p">Here's the list of Ripla services you can write implementations for:<br /></p><dl class="dl"><dt><a href="../extend/usecase" title="Use Case Service" target="_self">org.ripla.web.services.IUseCase</a></dt><dd>the Ripla service to manage the configured use cases</dd><dt><a href="../extend/skin" title="Skin Service" target="_self">org.ripla.web.services.ISkin</a></dt><dd>the Ripla service to manage skins</dd><dt><a href="../extend/toolbar" title="Toolbar Service" target="_self">org.ripla.web.services.IToolbarItem</a></dt><dd>the Ripla service to manage the entries for the application's toolbar</dd><dt><a href="../extend/extendible" title="Extendible Menu Service" target="_self">org.ripla.web.services.IExtendibleMenuContribution</a></dt><dd>the Ripla service to manage the menus for an extendible menu</dd><dt><a href="../extend/permission" title="Permission Service" target="_self">org.ripla.web.services.IPermissionEntry</a></dt><dd>the Ripla service to manage permission entries</dd><dt><a href="../extend/useadmin" title="User Administration Service" target="_self">org.osgi.service.useradmin.UserAdmin</a></dt><dd>the OSGi user admin service for user administration</dd></dl></section>
+  <section><h2 class="heading">Style Bundle</h2><p class="p"> The main visual aspects of a skin is provided by its style sheet (css). This style sheet has to be provided by a bundle fragment whose  fragment host is <span class="underline">com.vaadin</span>. See <a href="../../impl/skin" title="Ripla Skins" target="_self">Ripla Skins</a> for more information.</p><p class="p">The Ripla application defines a list of styles for the various visual components it uses. These styles can be used in the style sheet:</p><ul class="disc"><li>ripla-window</li><li>ripla-main</li><li>ripla-body</li><li>ripla-content</li><li>ripla-split</li><li>ripla-sidebar</li><li>ripla-menu</li><li>ripla-menubar</li><li>ripla-menu-item</li><li>ripla-menu-active</li><li>ripla-toolbar</li><li>ripla-toolbar-label</li><li>ripla-contextmenu</li><li>ripla-contextmenu-item</li><li>ripla-header</li><li>ripla-header-text</li><li>ripla-footer</li><li>ripla-footer-text</li><li>ripla-login-form</li><li>ripla-form</li><li>ripla-buttons</li><li>ripla-input</li><li>ripla-select</li><li>ripla-help</li><li>ripla-view</li><li>ripla-language-select</li><li>ripla-lookup</li><li>ripla-lookup-close</li><li>ripla-label</li><li>ripla-value</li><li>ripla-value-emphasized</li></ul><p class="p">See the <a href="https://github.com/aktion-hip/ripla/blob/master/org.ripla.demo.theme/VAADIN/themes/org.ripla.demo.skin/styles.css" title="" target="_blank">Demo skin's stylesheet</a> for an example.</p></section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

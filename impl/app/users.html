@@ -19,13 +19,13 @@
     <![endif]-->
 
     <link rel="index" title="Home"
-          href=".." />
+          href="../.." />
     
 
   
 
     <style media="all" type="text/css">
-      <!-- @import url("../res/resource.css"); -->
+      <!-- @import url("../../res/resource.css"); -->
     </style>
 
     
@@ -47,7 +47,7 @@
     <div class="wrapper">
   <header>
     <h1 class="header">
-        <a href=".."
+        <a href="../.."
            title="Ripla [Top]">Ripla</a>  
     </h1>
     <p class="header">Rich Platform project for Java web applications.</p>
@@ -66,28 +66,62 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0 selected">
-        <a href="../impl"
+        <a href="../../impl"
            class="onbranch" title="Create Application">Create Application</a>
         
           
             <ul class="navigation-level-1">
     
-      <li class="level-1">
-        <a href="../impl/app"
+      <li class="level-1 selected">
+        <a href="../../impl/app"
+           class="onbranch"
            title="Create an Application Bundle">Create an Application Bundle</a>
+        
+          
+            <ul class="navigation-level-2">
+    
+      <li class="level-2">
+        <a href="../../impl/app/config.html"
+           title="Application Configuration">Application Configuration</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/app/body.html"
+           title="Application Layout">Application Layout</a>
+        
+      </li>
+    
+    
+      <li class="level-2 selected">
+        <a href="../../impl/app/users.html"
+           class="selected" title="Users and Permissions">Users and Permissions</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/app/workflow.html"
+           title="Configuration Workflow">Configuration Workflow</a>
+        
+      </li>
+    
+  </ul>
+          
         
       </li>
     
     
       <li class="level-1">
-        <a href="../impl/usecase"
+        <a href="../../impl/usecase"
            title="Use Case Bundle">Use Case Bundle</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../impl/skin"
+        <a href="../../impl/skin"
            title="Ripla Skins">Ripla Skins</a>
         
       </li>
@@ -99,21 +133,21 @@
     
     
       <li class="level-0">
-        <a href="../extend"
+        <a href="../../extend"
            title="Extension Points">Extension Points</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../demo"
+        <a href="../../demo"
            title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../downloads"
+        <a href="../../downloads"
            title="Downloads">Downloads</a>
         
       </li>
@@ -124,9 +158,18 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Developing a Ripla application</h2><p class="p">To create a Ripla application, you have to do the following steps:</p><ol class="decimal"><li><a href="../impl/app" title="Create an Application Bundle" target="_self">Create an application bundle</a> containing the application's main class which has to extend <span class="underline">org.ripla.web.RiplaApplication.RiplaApplication</span>.</li><li><a href="../impl/usecase" title="Create use case bundle" target="_self">Create at least one use case bundle</a> containing a use case service implementation (i.e. a class implementing the <span class="underline">org.ripla.web.services.IUseCase</span> interface) as well as the use case's resources, i.e. views and controllers.</li><li><a href="../impl/skin" title="Ripla Skins" target="_self">Create
- a bundle fragment</a> containing the layout resources, i.e. style sheets 
-and images for the layout you want to use for your application.</li><li><a href="../impl/skin" title="Ripla Skins" target="_self">Create a skin bundle</a> for your application, i.e. a component containing the service provider for <span class="underline">org.ripla.web.services.ISkin</span> and referencing the skin bundle fragment.</li><li>Collect other OSGi bundles you need for the application's business or persistence layer (e.g. service providers for the <span class="underline">org.osgi.service.jdbc.DataSourceFactory</span> service).</li></ol><p class="p"> <strong>Note</strong>: throughout this document, the term bundle stands for OSGi bundle.</p></section>
+  <section><h2 class="heading">Users and Permissions</h2><p class="p">Ripla provides an implementation of the <a href="/static_sites/ripla/extend/useadmin" title="" target="_self">OSGi user admin service</a> to manage users and their access rights. In addition, Ripla provides a <a href="/static_sites/ripla/extend/permission" title="" target="_self">permisson service</a> for that use case bundles can create permissions to restrict the access to resources they control. <br /></p><p class="p"> Applications that want to use this functionality have to initialize the registered permissions. This can be done by calling <span class="underline">RiplaApplication.initializePermissions()</span>. By calling this method, a permission group will be created for each registered <span class="underline">
+IPermissionEntry</span> and the members defined in those permission 
+instances will be added to the permission groups. </p><p class="p"> This requires that such member instances exist already. Thus, subclasses have 
+to prepare groups (i.e. roles) that can act as members for the registered 
+permission groups before the registered permission instances are processed.</p><p class="p">Therefore, the initialization method is best called in the application class' method  that binds the user admin service to the application. E.g.: </p><pre class="pre">public class DemoApplication extends RiplaApplication {
+//...
+    public void setUserAdmin(final UserAdmin inUserAdmin) {
+        super.setUserAdmin(inUserAdmin);
+        Group lAdministrators = (Group) inUserAdmin.createRole("ripla.admin", Role.GROUP);
+        initializePermissions();
+    }
+}</pre></section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+
+    <title>Ripla</title>
+    <meta name="generator" content="Silva" />
+    <meta name="description"
+          content="Rich Platform project for Java web applications." />
+    
+
+    <meta name="robots" content="all,follow" />
+  
+    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="index" title="Home"
+          href="../.." />
+    
+
+  
+
+    <style media="all" type="text/css">
+      <!-- @import url("../../res/resource.css"); -->
+    </style>
+
+    
+
+  
+
+
+
+    <!-- Injector for content-specific css/js inclusion -->
+    
+
+
+    <!-- 
+    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
+     -->
+  </head>
+
+  <body>
+    <div class="wrapper">
+  <header>
+    <h1 class="header">
+        <a href="../.."
+           title="Ripla [Top]">Ripla</a>  
+    </h1>
+    <p class="header">Rich Platform project for Java web applications.</p>
+    <ul>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/downloads">Download Files</a></li>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/zipball/master">Download ZIP</a></li>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/tarball/master">Download TAR</a></li>
+      <li><a class="buttons github" href="https://github.com/aktion-hip/ripla">View On GitHub</a></li>
+    </ul>
+    <p class="header">This project is maintained by <a class="header name" href="https://github.com/aktion-hip">aktion-hip</a></p>
+  </header>
+  
+  <sidebar>
+    <ul>
+      <div class="navigation">
+  <ul id="navigation-menu" class="navigation-level-0">
+    
+      <li class="level-0 selected">
+        <a href="../../impl"
+           class="onbranch" title="Create Application">Create Application</a>
+        
+          
+            <ul class="navigation-level-1">
+    
+      <li class="level-1 selected">
+        <a href="../../impl/app"
+           class="onbranch"
+           title="Create an Application Bundle">Create an Application Bundle</a>
+        
+          
+            <ul class="navigation-level-2">
+    
+      <li class="level-2">
+        <a href="../../impl/app/config.html"
+           title="Application Configuration">Application Configuration</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/app/body.html"
+           title="Application Layout">Application Layout</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/app/users.html"
+           title="Users and Permissions">Users and Permissions</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/app/workflow.html"
+           title="Configuration Workflow">Configuration Workflow</a>
+        
+      </li>
+    
+  </ul>
+          
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../impl/usecase"
+           title="Use Case Bundle">Use Case Bundle</a>
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../impl/skin"
+           title="Ripla Skins">Ripla Skins</a>
+        
+      </li>
+    
+  </ul>
+          
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../../extend"
+           title="Extension Points">Extension Points</a>
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../../demo"
+           title="Ripla Demo Application">Ripla Demo Application</a>
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../../downloads"
+           title="Downloads">Downloads</a>
+        
+      </li>
+    
+  </ul>
+</div>
+
+    </ul>    
+  </sidebar>
+  
+  <section><h2 class="heading">Create an Application Bundle</h2><h3 class="heading">The application class</h3><p class="p">The application’s main bundle is a bundle containing a class deriving from and extending <span class="underline">org.ripla.web.RiplaApplication</span>. Because <span class="underline">RiplaApplication</span> extends <span class="underline">com.vaadin.Application</span>, your application becomes a <em>Vaadin</em> application too.</p><p class="p"> 
+				Your application class has to override at least the method
+				<span class="underline">RiplaApplication.createWindow()</span>. In this method, you have to create a Vaadin window instance and set the application's title. In the demo application, this looks as follows:</p><pre class="pre">protected Window createWindow() {
+    final Window outWindow = new Window("Ripla Demo Application");
+    setMainWindow(outWindow);
+    return outWindow;
+}
+</pre><p class="p">In addition, you can override
+				<a href="../../impl/app/config.html" title="Application Configuration" target="_self"><span class="underline">RiplaApplication.getAppConfiguration()</span></a>. This method returns a
+				<span class="underline">org.ripla.web.interfaces.IAppConfiguration</span> object. With such an
+				object, you can configure your Ripla application (e.g. the ID of the
+				default skin, the welcome message etc.). See <a href="https://github.com/aktion-hip/ripla/blob/master/org.ripla.demo/src/org/ripla/demo/DemoApplication.java" title="" target="_blank">DemoApplication.java</a>
+				for an example. <br /></p><h3 class="heading">Servlet declaration</h3><p class="p"> In Java servlet terminology, your application class is the servlet. For to run the application in the web browser, 
+			you have to register the servlet at the servlet container, i.e. you have to map the servlet name to your application class.
+			Ripla is using <a href="http://www.perplentropy.com/2010/02/in-bed-with-vaadin-and-osgi.html" title="" target="_blank">Chris Brind's concepts</a> 
+			to marriage Vaadin with the servlet part. This concept is leveraging the <a href="http://wiki.osgi.org/wiki/Declarative_Services" title="" target="_blank"><em>OSGi Declarative Services</em></a> model for registering servlets at an application container. Therefore, you have to write an OSGi component description. In this file, you have to specify your application component as factory component with the <span class="underline">vaadin.app</span> as factory name and
+			with your application class as implementation class. The component's name is used as servlet name. The following example <span class="underline">OSGI-INF/myapp.xml</span> specifies an application running e.g. as <a href="http://localhost:8080/myapp" title="" target="_self">http://localhost:8080/myapp</a>:
+			</p><pre class="pre">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" 
+     factory="vaadin.app" immediate="false" name="myapp"&gt;
+   &lt;implementation class="org.example.MyApplication"/&gt;
+&lt;/scr:component&gt;</pre><h3 class="heading">Component description</h3><p class="p">The Ripla platform defines various extension points where you can dynamically plug in functionality. These extension points again use the <em>OSGi Declarative Services</em> approach. <span class="underline">RiplaApplication</span> is designed as consumer for all these services. Therefore, <span class="underline">RiplaApplication</span> contains the bind methods needed for that the service runtime can inject the service instances as soon as a bundle is registered providing an implementaion of such a service.</p><p class="p">By extending <span class="underline">RiplaApplication</span>, you don't have to bother about service injection. The only thing you have to do is to write an OSGi component description declaring your application class as implementation class for the services you want to consume. Else, the OSGi container won't inject the services into your application.<br /></p><p class="p">See <a href="https://github.com/aktion-hip/ripla/blob/master/org.ripla.demo/OSGI-INF/demo.xml" title="" target="_blank">OSGI-INF/demo.xml</a> for an example:
+		</p><pre class="pre">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" factory="vaadin.app" 
+        immediate="false" name="demo"&gt;
+   &lt;implementation class="org.ripla.demo.DemoApplication"/&gt;
+   &lt;reference interface="org.ripla.web.services.IUseCase" cardinality="0..n" 
+        bind="addUseCase" unbind="removeUseCase" name="usecase" policy="dynamic"/&gt;   
+   &lt;reference interface="org.ripla.web.services.IExtendibleMenuContribution" cardinality="0..n" 
+        bind="registerMenuContribution" unbind="unregisterMenuContribution" name="extendibleContributions" policy="dynamic"/&gt;   
+   &lt;reference interface="org.ripla.web.services.ISkin" cardinality="0..n" 
+        bind="registerSkin" unbind="unregisterSkin" name="skin" policy="dynamic"/&gt;   
+   &lt;reference interface="org.ripla.web.services.IToolbarItem" cardinality="0..n" 
+        bind="registerToolbarItem" unbind="unregisterToolbarItem" name="toolbar" policy="dynamic"/&gt;   
+   &lt;reference interface="org.ripla.web.services.IPermissionEntry" cardinality="0..n" 
+        bind="registerPermission" unbind="unregisterPermission" name="permissions" policy="dynamic"/&gt;   
+   &lt;reference interface="org.osgi.service.prefs.PreferencesService" cardinality="1..n" 
+        bind="setPreferences" unbind="unsetPreferences" name="preferences" policy="dynamic"/&gt;
+   &lt;reference interface="org.osgi.service.event.EventAdmin" cardinality="1..n" 
+        bind="setEventAdmin" unbind="unsetEventAdmin" name="eventadmin" policy="dynamic"/&gt;
+   &lt;reference interface="org.osgi.service.useradmin.UserAdmin" cardinality="0..n" 
+        bind="setUserAdmin" unbind="unsetUserAdmin" name="useradmin" policy="dynamic"/&gt;
+   &lt;service&gt;
+      &lt;provide interface="org.osgi.service.event.EventHandler"/&gt;
+   &lt;/service&gt;
+   &lt;property name="event.topics" type="String" value="org/ripla/web/ControllerEvent/*"/&gt;
+&lt;/scr:component&gt;
+</pre><p class="p">In this example, <span class="underline">org.ripla.demo.DemoApplication</span> is prepared to consume multiple implementations of the <span class="underline">org.ripla.web.services.IUseCase</span> service (to note only one). As soon as such an implementation is registered at the OSGi container, it will be injected using the method 				<span class="underline">RiplaApplication.addUseCase()</span>.</p><p class="p"><strong>Note</strong>: don't forget to add a <span class="underline">Service-Component</span> element to your bundle's <span class="underline">MANIFEST.MF</span>. E.g. for the demo example above:</p><pre class="pre">Service-Component: OSGI-INF/demo.xml</pre><p class="p"> Having implemented your application class and written the component description, you're ready to implement the <a href="../../impl/usecase" title="Create use case bundle" target="_self">use cases</a> providing your application's business logic.</p></section>
+
+  <footer>
+    <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+  </footer>
+</div>
+<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  
+  </body>
+</html>

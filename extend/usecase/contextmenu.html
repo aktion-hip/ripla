@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+
+    <title>Ripla</title>
+    <meta name="generator" content="Silva" />
+    <meta name="description"
+          content="Rich Platform project for Java web applications." />
+    
+
+    <meta name="robots" content="all,follow" />
+  
+    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="index" title="Home"
+          href="../.." />
+    
+
+  
+
+    <style media="all" type="text/css">
+      <!-- @import url("../../res/resource.css"); -->
+    </style>
+
+    
+
+  
+
+
+
+    <!-- Injector for content-specific css/js inclusion -->
+    
+
+
+    <!-- 
+    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
+     -->
+  </head>
+
+  <body>
+    <div class="wrapper">
+  <header>
+    <h1 class="header">
+        <a href="../.."
+           title="Ripla [Top]">Ripla</a>  
+    </h1>
+    <p class="header">Rich Platform project for Java web applications.</p>
+    <ul>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/downloads">Download Files</a></li>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/zipball/master">Download ZIP</a></li>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/tarball/master">Download TAR</a></li>
+      <li><a class="buttons github" href="https://github.com/aktion-hip/ripla">View On GitHub</a></li>
+    </ul>
+    <p class="header">This project is maintained by <a class="header name" href="https://github.com/aktion-hip">aktion-hip</a></p>
+  </header>
+  
+  <sidebar>
+    <ul>
+      <div class="navigation">
+  <ul id="navigation-menu" class="navigation-level-0">
+    
+      <li class="level-0">
+        <a href="../../impl"
+           title="Create Application">Create Application</a>
+        
+      </li>
+    
+    
+      <li class="level-0 selected">
+        <a href="../../extend"
+           class="onbranch" title="Extension Points">Extension Points</a>
+        
+          
+            <ul class="navigation-level-1">
+    
+      <li class="level-1 selected">
+        <a href="../../extend/usecase"
+           class="onbranch" title="Use Case Service">Use Case Service</a>
+        
+          
+            <ul class="navigation-level-2">
+    
+      <li class="level-2">
+        <a href="../../extend/usecase/controller.html"
+           title="Controller Class">Controller Class</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../extend/usecase/mainmenu.html"
+           title="Main Menu">Main Menu</a>
+        
+      </li>
+    
+    
+      <li class="level-2 selected">
+        <a href="../../extend/usecase/contextmenu.html"
+           class="selected" title="Context Menu">Context Menu</a>
+        
+      </li>
+    
+  </ul>
+          
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../extend/skin"
+           title="Skin Service">Skin Service</a>
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../extend/toolbar"
+           title="Toolbar Service">Toolbar Service</a>
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../extend/extendible"
+           title="Extendible Menu Service">Extendible Menu Service</a>
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../extend/permission"
+           title="Permission Service">Permission Service</a>
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../extend/useadmin"
+           title="User Administration Service">User Administration Service</a>
+        
+      </li>
+    
+  </ul>
+          
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../../demo"
+           title="Ripla Demo Application">Ripla Demo Application</a>
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../../downloads"
+           title="Downloads">Downloads</a>
+        
+      </li>
+    
+  </ul>
+</div>
+
+    </ul>    
+  </sidebar>
+  
+  <section><h2 class="heading">Context Menu IMenuSet</h2><p class="p">A view represents a certain position a user has reached in the use case. The context menu offers a restricted set of directions the user can move on from the actual position.<br /></p><p class="p">Therefore, a view's context menu is a context menu set (<span class="underline">IMenuSet</span>) that consists of one or more context menu items (<span class="underline">IContextMenuItem</span>). (An empty menu set is an option too.) On the other side, the same context menu item can reside in different context menu sets.<br /></p><pre class="pre">public interface IMenuSet {
+    String getSetID();
+    IContextMenuItem[] getContextMenuItems();
+}
+</pre><p class="p">Each view's context menu is controlled by it's controller. To achieve this, each context menu set has to be uniquely identified (within the use case). With such an identification, the controller loads the suitable context menu set simply by calling its identification. These requirements define completely the interface of <span class="underline">org.ripla.web.interfaces.IMenuSet</span>. <span class="underline">IMenuSet.getSetID()</span> returns the context menu set's identification. <span class="underline">IMenuSet.getContextMenuItems()</span> returns a set of context menu item instances.</p><pre class="pre">public interface IContextMenuItem {
+    Class&lt;? extends IPluggable&gt; getControllerClass();
+    String getTitleMsg();
+    String getMenuPermission();
+    boolean checkConditions(User inUser, Authorization inAuthorization, ParameterObject inParameters);
+}</pre><p class="p">The context menu item has to define an action that has to be executed if the user clicks the context menu item. This is done by <span class="underline">IContextMenuItem.getControllerClass()</span>.</p><p class="p"><span class="underline">IContextMenuItem.getTitleMsg()</span> returns the label displayed by the context menu item.</p><p class="p"><span class="underline">IContextMenuItem.getMenuPermission()</span> controlles whether the context menu item is displayed or not. If a user doesn't 
+have the permission to display a view, the corresponding menu item has 
+to be hidden to prevent the activation of the view's controller. Returning the menu permission is the standard way to control the display of a context menu item. With <span class="underline">IContextMenuItem.checkConditions()</span>, you can implement an alternative and more elaborate way to controll the menu item's display. This control can be based on the actual user (<span class="underline">org.osgi.service.useradmin.User</span>), the authorization context (<span class="underline">org.osgi.service.useradmin.Authorization</span>) and arbitrary additional information passed by a <span class="underline">ParameterObject</span>.</p><p class="p"><span class="underline">org.ripla.web.menu.ContextMenuItem</span> provides a default implementation of <span class="underline">IContextMenuItem</span>. Bundles providing context menu items can create instances of this class. See <a href="../../impl/usecase/contextmenu.html" title="The Context Menu" target="_self">The Context Menu</a> for an example how to create a context menu set.<br /></p></section>
+
+  <footer>
+    <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+  </footer>
+</div>
+<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  
+  </body>
+</html>

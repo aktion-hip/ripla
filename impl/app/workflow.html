@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+
+    <title>Ripla</title>
+    <meta name="generator" content="Silva" />
+    <meta name="description"
+          content="Rich Platform project for Java web applications." />
+    
+
+    <meta name="robots" content="all,follow" />
+  
+    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="index" title="Home"
+          href="../.." />
+    
+
+  
+
+    <style media="all" type="text/css">
+      <!-- @import url("../../res/resource.css"); -->
+    </style>
+
+    
+
+  
+
+
+
+    <!-- Injector for content-specific css/js inclusion -->
+    
+
+
+    <!-- 
+    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
+     -->
+  </head>
+
+  <body>
+    <div class="wrapper">
+  <header>
+    <h1 class="header">
+        <a href="../.."
+           title="Ripla [Top]">Ripla</a>  
+    </h1>
+    <p class="header">Rich Platform project for Java web applications.</p>
+    <ul>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/downloads">Download Files</a></li>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/zipball/master">Download ZIP</a></li>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/tarball/master">Download TAR</a></li>
+      <li><a class="buttons github" href="https://github.com/aktion-hip/ripla">View On GitHub</a></li>
+    </ul>
+    <p class="header">This project is maintained by <a class="header name" href="https://github.com/aktion-hip">aktion-hip</a></p>
+  </header>
+  
+  <sidebar>
+    <ul>
+      <div class="navigation">
+  <ul id="navigation-menu" class="navigation-level-0">
+    
+      <li class="level-0 selected">
+        <a href="../../impl"
+           class="onbranch" title="Create Application">Create Application</a>
+        
+          
+            <ul class="navigation-level-1">
+    
+      <li class="level-1 selected">
+        <a href="../../impl/app"
+           class="onbranch"
+           title="Create an Application Bundle">Create an Application Bundle</a>
+        
+          
+            <ul class="navigation-level-2">
+    
+      <li class="level-2">
+        <a href="../../impl/app/config.html"
+           title="Application Configuration">Application Configuration</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/app/body.html"
+           title="Application Layout">Application Layout</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/app/users.html"
+           title="Users and Permissions">Users and Permissions</a>
+        
+      </li>
+    
+    
+      <li class="level-2 selected">
+        <a href="../../impl/app/workflow.html"
+           class="selected" title="Configuration Workflow">Configuration Workflow</a>
+        
+      </li>
+    
+  </ul>
+          
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../impl/usecase"
+           title="Use Case Bundle">Use Case Bundle</a>
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../impl/skin"
+           title="Ripla Skins">Ripla Skins</a>
+        
+      </li>
+    
+  </ul>
+          
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../../extend"
+           title="Extension Points">Extension Points</a>
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../../demo"
+           title="Ripla Demo Application">Ripla Demo Application</a>
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../../downloads"
+           title="Downloads">Downloads</a>
+        
+      </li>
+    
+  </ul>
+</div>
+
+    </ul>    
+  </sidebar>
+  
+  <section><h2 class="heading">Configuration Workflow</h2><p class="p">If you develop a web application intended to be downloaded and installed by users, most probaly you'll have to provide some tools for that the users can configure the application they installed. For example, if the web application stores data in a database, the users have to configure the access to the database.</p><p class="p">The Ripla plattform provides the possibility to create a configuration workflow that runs the first time the user invokes the installed application. This offeres an easy approach for initial application configuration.<br /></p><p class="p">To install a configuration workflow, you have to override the method <span class="underline">RiplaApplication.beforeLogin()</span>. In this method, you can initiate the workflow<span class="underline"></span>, e.g.:</p><pre class="pre">protected boolean beforeLogin(final Window inMain, final IWorkflowListener inWorkflowListener) {
+    try {
+        MyWorkflow.createWorkflow(inMain, inWorkflowListener).startWorkflow();
+    }
+    catch (final WorkflowException exc) {
+        LOG.error("Error encountered during application configuration!", exc);
+    }
+    return false;
+}</pre><p class="p">Note the workflow listener instance passed to the worklow. <br /></p><pre class="pre">public interface IWorkflowListener {
+    void workflowExit(int inReturnCode, String inMessage);
+}
+</pre><p class="p">The listener instance in this case is <span class="underline">RiplaApplication</span>. You, therefore, have to override the callback method <span class="underline">RiplaApplication.workflowExit()</span>:</p><pre class="pre">public void workflowExit(int inReturnCode, String inMessage) {
+    switch (inReturnCode) {
+    case 1: // OK
+        setMainWindow(getLoginView());
+        break;
+    default:
+        getMainWindow().showNotification(inMessage);
+    }
+}
+</pre><p class="p">The workflow class could look as follows:</p><pre class="pre">private static class MyWorkflow {
+    private IWorkflowItem workflowItem;
+    private IWorkflowListener workflowListener;
+ 
+    private MyWorkflow(final IWorkflowItem inWorklowItem,
+            final IWorkflowListener inListener) {
+        workflowItem = inWorklowItem;
+        workflowListener = inListener;
+    }
+ 
+    public void startWorkflow() throws WorkflowException {
+        workflowItem.run(this);
+    }
+ 
+    public int getReturnCode() {
+        return workflowItem.getReturnCode();
+    }
+ 
+    protected void nextStep() {
+        try {
+            if (workflowItem.hasNextStep()) {
+                workflowItem = workflowItem.getNextStep();
+                workflowItem.run(this);
+            } else {
+                workflowListener.workflowExit(workflowItem.getReturnCode(), "");
+            }
+        }
+        catch (final WorkflowException exc) {
+            workflowListener.workflowExit(-1, workflowItem.getErrorMessage());
+        }
+    }
+ 
+    public static MyWorkflow createWorkflow(final Window inWindow, final IWorkflowListener inListener) {
+        // instantiate the workflow steps we need
+        final IWorkflowItem step1 = new WorkflowStep1(inWindow);
+        final IWorkflowItem step2 = new WorkflowStep2();
+        final IWorkflowItem step3 = new WorkflowStep3();
+ 
+        // wire the workflow steps
+        step1.registerSuccessItem(step2);
+ 
+        step2.registerSuccessItem(step3);
+        step2.registerFailureItem(step1);
+ 
+        final MyWorkflow workflow = new MyWorkflow(step1, inListener);
+        return workflow;
+    }
+}</pre><p class="p">The workflow configuration is done in the factory method <span class="underline">MyWorkflow.createWorkflow()</span>. This example consists of three workflow steps. Each step implements the interface <span class="underline">IWorkflowItem</span>: </p><pre class="pre">public interface IWorkflowItem {
+    void run(MyWorkflow inWorkflow) throws WorkflowException;
+    boolean hasNextStep();
+    IWorkflowItem getNextStep();
+    void registerSuccessItem(IWorkflowItem inItem);
+    void registerFailureItem(IWorkflowItem inItem);
+    int getReturnCode();
+    String getErrorMessage();
+}</pre><p class="p">With the workflow controller <span class="underline">MyWorkflow</span> and the workflow steps set up, the workflow is startet by <span class="underline">MyWorkflow.createWorkflow(inMain, inWorkflowListener).startWorkflow()</span>. This runs the first workflow step which will display e.g. a form where the user can enter some configuration information. When the user clicks the form's save button, the workflow controller's nextStep() method is called which looks up the next workflow item and, if available, runs it by calling its <span class="underline">IWorkflowItem.run()</span> method. This sequence will be iterated for any configured workflow step.<br /></p></section>
+
+  <footer>
+    <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+  </footer>
+</div>
+<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  
+  </body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+
+    <title>Ripla</title>
+    <meta name="generator" content="Silva" />
+    <meta name="description"
+          content="Rich Platform project for Java web applications." />
+    
+
+    <meta name="robots" content="all,follow" />
+  
+    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="index" title="Home"
+          href="../.." />
+    
+
+  
+
+    <style media="all" type="text/css">
+      <!-- @import url("../../res/resource.css"); -->
+    </style>
+
+    
+
+  
+
+
+
+    <!-- Injector for content-specific css/js inclusion -->
+    
+
+
+    <!-- 
+    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
+     -->
+  </head>
+
+  <body>
+    <div class="wrapper">
+  <header>
+    <h1 class="header">
+        <a href="../.."
+           title="Ripla [Top]">Ripla</a>  
+    </h1>
+    <p class="header">Rich Platform project for Java web applications.</p>
+    <ul>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/downloads">Download Files</a></li>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/zipball/master">Download ZIP</a></li>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/tarball/master">Download TAR</a></li>
+      <li><a class="buttons github" href="https://github.com/aktion-hip/ripla">View On GitHub</a></li>
+    </ul>
+    <p class="header">This project is maintained by <a class="header name" href="https://github.com/aktion-hip">aktion-hip</a></p>
+  </header>
+  
+  <sidebar>
+    <ul>
+      <div class="navigation">
+  <ul id="navigation-menu" class="navigation-level-0">
+    
+      <li class="level-0 selected">
+        <a href="../../impl"
+           class="onbranch" title="Create Application">Create Application</a>
+        
+          
+            <ul class="navigation-level-1">
+    
+      <li class="level-1">
+        <a href="../../impl/app"
+           title="Create an Application Bundle">Create an Application Bundle</a>
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../impl/usecase"
+           title="Use Case Bundle">Use Case Bundle</a>
+        
+      </li>
+    
+    
+      <li class="level-1 selected">
+        <a href="../../impl/skin"
+           class="onbranch" title="Ripla Skins">Ripla Skins</a>
+        
+      </li>
+    
+  </ul>
+          
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../../extend"
+           title="Extension Points">Extension Points</a>
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../../demo"
+           title="Ripla Demo Application">Ripla Demo Application</a>
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../../downloads"
+           title="Downloads">Downloads</a>
+        
+      </li>
+    
+  </ul>
+</div>
+
+    </ul>    
+  </sidebar>
+  
+  <section><h2 class="heading">Ripla Skins</h2><p class="p">To create a skin for a Ripla application, you <em>first</em> have to create
+ a bundle fragment containing the layout resources, i.e. style sheets 
+and images for the layout you want to use for your application. The <em>second</em> step is to create a skin bundle for your application, i.e. a component containing the service provider for <span class="underline">org.ripla.web.services.ISkin</span> and referencing the skin bundle fragment.</p><h3 class="heading">Layout bundle fragment</h3><p class="p">The layout bundle fragment contains the skin's style sheets (css) and images. The fragment host has to be <span class="underline">com.vaadin</span>. Therefore, you have to add an entry like the following to the bundle's <span class="underline">MANIFEST.MF</span>:</p><pre class="pre">Fragment-Host: com.vaadin 
+</pre><p class="p">The directory structure of the fragment bundle has to be as follows: <br /></p><img src="../../impl/skin/skin_fragment.PNG" alt="Skin Fragment" class="float-left" /><p class="p">The skin resources have to reside in a subfolder of <span class="underline">VAADIN/themes</span>. The name of this subfolder is important, as it will be the skin identification. In this example, the fragment bundle provides the resources for a skin identified as <span class="underline">org.ripla.web.skin</span>.</p><div class="clearfloat"> </div><h3 class="heading">Skin bundle</h3><p class="p">The skin bundle's task is to register the skin resources at the Ripla skin registery. To achieve this, the bundle has to provide an implementation of the <span class="underline">org.ripla.web.services.ISkin</span> service. The skin bundle's component description (<span class="underline">OSGI-INF/skin.xml</span>) could look as follows:</p><pre class="pre">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.web.skin"&gt;
+   &lt;implementation class="org.ripla.web.skin.default.Skin"/&gt;
+   &lt;service&gt;
+      &lt;provide interface="org.ripla.web.services.ISkin"/&gt;
+   &lt;/service&gt;
+&lt;/scr:component&gt;
+</pre><p class="p">The skin class has to implement the following interface:</p><pre class="pre">public interface ISkin {
+    String getSkinID();
+    String getSkinName();
+    boolean hasHeader();
+    Component getHeader();
+    boolean hasFooter();
+    Component getFooter();
+    boolean hasToolBar();
+    Label getToolbarSeparator();
+    boolean hasMenuBar();
+    HorizontalLayout getMenuBarComponent();    
+    HorizontalLayout getMenuBarLayout();
+}
+</pre><p class="p">The most important method is <span class="underline">ISkin.getSkinID()</span>. This method has to return the name of the folder containing the skin resources in the fragment bundle. In our example, this method has to return <span class="underline">org.ripla.web.skin</span>.</p><p class="p">The other methods configure other aspects of the skin, e.g. whether a header should be displayed or not. If yes, <span class="underline">ISkin.getHeader()</span> has to return the Vaadin component that renders the header view.<br /></p></section>
+
+  <footer>
+    <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+  </footer>
+</div>
+<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  
+  </body>
+</html>

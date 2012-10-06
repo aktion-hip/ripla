@@ -19,13 +19,13 @@
     <![endif]-->
 
     <link rel="index" title="Home"
-          href=".." />
+          href="../.." />
     
 
   
 
     <style media="all" type="text/css">
-      <!-- @import url("../res/resource.css"); -->
+      <!-- @import url("../../res/resource.css"); -->
     </style>
 
     
@@ -47,7 +47,7 @@
     <div class="wrapper">
   <header>
     <h1 class="header">
-        <a href=".."
+        <a href="../.."
            title="Ripla [Top]">Ripla</a>  
     </h1>
     <p class="header">Rich Platform project for Java web applications.</p>
@@ -66,28 +66,62 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0 selected">
-        <a href="../impl"
+        <a href="../../impl"
            class="onbranch" title="Create Application">Create Application</a>
         
           
             <ul class="navigation-level-1">
     
-      <li class="level-1">
-        <a href="../impl/app"
+      <li class="level-1 selected">
+        <a href="../../impl/app"
+           class="onbranch"
            title="Create an Application Bundle">Create an Application Bundle</a>
+        
+          
+            <ul class="navigation-level-2">
+    
+      <li class="level-2">
+        <a href="../../impl/app/config.html"
+           title="Application Configuration">Application Configuration</a>
+        
+      </li>
+    
+    
+      <li class="level-2 selected">
+        <a href="../../impl/app/body.html"
+           class="selected" title="Application Layout">Application Layout</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/app/users.html"
+           title="Users and Permissions">Users and Permissions</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/app/workflow.html"
+           title="Configuration Workflow">Configuration Workflow</a>
+        
+      </li>
+    
+  </ul>
+          
         
       </li>
     
     
       <li class="level-1">
-        <a href="../impl/usecase"
+        <a href="../../impl/usecase"
            title="Use Case Bundle">Use Case Bundle</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../impl/skin"
+        <a href="../../impl/skin"
            title="Ripla Skins">Ripla Skins</a>
         
       </li>
@@ -99,21 +133,21 @@
     
     
       <li class="level-0">
-        <a href="../extend"
+        <a href="../../extend"
            title="Extension Points">Extension Points</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../demo"
+        <a href="../../demo"
            title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../downloads"
+        <a href="../../downloads"
            title="Downloads">Downloads</a>
         
       </li>
@@ -124,9 +158,7 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Developing a Ripla application</h2><p class="p">To create a Ripla application, you have to do the following steps:</p><ol class="decimal"><li><a href="../impl/app" title="Create an Application Bundle" target="_self">Create an application bundle</a> containing the application's main class which has to extend <span class="underline">org.ripla.web.RiplaApplication.RiplaApplication</span>.</li><li><a href="../impl/usecase" title="Create use case bundle" target="_self">Create at least one use case bundle</a> containing a use case service implementation (i.e. a class implementing the <span class="underline">org.ripla.web.services.IUseCase</span> interface) as well as the use case's resources, i.e. views and controllers.</li><li><a href="../impl/skin" title="Ripla Skins" target="_self">Create
- a bundle fragment</a> containing the layout resources, i.e. style sheets 
-and images for the layout you want to use for your application.</li><li><a href="../impl/skin" title="Ripla Skins" target="_self">Create a skin bundle</a> for your application, i.e. a component containing the service provider for <span class="underline">org.ripla.web.services.ISkin</span> and referencing the skin bundle fragment.</li><li>Collect other OSGi bundles you need for the application's business or persistence layer (e.g. service providers for the <span class="underline">org.osgi.service.jdbc.DataSourceFactory</span> service).</li></ol><p class="p"> <strong>Note</strong>: throughout this document, the term bundle stands for OSGi bundle.</p></section>
+  <section><h2 class="heading">Application Layout</h2><p class="p"> The Ripla application divides the browser window into six parts: <em>header</em>, <em>footer</em>, <em>toolbar</em>, <em>menubar</em>, <em>sidebar </em>and <em>content</em> view. The <em>header</em> view displayes e.g. the application title. The <em>footer</em> is usually used for legal information (e.g. copyright, link to disclaimer page etc.). The <em>toolbar</em> displayes toolbar items like language switch, profile or logout button. The <em>menubar</em> is needed to display the application's main menu whereas the <em>sidebar</em> is the area for the context menu. The application's main view is the <em>content</em> area where most of the user interaction will take place.<br /></p><p class="p">By default, these views are arranged in the following way:<br /></p><img src="../../impl/app/ripla_layout.PNG" alt="Ripla Layout" class="default" /><p class="p">The display of header, footer, toolbar or menubar view is controlled by the implementation of <span class="underline">org.ripla.web.services.ISkin</span>. If you want to hide e.g. the toolbar, you only have to implement a skin which is configured to hide the toolbar.<br /></p><p class="p">However, you might want to arrange the views in a different order then the Ripla default layout (e.g. display the toolbar at the top of the browser window). You can achieve this by overriding <span class="underline">RiplaApplication.createBodyView()</span>. This method's expected return value is <span class="underline">org.ripla.web.controllers.RiplaBody</span>. By overriding the <span class="underline">createBodyView()</span> method, you can return a derived <span class="underline">RiplaBody</span> instance. <span class="underline">RiplaBody</span> arranges the views in the protected method <span class="underline">RiplaBody.initializeLayout()</span>. By overriding this method, you can provide the arrangement of views you like.<br /></p></section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

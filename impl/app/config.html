@@ -19,13 +19,13 @@
     <![endif]-->
 
     <link rel="index" title="Home"
-          href=".." />
+          href="../.." />
     
 
   
 
     <style media="all" type="text/css">
-      <!-- @import url("../res/resource.css"); -->
+      <!-- @import url("../../res/resource.css"); -->
     </style>
 
     
@@ -47,7 +47,7 @@
     <div class="wrapper">
   <header>
     <h1 class="header">
-        <a href=".."
+        <a href="../.."
            title="Ripla [Top]">Ripla</a>  
     </h1>
     <p class="header">Rich Platform project for Java web applications.</p>
@@ -65,58 +65,65 @@
       <div class="navigation">
   <ul id="navigation-menu" class="navigation-level-0">
     
-      <li class="level-0">
-        <a href="../impl"
-           title="Create Application">Create Application</a>
-        
-      </li>
-    
-    
       <li class="level-0 selected">
-        <a href="../extend"
-           class="onbranch" title="Extension Points">Extension Points</a>
+        <a href="../../impl"
+           class="onbranch" title="Create Application">Create Application</a>
         
           
             <ul class="navigation-level-1">
     
-      <li class="level-1">
-        <a href="../extend/usecase"
-           title="Use Case Service">Use Case Service</a>
+      <li class="level-1 selected">
+        <a href="../../impl/app"
+           class="onbranch"
+           title="Create an Application Bundle">Create an Application Bundle</a>
+        
+          
+            <ul class="navigation-level-2">
+    
+      <li class="level-2 selected">
+        <a href="../../impl/app/config.html"
+           class="selected"
+           title="Application Configuration">Application Configuration</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/app/body.html"
+           title="Application Layout">Application Layout</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/app/users.html"
+           title="Users and Permissions">Users and Permissions</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/app/workflow.html"
+           title="Configuration Workflow">Configuration Workflow</a>
+        
+      </li>
+    
+  </ul>
+          
         
       </li>
     
     
       <li class="level-1">
-        <a href="../extend/skin"
-           title="Skin Service">Skin Service</a>
+        <a href="../../impl/usecase"
+           title="Use Case Bundle">Use Case Bundle</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../extend/toolbar"
-           title="Toolbar Service">Toolbar Service</a>
-        
-      </li>
-    
-    
-      <li class="level-1">
-        <a href="../extend/extendible"
-           title="Extendible Menu Service">Extendible Menu Service</a>
-        
-      </li>
-    
-    
-      <li class="level-1">
-        <a href="../extend/permission"
-           title="Permission Service">Permission Service</a>
-        
-      </li>
-    
-    
-      <li class="level-1">
-        <a href="../extend/useadmin"
-           title="User Administration Service">User Administration Service</a>
+        <a href="../../impl/skin"
+           title="Ripla Skins">Ripla Skins</a>
         
       </li>
     
@@ -127,14 +134,21 @@
     
     
       <li class="level-0">
-        <a href="../demo"
+        <a href="../../extend"
+           title="Extension Points">Extension Points</a>
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../../demo"
            title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../downloads"
+        <a href="../../downloads"
            title="Downloads">Downloads</a>
         
       </li>
@@ -145,7 +159,12 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Ripla Extension Points</h2><p class="p">The Ripla platform defines various extension points where you can dynamically plug in functionality. These extension points are implemented using the <a href="http://wiki.osgi.org/wiki/Declarative_Services" title="" target="_blank"><em>OSGi Declarative Services</em></a> approach. A Ripla plug-in, therefore, is an OSGi bundle. Extending Ripla means that you have to write an OSGi component providing an implementation of a service defined by the Ripla platform.<br /></p><h3 class="heading">Ripla services</h3><p class="p">Here's the list of Ripla services you can write implementations for:<br /></p><dl class="dl"><dt><a href="../extend/usecase" title="Use Case Service" target="_self">org.ripla.web.services.IUseCase</a></dt><dd>the Ripla service to manage the configured use cases</dd><dt><a href="../extend/skin" title="Skin Service" target="_self">org.ripla.web.services.ISkin</a></dt><dd>the Ripla service to manage skins</dd><dt><a href="../extend/toolbar" title="Toolbar Service" target="_self">org.ripla.web.services.IToolbarItem</a></dt><dd>the Ripla service to manage the entries for the application's toolbar</dd><dt><a href="../extend/extendible" title="Extendible Menu Service" target="_self">org.ripla.web.services.IExtendibleMenuContribution</a></dt><dd>the Ripla service to manage the menus for an extendible menu</dd><dt><a href="../extend/permission" title="Permission Service" target="_self">org.ripla.web.services.IPermissionEntry</a></dt><dd>the Ripla service to manage permission entries</dd><dt><a href="../extend/useadmin" title="User Administration Service" target="_self">org.osgi.service.useradmin.UserAdmin</a></dt><dd>the OSGi user admin service for user administration</dd></dl></section>
+  <section><h2 class="heading">Application Configuration</h2><p class="p">You can configure your application by overwriting <span class="underline">RiplaApplication.getAppConfiguration()</span>. This method returns a <span class="underline">org.ripla.web.interfaces.IAppConfiguration</span> object with the following interface:</p><pre class="pre">public interface IAppConfiguration {
+    IAuthenticator getLoginAuthenticator();
+    String getWelcome();
+    String getDftSkinID();    
+}
+</pre><p class="p"><span class="underline">IAppConfiguration.getLoginAuthenticator()</span> returns the application's login authenticator (i.e. an instance of <span class="underline">org.ripla.web.interfaces.IAuthenticator</span>). This return value is only relevant if the application needs login.<br /></p><p class="p"><span class="underline">IAppConfiguration.getWelcome()</span> returns the welcome title displayed on the application's login page. This return value is only relevant if the application has a login page.<br /></p><p class="p"><span class="underline">IAppConfiguration.getDftSkinID()</span> returns the ID of the skin intended to be used by the application.<br /></p></section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

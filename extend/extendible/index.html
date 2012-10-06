@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+
+    <title>Ripla</title>
+    <meta name="generator" content="Silva" />
+    <meta name="description"
+          content="Rich Platform project for Java web applications." />
+    
+
+    <meta name="robots" content="all,follow" />
+  
+    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="index" title="Home"
+          href="../.." />
+    
+
+  
+
+    <style media="all" type="text/css">
+      <!-- @import url("../../res/resource.css"); -->
+    </style>
+
+    
+
+  
+
+
+
+    <!-- Injector for content-specific css/js inclusion -->
+    
+
+
+    <!-- 
+    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
+     -->
+  </head>
+
+  <body>
+    <div class="wrapper">
+  <header>
+    <h1 class="header">
+        <a href="../.."
+           title="Ripla [Top]">Ripla</a>  
+    </h1>
+    <p class="header">Rich Platform project for Java web applications.</p>
+    <ul>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/downloads">Download Files</a></li>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/zipball/master">Download ZIP</a></li>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/tarball/master">Download TAR</a></li>
+      <li><a class="buttons github" href="https://github.com/aktion-hip/ripla">View On GitHub</a></li>
+    </ul>
+    <p class="header">This project is maintained by <a class="header name" href="https://github.com/aktion-hip">aktion-hip</a></p>
+  </header>
+  
+  <sidebar>
+    <ul>
+      <div class="navigation">
+  <ul id="navigation-menu" class="navigation-level-0">
+    
+      <li class="level-0">
+        <a href="../../impl"
+           title="Create Application">Create Application</a>
+        
+      </li>
+    
+    
+      <li class="level-0 selected">
+        <a href="../../extend"
+           class="onbranch" title="Extension Points">Extension Points</a>
+        
+          
+            <ul class="navigation-level-1">
+    
+      <li class="level-1">
+        <a href="../../extend/usecase"
+           title="Use Case Service">Use Case Service</a>
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../extend/skin"
+           title="Skin Service">Skin Service</a>
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../extend/toolbar"
+           title="Toolbar Service">Toolbar Service</a>
+        
+      </li>
+    
+    
+      <li class="level-1 selected">
+        <a href="../../extend/extendible"
+           class="onbranch" title="Extendible Menu Service">Extendible Menu Service</a>
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../extend/permission"
+           title="Permission Service">Permission Service</a>
+        
+      </li>
+    
+    
+      <li class="level-1">
+        <a href="../../extend/useadmin"
+           title="User Administration Service">User Administration Service</a>
+        
+      </li>
+    
+  </ul>
+          
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../../demo"
+           title="Ripla Demo Application">Ripla Demo Application</a>
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../../downloads"
+           title="Downloads">Downloads</a>
+        
+      </li>
+    
+  </ul>
+</div>
+
+    </ul>    
+  </sidebar>
+  
+  <section><h2 class="heading">Extendible Menu Service</h2><p class="p"> As mentioned elsewhere, each use case bundle provides its menu to the application's main menu bar. Such a menu consists of at least one menu item, the menu root node, which is displayed on the menu bar. If the menu is more elaborated, the menu contains many menu items on various submenus. Such a use case menu is completely controlled by it's use case.</p><p class="p">An <em>extendible menu</em> is a different kind of menu. In this case, the use case only provides the skeleton of the menu and leaves it open to other bundles to contribute their menu items to the same menu.</p><p class="p"> The Demo application's <em>Configuration</em> menu is an example of such an extendible menu.</p><h4 class="heading">Extendible Menu Creator</h4><p class="p">An extendible menu has to be provided by a use case bundle. This bundle has to implement the <span class="underline">IUseCase.getMenu()</span> method (see <a href="../../extend/usecase" title="Use Case Service" target="_self">Use Case Service</a>) such that this method returns an extendible menu, i.e an implementation of <span class="underline">org.ripla.web.interfaces.IMenuExtendible</span>. The Ripla platform provides <span class="underline">org.ripla.web.menu.AbstractExtendibleMenu</span> as base class for extendible menus.</p><pre class="pre">public interface IMenuExtendible extends IMenuItem {    
+    String getMenuID();
+    ExtendibleMenuMarker[] getMarkers();
+}</pre><p class="p"><span class="underline">IMenuExtendible.getMenuID()</span> returns the menu's identification. Bundles that want to contribute to this extendible menu have to know its ID.</p><p class="p"><span class="underline">IMenuExtendible.getMarkers()</span> returns an array of <span class="underline">org.ripla.web.menu.ExtendibleMenuMarker</span>s. With a menu marker, the extendible menu can define vertex points where menu contributions can be attached. An extendible menu can define a <em>start</em>, <em>additions</em> and <em>end</em> vertex point for example. Bundles that want to contribute items to this menu position their contributions either <em>before</em>, <em>after</em> or <em>appending</em> to one of this markers. Menu markers, therefore, provide a tool to position the menu contributions provided by different bundles.<br /></p><h4 class="heading">Extendible Menu Contributor</h4><p class="p">Bundles that want to provide contributions to an extendible menu have to implement service providers for <span class="underline">org.ripla.web.services.IExtendibleMenuContribution</span>.<br /></p><pre class="pre">public interface IExtendibleMenuContribution extends IMenuElement {
+    String getExtendibleMenuID();
+    ExtendibleMenuMarker.Position getPosition();    
+}</pre><p class="p"><span class="underline">LoginConfigMenu.getExtendibleMenuID()</span> return the ID of the extendible menu this item is provided for.</p><p class="p"><span class="underline">LoginConfigMenu.getPosition()</span> returns the position within the extendible menu this menu is provided for, e.g.</p><pre class="pre">public class SampleMenu implements IExtendibleMenuContribution {
+    public String getExtendibleMenuID() {
+        return "org.ripla.demo.extendible";
+    }
+    public Position getPosition() {
+        return new Position(PositionType.APPEND, "start");
+    }
+//...
+}
+</pre><p class="p"> In this example, the <span class="underline">SampleMenu</span> item contributes to the extendible menu identified by <span class="underline">org.ripla.demo.extendible</span>. The item is appended to the <em>start</em> marker.<br /></p></section>
+
+  <footer>
+    <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+  </footer>
+</div>
+<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  
+  </body>
+</html>

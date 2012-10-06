@@ -19,13 +19,13 @@
     <![endif]-->
 
     <link rel="index" title="Home"
-          href=".." />
+          href="../.." />
     
 
   
 
     <style media="all" type="text/css">
-      <!-- @import url("../res/resource.css"); -->
+      <!-- @import url("../../res/resource.css"); -->
     </style>
 
     
@@ -47,7 +47,7 @@
     <div class="wrapper">
   <header>
     <h1 class="header">
-        <a href=".."
+        <a href="../.."
            title="Ripla [Top]">Ripla</a>  
     </h1>
     <p class="header">Rich Platform project for Java web applications.</p>
@@ -66,28 +66,75 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0 selected">
-        <a href="../impl"
+        <a href="../../impl"
            class="onbranch" title="Create Application">Create Application</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1">
-        <a href="../impl/app"
+        <a href="../../impl/app"
            title="Create an Application Bundle">Create an Application Bundle</a>
         
       </li>
     
     
-      <li class="level-1">
-        <a href="../impl/usecase"
-           title="Use Case Bundle">Use Case Bundle</a>
+      <li class="level-1 selected">
+        <a href="../../impl/usecase"
+           class="onbranch" title="Use Case Bundle">Use Case Bundle</a>
+        
+          
+            <ul class="navigation-level-2">
+    
+      <li class="level-2 selected">
+        <a href="../../impl/usecase/usecase.html"
+           class="selected" title="Service Provider">Service Provider</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/usecase/ds.html"
+           title="Component Description">Component Description</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/usecase/controller.html"
+           title="Controller Class">Controller Class</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/usecase/viewcomponent.html"
+           title="View Component">View Component</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/usecase/mainmenu.html"
+           title="Main Menu">Main Menu</a>
+        
+      </li>
+    
+    
+      <li class="level-2">
+        <a href="../../impl/usecase/contextmenu.html"
+           title="Context Menu">Context Menu</a>
+        
+      </li>
+    
+  </ul>
+          
         
       </li>
     
     
       <li class="level-1">
-        <a href="../impl/skin"
+        <a href="../../impl/skin"
            title="Ripla Skins">Ripla Skins</a>
         
       </li>
@@ -99,21 +146,21 @@
     
     
       <li class="level-0">
-        <a href="../extend"
+        <a href="../../extend"
            title="Extension Points">Extension Points</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../demo"
+        <a href="../../demo"
            title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../downloads"
+        <a href="../../downloads"
            title="Downloads">Downloads</a>
         
       </li>
@@ -124,9 +171,25 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Developing a Ripla application</h2><p class="p">To create a Ripla application, you have to do the following steps:</p><ol class="decimal"><li><a href="../impl/app" title="Create an Application Bundle" target="_self">Create an application bundle</a> containing the application's main class which has to extend <span class="underline">org.ripla.web.RiplaApplication.RiplaApplication</span>.</li><li><a href="../impl/usecase" title="Create use case bundle" target="_self">Create at least one use case bundle</a> containing a use case service implementation (i.e. a class implementing the <span class="underline">org.ripla.web.services.IUseCase</span> interface) as well as the use case's resources, i.e. views and controllers.</li><li><a href="../impl/skin" title="Ripla Skins" target="_self">Create
- a bundle fragment</a> containing the layout resources, i.e. style sheets 
-and images for the layout you want to use for your application.</li><li><a href="../impl/skin" title="Ripla Skins" target="_self">Create a skin bundle</a> for your application, i.e. a component containing the service provider for <span class="underline">org.ripla.web.services.ISkin</span> and referencing the skin bundle fragment.</li><li>Collect other OSGi bundles you need for the application's business or persistence layer (e.g. service providers for the <span class="underline">org.osgi.service.jdbc.DataSourceFactory</span> service).</li></ol><p class="p"> <strong>Note</strong>: throughout this document, the term bundle stands for OSGi bundle.</p></section>
+  <section><h2 class="heading">Use Case Service Provider</h2><p class="p">The following code snippet shows an example of a use case provider.<br /></p><pre class="pre">public class UseCaseComponent implements IUseCase {
+	@Override
+	public IMenuItem getMenu() {
+		return createMenu();
+	}
+	@Override
+	public Package getControllerClasses() {
+		return InputWidgetsController.class.getPackage();
+	}
+	@Override
+	public IControllerSet getControllerSet() {
+		return UseCaseHelper.EMPTY_CONTROLLER_SET;
+	}
+	@Override
+	public IMenuSet[] getContextMenus() {
+		return new IMenuSet[] { ContextMenuHelper.createContextMenuSet() };
+	}
+}
+</pre><p class="p">In this example, the application will look up the bundle's controller classes in the package containing the class <span class="underline">InputWidgetsController</span>. The use case's menu structure is created in the<span class="underline"> UseCaseComponent.createMenu()</span> method. The creation of the context menu set is delegated to <span class="underline">ContextMenuHelper.createContextMenuSet()</span>.</p><p class="p"> Now that the use case service provider class exists, you can write the <a href="../../impl/usecase/ds.html" title="OSGi Component Description" target="_self">OSGi component description</a> referencing this class.<br /></p></section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

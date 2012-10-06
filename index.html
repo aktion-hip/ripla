@@ -1,60 +1,133 @@
-<!doctype html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Ripla (by aktion-hip)</title>
+  <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
+
+    <title>Ripla</title>
+    <meta name="generator" content="Silva" />
+    <meta name="description"
+          content="Rich Platform project for Java web applications." />
+    
+
+    <meta name="robots" content="all,follow" />
+  
+    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
+
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+
+    <link rel="index" title="Home"
+          href="." />
+    
+
+  
+
+    <style media="all" type="text/css">
+      <!-- @import url("./res/resource.css"); -->
+    </style>
+
+    
+
+  
+
+
+
+    <!-- Injector for content-specific css/js inclusion -->
+    
+
+
+    <!-- 
+    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
+     -->
   </head>
+
   <body>
     <div class="wrapper">
-      <header>
-        <h1 class="header"><a href="https://github.com/aktion-hip/ripla">Ripla</a></h1>
-        <p class="header">Rich Platform project for Java web applications.</p>
-        <ul>
-          <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/aktion-hip/ripla">View On GitHub</a></li>
-        </ul>
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/aktion-hip">aktion-hip</a></p>
-      </header>
-      
-      <sidebar>
-      	<ul>
-          <li><a class="navigation" href="./impl/">Create application</a></li>
-          <li><a class="navigation" href="./extend/">Extend platform</a></li>
-      	</ul>
-      </sidebar>
-      
-      <section>
-        <h2>What is Ripla?</h2>
+  <header>
+    <h1 class="header">
+        <a href="."
+           title="Ripla [Top]">Ripla</a>  
+    </h1>
+    <p class="header">Rich Platform project for Java web applications.</p>
+    <ul>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/downloads">Download Files</a></li>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/zipball/master">Download ZIP</a></li>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/tarball/master">Download TAR</a></li>
+      <li><a class="buttons github" href="https://github.com/aktion-hip/ripla">View On GitHub</a></li>
+    </ul>
+    <p class="header">This project is maintained by <a class="header name" href="https://github.com/aktion-hip">aktion-hip</a></p>
+  </header>
+  
+  <sidebar>
+    <ul>
+      <div class="navigation">
+  <ul id="navigation-menu" class="navigation-level-0">
+    
+      <li class="level-0">
+        <a href="./impl"
+           title="Create Application">Create Application</a>
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="./extend"
+           title="Extension Points">Extension Points</a>
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="./demo"
+           title="Ripla Demo Application">Ripla Demo Application</a>
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="./downloads"
+           title="Downloads">Downloads</a>
+        
+      </li>
+    
+  </ul>
+</div>
 
-<p>Ripla is platform for <em>rich web applications</em>, like Eclipse RPC is a platform for <em>rich client applications</em>.
-Ripla is based on <a href="http://www.osgi.org/" target="_blank">OSGi</a> for the the modularization aspect and <a href="http://vaadin.com" target="_blank">Vaadin</a> for the user interface.</p>
+    </ul>    
+  </sidebar>
+  
+  <section><h2 class="heading">What is Ripla?</h2><p class="p">Ripla is a
+platform for <em>rich web applications</em>.
+Using Ripla as basis, you can easily create or compose full featured web 2.0
+applications. Thus, Ripla is in the web realm what Eclipse RCP is in the realm
+of installable <em>rich client applications</em>.</p><p class="p">Ripla is
+based on <a href="http://www.osgi.org/" title="" target="_blank">OSGi</a> for the the modularization aspect and <a href="http://vaadin.com" title="" target="_blank">Vaadin</a> for the user interface.</p><h3 class="heading">Ripla core feature</h3><p class="p">From a user
+perspective, an application is a set of <em>use cases</em> where different users at
+different moments interact with the system and with other users to achieve a
+certain goal. The Ripla platform builds on this understanding. </p><p class="p">In the
+Ripla programming model, software developers implement <em>use cases</em> and plug them
+into the Ripla platform, thus composing the web application part by part. Each <em>use case</em>
+ is implemented as an independent OSGi bundle, i.e. a software component containing both
+the business logic and the resources needed to render the visual
+aspects of the use case in the browser window.</p><p class="p">The visible representation of a use case in the browser window is an 
+entry in the menu bar with a possibly complex pull down menu attached. 
+If the user clicks an entry in the use case’s pull down menu, the 
+associated view is displayed in the browser’s main window. Each use case
+ view can be accompanied by a context menu which is displayed in the 
+context menu area. Therefore, a use case bundle for a Ripla application has to provide 
+the menu set for the main menu, the views for the main window, the 
+context menus and, of course, the controllers containing the logic to 
+control the views.</p><a href="./demo1.PNG@hires" title="Ripla Views" target="_self"><img src="./demo1.PNG" alt="Ripla Views" class="default" /></a><p class="p">By itself,
+Ripla can't do anything. The only thing Ripla can do is managing the use cases
+plugged in.</p><h3 class="heading">Creating a Ripla application (in 5 steps)</h3><p class="p">To create a Ripla application, you have to do the following steps:</p><ol class="decimal"><li><a href="./impl/app/index.html" title="Create an Application Bundle" target="_self">Create an application bundle</a> containing the application's main class which has to extend <span class="underline">org.ripla.web.RiplaApplication.RiplaApplication</span>.</li><li><a href="./impl/usecase" title="Create use case bundle" target="_self">Create at least one use case bundle</a> containing a use case service implementation (i.e. a class implementing the <span class="underline">org.ripla.web.services.IUseCase</span> interface) as well as the use case's resources, i.e. views and controllers.</li><li><a href="./impl/skin" title="Ripla Skins" target="_self">Create a bundle fragment</a> containing the layout resources, i.e. style sheets and images for the layout you want to use for your application.</li><li><a href="/static_sites/ripla/impl/skin" title="" target="_self">Create a skin bundle</a> for your application, i.e. a component containing the service provider for <span class="underline">org.ripla.web.services.ISkin</span> and referencing the skin bundle fragment.</li><li>Collect other OSGi bundles you need for the application's business or persistence layer (e.g. service providers for the <span class="underline">org.osgi.service.jdbc.DataSourceFactory</span> service).</li></ol><p class="p">That's all!<br /></p></section>
 
-<h2>How to create an application using Ripla?</h2>
-
-<p>A Ripla application is composed of various <em>use cases</em>. Each <em>use case</em> is implemented as an independent OSGi bundle. This implies that the use case bundle has to provide all resources needed to accomplish the use case.</p>
-
-<p>The visible expression of a use case in the browser window is an entry in the menu bar with a possibly complex pull down menu attached. If the user clicks an entry in the use case’s pull down menu, the associated view is displayed in the browser’s main window. Each use case view can be accompanied by a context menu which is displayed in the context menu area.</p>
-
-<p>Therefore, a use case bundle for a Ripla application has to provide the menu set for the main menu, the views for the main window, the context menus and, of course, the controllers containing the logic to control the views.</p>
-<p><img alt="Ripla application" src="./images/demo1.PNG" />
-</p>
-<p><a href="./impl/">More ...</a></p>
-      </section>
-      <footer>
-        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
-      </footer>
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
-		
+  <footer>
+    <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+  </footer>
+</div>
+<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  
   </body>
 </html>

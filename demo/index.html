@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+
+    <title>Ripla</title>
+    <meta name="generator" content="Silva" />
+    <meta name="description"
+          content="Rich Platform project for Java web applications." />
+    
+
+    <meta name="robots" content="all,follow" />
+  
+    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="index" title="Home"
+          href=".." />
+    
+
+  
+
+    <style media="all" type="text/css">
+      <!-- @import url("../res/resource.css"); -->
+    </style>
+
+    
+
+  
+
+
+
+    <!-- Injector for content-specific css/js inclusion -->
+    
+
+
+    <!-- 
+    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
+     -->
+  </head>
+
+  <body>
+    <div class="wrapper">
+  <header>
+    <h1 class="header">
+        <a href=".."
+           title="Ripla [Top]">Ripla</a>  
+    </h1>
+    <p class="header">Rich Platform project for Java web applications.</p>
+    <ul>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/downloads">Download Files</a></li>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/zipball/master">Download ZIP</a></li>
+      <li class="download"><a class="buttons" href="https://github.com/aktion-hip/ripla/tarball/master">Download TAR</a></li>
+      <li><a class="buttons github" href="https://github.com/aktion-hip/ripla">View On GitHub</a></li>
+    </ul>
+    <p class="header">This project is maintained by <a class="header name" href="https://github.com/aktion-hip">aktion-hip</a></p>
+  </header>
+  
+  <sidebar>
+    <ul>
+      <div class="navigation">
+  <ul id="navigation-menu" class="navigation-level-0">
+    
+      <li class="level-0">
+        <a href="../impl"
+           title="Create Application">Create Application</a>
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../extend"
+           title="Extension Points">Extension Points</a>
+        
+      </li>
+    
+    
+      <li class="level-0 selected">
+        <a href="../demo"
+           class="onbranch" title="Ripla Demo Application">Ripla Demo Application</a>
+        
+      </li>
+    
+    
+      <li class="level-0">
+        <a href="../downloads"
+           title="Downloads">Downloads</a>
+        
+      </li>
+    
+  </ul>
+</div>
+
+    </ul>    
+  </sidebar>
+  
+  <section><h2 class="heading">Ripla Demo Application</h2><p class="p"> The purpose of the Ripla Demo application is to demonstrate the possibilities of the Ripla platform and the power of OSGi modularization.</p><p class="p"> The Demo application shows a standard web layout, consisting of header, footer, toolbar, menu bar and the application's main view. By default, the toolbar shows only one item, a language select to switch the language of the views displayed. This language select demonstrates how a toolbar item can interact with other parts of the application.</p><img src="../demo/demo_uc1.PNG" alt="Use case widgets" class="float-left" /><p class="p"> The Demo application consists of two <a href="../impl/usecase" title="Create use case bundle" target="_self">use cases</a>. The first use case shows various types of Vaadin widgets. The submenu is used to structure the different widget sets.</p><div class="clearfloat"> </div><img src="../demo/demo_uc2.PNG" alt="Use case configuration" class="float-left" /><p class="p"> The second use case is used to configure the Demo application. The menu is built as <a href="../extend/extendible" title="Extendible Menu Service" target="_self">extendible menu</a>. The first configuration part is to enable or disable application login. By default, login is disabled and, therefore, use can access the widgets use case without login. <br /></p><img src="../demo/demo_login.PNG" alt="Login view" class="float-left" /><p class="p"> After enabling login, the login view is displayed and users have to authenticate. The Demo application has two users registered: <em>admin/admin</em> and <em>user/user</em>.</p><div class="clearfloat"> </div><img src="../demo/demo_tools.PNG" alt="Demo toolbar" class="float-left" /><p class="p"> If you log in as <em>admin</em>, you'll notice some changes. The toolbar shows three items now. The user info label and the logout button have been added to the toolbar, or to be correct, they have been made visible. This demonstrates how toolbar items can react on changes of the application's state (see <a href="../extend/toolbar" title="Toolbar Service" target="_self">toolbar service</a>).</p><p class="p"> You'll notice another change in the configuration menu. This menu shows a second item now to select the application's skin. This menu item is displayed only if you log in as <em>admin</em> user. This demonstrates the platform's <a href="../extend/permission" title="Permission Service" target="_self">permission service</a>.</p><img src="../demo/skins.PNG" alt="Demo Skins" class="float-left" /><p class="p">  If you activate the view to select skins, you'll have the choice of three different skins. By default, the <em>Ripla Demo Skin</em> is used. Selecting another skin will show you the Demo application in a quite different look.</p><div class="clearfloat"> </div><p class="p">  This demonstrates how the look&amp;feel of the web application can be separated from the application logic and completely exchanged if required (see <a href="../extend/skin" title="Skin Service" target="_self">skin service</a>).</p><img src="../demo/demo_style1.PNG" alt="Demo skin stylish" class="float-left" /><p class="p">Demo skin <em>Stylish</em></p><img src="../demo/demo_style2.PNG" alt="Demo skin modeste" class="float-left" /><p class="p">Demo skin <em>Modeste</em> </p></section>
+
+  <footer>
+    <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+  </footer>
+</div>
+<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  
+  </body>
+</html>
