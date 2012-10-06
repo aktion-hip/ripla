@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2012 RelationWare, Benno Luthiger
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* RelationWare, Benno Luthiger
-******************************************************************************/
+ * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 
 package org.ripla.demo.widgets.scr;
 
@@ -29,22 +29,32 @@ import org.ripla.web.menu.ContextMenuItem;
  * 
  * @author Luthiger
  */
-public class ContextMenuHelper {
+public final class ContextMenuHelper {
 	private static final IMessages MESSAGES = Activator.getMessages();
-	
-	private static final IContextMenuItem INPUT_WIDGETS = new ContextMenuItem(InputWidgetsController.class, 
+
+	private static final IContextMenuItem INPUT_WIDGETS = new ContextMenuItem(
+			InputWidgetsController.class,
 			"widgets.menu.input", Constants.PERMISSION_INPUT_WIDGETS, MESSAGES); //$NON-NLS-1$
-	private static final IContextMenuItem BUTTON_WIDGETS = new ContextMenuItem(ButtonWidgetsController.class, 
+	private static final IContextMenuItem BUTTON_WIDGETS = new ContextMenuItem(
+			ButtonWidgetsController.class,
 			"widgets.menu.button", Constants.PERMISSION_BUTTON_WIDGETS, MESSAGES); //$NON-NLS-1$
-	private static final IContextMenuItem SELECTION_WIDGETS = new ContextMenuItem(SelectionWidgetsController.class, 
+	private static final IContextMenuItem SELECTION_WIDGETS = new ContextMenuItem(
+			SelectionWidgetsController.class,
 			"widgets.menu.selection", Constants.PERMISSION_SELECTION_WIDGETS, MESSAGES); //$NON-NLS-1$
-	private static final IContextMenuItem FORM = new ContextMenuItem(FormController.class, 
+	private static final IContextMenuItem FORM = new ContextMenuItem(
+			FormController.class,
 			"widgets.menu.form", Constants.PERMISSION_FORM, MESSAGES); //$NON-NLS-1$
-	private static final IContextMenuItem TABLE_WIDGETS = new ContextMenuItem(TableWidgetsController.class, 
+	private static final IContextMenuItem TABLE_WIDGETS = new ContextMenuItem(
+			TableWidgetsController.class,
 			"widgets.menu.table", Constants.PERMISSION_TABLE_WIDGETS, MESSAGES); //$NON-NLS-1$
-	private static final IContextMenuItem TREE_WIDGETS = new ContextMenuItem(TreeWidgetsController.class, 
+	private static final IContextMenuItem TREE_WIDGETS = new ContextMenuItem(
+			TreeWidgetsController.class,
 			"widgets.menu.tree", Constants.PERMISSION_TREE_WIDGETS, MESSAGES); //$NON-NLS-1$
-	
+
+	private ContextMenuHelper() {
+		super();
+	}
+
 	public static IMenuSet createContextMenuSet() {
 		return new IMenuSet() {
 			@Override
@@ -54,9 +64,10 @@ public class ContextMenuHelper {
 
 			@Override
 			public IContextMenuItem[] getContextMenuItems() {
-				return new IContextMenuItem[] {INPUT_WIDGETS, BUTTON_WIDGETS, SELECTION_WIDGETS, FORM, TABLE_WIDGETS, TREE_WIDGETS};
+				return new IContextMenuItem[] { INPUT_WIDGETS, BUTTON_WIDGETS,
+						SELECTION_WIDGETS, FORM, TABLE_WIDGETS, TREE_WIDGETS };
 			}
 		};
 	}
-	
+
 }

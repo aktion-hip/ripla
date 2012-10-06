@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2012 RelationWare, Benno Luthiger
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* RelationWare, Benno Luthiger
-******************************************************************************/
+ * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 
 package org.ripla.demo.widgets.views;
 
@@ -43,104 +43,152 @@ public class FormView extends AbstractWidgetsView {
 	/**
 	 * FormView constructor.
 	 * 
-	 * @param inController {@link FormController} this view's controller
+	 * @param inController
+	 *            {@link FormController} this view's controller
 	 */
 	public FormView(final FormController inController) {
-		IMessages lMessages = Activator.getMessages();
-		VerticalLayout lLayout = initLayout(lMessages, "widgets.title.page.form"); //$NON-NLS-1$
-		
+		super();
+
+		final IMessages lMessages = Activator.getMessages();
+		final VerticalLayout lLayout = initLayout(lMessages,
+				"widgets.title.page.form"); //$NON-NLS-1$
+
 		final RegistrationFormCreator lFormCreator = new RegistrationFormCreator();
 		lLayout.addComponent(lFormCreator.createForm());
-		
+
 		final PopupContent lPopupContent = new PopupContent();
 		final PopupView lPopup = new PopupView(lPopupContent);
 		lPopup.setHideOnMouseOut(false);
 		lPopup.setPopupVisible(false);
 		lLayout.addComponent(lPopup);
-		
-		Button lSave = new Button(lMessages.getMessage("widgets.view.button.label.save"));
+
+		final Button lSave = new Button(
+				lMessages.getMessage("widgets.view.button.label.save"));
 		lSave.setClickShortcut(KeyCode.ENTER);
 		lSave.addListener(new Button.ClickListener() {
 			@Override
-			public void buttonClick(ClickEvent inEvent) {
+			public void buttonClick(final ClickEvent inEvent) {
 				try {
 					lFormCreator.commit();
-					String lFeedback = inController.save(lFormCreator.getGender(),
-							lFormCreator.getName(),
+					final String lFeedback = inController.save(
+							lFormCreator.getGender(), lFormCreator.getName(),
 							lFormCreator.getFirstName(),
-							lFormCreator.getStreet(),
-							lFormCreator.getPostal(),
-							lFormCreator.getCity(),
-							lFormCreator.getMail(),
-							lFormCreator.getAge(),
-							lFormCreator.getEducation(),
+							lFormCreator.getStreet(), lFormCreator.getPostal(),
+							lFormCreator.getCity(), lFormCreator.getMail(),
+							lFormCreator.getAge(), lFormCreator.getEducation(),
 							lFormCreator.getWorkArea());
 					lPopupContent.setFeedback(lFeedback);
 					lPopup.setPopupVisible(true);
 				}
-				catch (InvalidValueException exc) {}
+				catch (final InvalidValueException exc) { // NOPMD by Luthiger on 07.09.12 00:03
+					// intentionally left empty
+				}
 			}
 		});
 		lLayout.addComponent(lSave);
 	}
-	
+
 	private static class RegistrationFormCreator extends AbstractFormCreator {
-		private LabelValueTable table = new LabelValueTable();
-		private ListSelect gender = new ListSelect();
-		private TextField name = RiplaViewHelper.createTextField("", FIELD_WITDH, null);
-		private TextField firstname = RiplaViewHelper.createTextField("", FIELD_WITDH, null);
-		private TextField street = RiplaViewHelper.createTextField("", FIELD_WITDH, null);
-		private TextField postal = new TextField();
-		private TextField city = new TextField();
-		private TextField mail = RiplaViewHelper.createTextField("", FIELD_WITDH, null);
-		private TextField age = RiplaViewHelper.createTextField("", 40, null);
-		private ListSelect education = new ListSelect();
-		private ListSelect workarea = new ListSelect();
-		
-		
-		/* (non-Javadoc)
+		private final LabelValueTable table = new LabelValueTable();
+		private final ListSelect gender = new ListSelect();
+		private final TextField name = RiplaViewHelper.createTextField("",
+				FIELD_WITDH, null);
+		private final TextField firstname = RiplaViewHelper.createTextField("",
+				FIELD_WITDH, null);
+		private final TextField street = RiplaViewHelper.createTextField("",
+				FIELD_WITDH, null);
+		private final TextField postal = new TextField();
+		private final TextField city = new TextField();
+		private final TextField mail = RiplaViewHelper.createTextField("",
+				FIELD_WITDH, null);
+		private final TextField age = RiplaViewHelper.createTextField("", 40,
+				null);
+		private final ListSelect education = new ListSelect();
+		private final ListSelect workarea = new ListSelect();
+
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see org.ripla.web.util.AbstractFormCreator#createTable()
 		 */
 		@Override
 		protected Component createTable() {
-			IMessages lMessages = Activator.getMessages();
-			
-			fillSelect(gender, new String[] {lMessages.getMessage("widgets.view.form.select.sex.1"), lMessages.getMessage("widgets.view.form.select.sex.2")});
-			fillSelect(education, new String[] {lMessages.getMessage("widgets.view.form.select.educ.1"),
-					lMessages.getMessage("widgets.view.form.select.educ.2"),
-					lMessages.getMessage("widgets.view.form.select.educ.3"),
-					lMessages.getMessage("widgets.view.form.select.educ.4")});
-			fillSelect(workarea, new String[] {lMessages.getMessage("widgets.view.form.select.work.1"),
-					lMessages.getMessage("widgets.view.form.select.work.2"),
-					lMessages.getMessage("widgets.view.form.select.work.3"),
-					lMessages.getMessage("widgets.view.form.select.work.4"),
-					lMessages.getMessage("widgets.view.form.select.work.5"),
-					lMessages.getMessage("widgets.view.form.select.work.6")});
+			final IMessages lMessages = Activator.getMessages();
+
+			fillSelect(
+					gender,
+					new String[] {
+							lMessages
+									.getMessage("widgets.view.form.select.sex.1"),
+							lMessages
+									.getMessage("widgets.view.form.select.sex.2") });
+			fillSelect(
+					education,
+					new String[] {
+							lMessages
+									.getMessage("widgets.view.form.select.educ.1"),
+							lMessages
+									.getMessage("widgets.view.form.select.educ.2"),
+							lMessages
+									.getMessage("widgets.view.form.select.educ.3"),
+							lMessages
+									.getMessage("widgets.view.form.select.educ.4") });
+			fillSelect(
+					workarea,
+					new String[] {
+							lMessages
+									.getMessage("widgets.view.form.select.work.1"),
+							lMessages
+									.getMessage("widgets.view.form.select.work.2"),
+							lMessages
+									.getMessage("widgets.view.form.select.work.3"),
+							lMessages
+									.getMessage("widgets.view.form.select.work.4"),
+							lMessages
+									.getMessage("widgets.view.form.select.work.5"),
+							lMessages
+									.getMessage("widgets.view.form.select.work.6") });
 			age.setMaxLength(3);
-			
-			table.addRow(lMessages.getMessage("widgets.view.form.gender"), addField("gender", gender));
-			table.addRowEmphasized(lMessages.getMessage("widgets.view.form.name"), addFieldRequired("familyname", name, lMessages.getMessage("widgets.view.form.name")));
-			table.addRowEmphasized(lMessages.getMessage("widgets.view.form.firstname"), addFieldRequired("firstname", firstname, lMessages.getMessage("widgets.view.form.firstname")));
-			table.addRow(lMessages.getMessage("widgets.view.form.street"), addField("street", street));
-			table.addRow(lMessages.getMessage("widgets.view.form.city"), createPostalCity());
-			table.addRowEmphasized(lMessages.getMessage("widgets.view.form.mail"), addFieldRequired("mail", mail, lMessages.getMessage("widgets.view.form.mail")));
-			table.addRow(lMessages.getMessage("widgets.view.form.age"), addField("age", age));
-			table.addRow(lMessages.getMessage("widgets.view.form.education"), addField("education", education));
-			table.addRow(lMessages.getMessage("widgets.view.form.workarea"), addField("workarea", workarea));
+
+			table.addRow(lMessages.getMessage("widgets.view.form.gender"),
+					addField("gender", gender));
+			table.addRowEmphasized(
+					lMessages.getMessage("widgets.view.form.name"),
+					addFieldRequired("familyname", name,
+							lMessages.getMessage("widgets.view.form.name")));
+			table.addRowEmphasized(
+					lMessages.getMessage("widgets.view.form.firstname"),
+					addFieldRequired("firstname", firstname,
+							lMessages.getMessage("widgets.view.form.firstname")));
+			table.addRow(lMessages.getMessage("widgets.view.form.street"),
+					addField("street", street));
+			table.addRow(lMessages.getMessage("widgets.view.form.city"),
+					createPostalCity());
+			table.addRowEmphasized(
+					lMessages.getMessage("widgets.view.form.mail"),
+					addFieldRequired("mail", mail,
+							lMessages.getMessage("widgets.view.form.mail")));
+			table.addRow(lMessages.getMessage("widgets.view.form.age"),
+					addField("age", age));
+			table.addRow(lMessages.getMessage("widgets.view.form.education"),
+					addField("education", education));
+			table.addRow(lMessages.getMessage("widgets.view.form.workarea"),
+					addField("workarea", workarea));
 			return table;
 		}
-		
-		private void fillSelect(ListSelect inSelect, String[] inValues) {
+
+		private void fillSelect(final ListSelect inSelect,
+				final String[] inValues) {
 			inSelect.setWidth(FIELD_WITDH, Sizeable.UNITS_PIXELS);
 			inSelect.setRows(1);
 			inSelect.setStyleName("ripla-input"); //$NON-NLS-1$
-			for (String lValue : inValues) {
+			for (final String lValue : inValues) {
 				inSelect.addItem(lValue);
 			}
 		}
-		
+
 		private HorizontalLayout createPostalCity() {
-			HorizontalLayout out = new HorizontalLayout();
+			final HorizontalLayout out = new HorizontalLayout();
 			out.setStyleName("ripla-input"); //$NON-NLS-1$
 			out.setSpacing(true);
 			postal.setWidth(54, Sizeable.UNITS_PIXELS);
@@ -150,50 +198,61 @@ public class FormView extends AbstractWidgetsView {
 			out.addComponent(city);
 			return out;
 		}
-		
+
 		public String getGender() {
-			return (String)gender.getValue();
+			return (String) gender.getValue();
 		}
+
 		public String getName() {
-			return (String)name.getValue();
+			return (String) name.getValue();
 		}
+
 		public String getFirstName() {
-			return (String)firstname.getValue();
+			return (String) firstname.getValue();
 		}
+
 		public String getStreet() {
-			return (String)street.getValue();
+			return (String) street.getValue();
 		}
+
 		public String getPostal() {
-			return (String)postal.getValue();
+			return (String) postal.getValue();
 		}
+
 		public String getCity() {
-			return (String)city.getValue();
+			return (String) city.getValue();
 		}
+
 		public String getMail() {
-			return (String)mail.getValue();
+			return (String) mail.getValue();
 		}
+
 		public String getAge() {
-			return (String)age.getValue();
+			return (String) age.getValue();
 		}
+
 		public String getEducation() {
-			return (String)education.getValue();
+			return (String) education.getValue();
 		}
+
 		public String getWorkArea() {
-			return (String)workarea.getValue();
+			return (String) workarea.getValue();
 		}
 	}
-	
+
 	private static class PopupContent implements PopupView.Content {
 		private String feedback = "";
-		private VerticalLayout root;
-		
+		private final VerticalLayout root;
+
 		PopupContent() {
 			root = new VerticalLayout();
 			root.setSpacing(true);
 			root.setSizeUndefined();
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see com.vaadin.ui.PopupView.Content#getMinimizedValueAsHTML()
 		 */
 		@Override
@@ -201,21 +260,27 @@ public class FormView extends AbstractWidgetsView {
 			return "";
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see com.vaadin.ui.PopupView.Content#getPopupComponent()
 		 */
 		@Override
 		public Component getPopupComponent() {
-			Label lLayout = new Label(String.format("<p>%s</p>%s", Activator.getMessages().getMessage("widgets.view.form.feedback"), feedback), Label.CONTENT_XHTML);
+			final Label lLayout = new Label(String.format(
+					"<p>%s</p>%s",
+					Activator.getMessages().getMessage(
+							"widgets.view.form.feedback"), feedback),
+					Label.CONTENT_XHTML);
 			lLayout.setWidth(300, UNITS_PIXELS);
 			root.removeAllComponents();
 			root.addComponent(lLayout);
 			return root;
 		}
-		
-		void setFeedback(String inFeedback) {
+
+		protected void setFeedback(final String inFeedback) {
 			feedback = inFeedback;
 		}
 	}
-	
+
 }

@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2012 RelationWare, Benno Luthiger
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* RelationWare, Benno Luthiger
-******************************************************************************/
+ * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 
 package org.ripla.demo.config.controller;
 
@@ -29,8 +29,10 @@ import com.vaadin.ui.Component;
  */
 @UseCaseController
 public class SkinSelectController extends AbstractController {
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.controllers.AbstractController#needsPermission()
 	 */
 	@Override
@@ -38,23 +40,26 @@ public class SkinSelectController extends AbstractController {
 		return Constants.PERMISSION_SELECT_SKIN;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.controllers.AbstractController#runChecked()
 	 */
 	@Override
 	protected Component runChecked() throws RiplaException {
 		emptyContextMenu();
-		
+
 		return new SkinConfigurationView(this);
 	}
 
 	/**
 	 * Callback method, saves the changed skin selection.
 	 * 
-	 * @param inSkin {@link SkinBean}
+	 * @param inSkin
+	 *            {@link SkinBean}
 	 * @param inApplication
 	 */
-	public void save(SkinBean inSkin, Application inApplication) {
+	public void save(final SkinBean inSkin, final Application inApplication) {
 		savePreferences(PreferencesHelper.KEY_SKIN, inSkin.getID());
 		inApplication.setTheme(inSkin.getID());
 	}

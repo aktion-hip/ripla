@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2012 RelationWare, Benno Luthiger
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* RelationWare, Benno Luthiger
-******************************************************************************/
+ * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 
 package org.ripla.web.internal.services;
 
@@ -26,66 +26,73 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 
 /**
- * Helper class for managing <code>org.ripla.web.services.ISkin</code> instances.
- *
+ * Helper class for managing <code>org.ripla.web.services.ISkin</code>
+ * instances.
+ * 
  * @author Luthiger
  */
-public class SkinRegistry {
+public final class SkinRegistry {
 	public static final String DFT_SKIN_ID = "org.ripla.web.skin";
-	
-	private Collection<ISkin> skins = Collections.synchronizedList(new ArrayList<ISkin>());
-	private ISkin activeSkin = null;
 
-	private PreferencesHelper preferences;
-	private String dftSkinID = DFT_SKIN_ID;	
-	
+	private final transient Collection<ISkin> skins = Collections
+			.synchronizedList(new ArrayList<ISkin>());
+	private transient ISkin activeSkin = null;
+
+	private final transient PreferencesHelper preferences;
+	private transient String dftSkinID = DFT_SKIN_ID;
+
 	/**
 	 * SkinRegistry constructor.
 	 * 
-	 * @param inPreferences {@link PreferencesHelper}
+	 * @param inPreferences
+	 *            {@link PreferencesHelper}
 	 */
-	public SkinRegistry(PreferencesHelper inPreferences) {
+	public SkinRegistry(final PreferencesHelper inPreferences) {
 		preferences = inPreferences;
 		skins.add(new RiplaSkin());
 	}
-	
+
 	/**
 	 * Registering a new skin. Called by the component's bind method.
 	 * 
-	 * @param inSkin {@link ISkin}
+	 * @param inSkin
+	 *            {@link ISkin}
 	 */
-	public void registerSkin(ISkin inSkin) {
+	public void registerSkin(final ISkin inSkin) {
 		skins.add(inSkin);
 	}
-	
+
 	/**
 	 * Unregistering a skin. Called by the component's unbind method.
 	 * 
-	 * @param inSkin {@link ISkin}
+	 * @param inSkin
+	 *            {@link ISkin}
 	 */
-	public void unregisterSkin(ISkin inSkin) {
+	public void unregisterSkin(final ISkin inSkin) {
 		skins.remove(inSkin);
 	}
-	
+
 	/**
-	 * Returns the active skin (according to the settings in the application preferences).
+	 * Returns the active skin (according to the settings in the application
+	 * preferences).
 	 * 
-	 * @return {@link ISkin} the active skin, may be <code>null</code>, if no skins are registered
+	 * @return {@link ISkin} the active skin, may be <code>null</code>, if no
+	 *         skins are registered
 	 */
 	public ISkin getActiveSkin() {
 		if (activeSkin == null) {
-			String lSkinID = preferences.getActiveSkinID();
+			final String lSkinID = preferences.getActiveSkinID();
 			if (lSkinID == null) {
 				return calculateSkin(dftSkinID);
 			}
-			
+
 			activeSkin = calculateSkin(lSkinID);
 		}
 		return activeSkin;
 	}
-	
-	private ISkin calculateSkin(String inSkinID) {
-		for (ISkin lSkin : skins) {
+
+	private ISkin calculateSkin(final String inSkinID) {
+		for (final ISkin lSkin : skins) {
 			if (lSkin.getSkinID().equals(inSkinID)) {
 				return lSkin;
 			}
@@ -96,28 +103,29 @@ public class SkinRegistry {
 	/**
 	 * Notify the registry about the new skin selection.
 	 * 
-	 * @param inSkinID String the new skin's id
+	 * @param inSkinID
+	 *            String the new skin's id
 	 */
-	public void changeSkin(String inSkinID) {
+	public void changeSkin(final String inSkinID) {
 		preferences.set(PreferencesHelper.KEY_SKIN, inSkinID);
 		activeSkin = calculateSkin(inSkinID);
 	}
-	
+
 	/**
 	 * Sets the application's default skin.
 	 * 
-	 * @param inDftSkinID String the default skin's ID
+	 * @param inDftSkinID
+	 *            String the default skin's ID
 	 */
-	public void setDefaultSkin(String inDftSkinID) {
+	public void setDefaultSkin(final String inDftSkinID) {
 		dftSkinID = inDftSkinID;
 	}
 
-	
-// ---
-	
+	// ---
+
 	/**
-	 * The Ripla default skin. 
-	 *
+	 * The Ripla default skin.
+	 * 
 	 * @author Luthiger
 	 */
 	private static class RiplaSkin implements ISkin {
@@ -126,37 +134,41 @@ public class SkinRegistry {
 		public String getSkinID() {
 			return DFT_SKIN_ID;
 		}
-	
+
 		@Override
 		public String getSkinName() {
 			return "Ripla Default Skin";
 		}
-	
+
 		@Override
 		public boolean hasHeader() {
 			return true;
 		}
+
 		@Override
 		public Component getHeader() {
-			Layout outHeader = new HorizontalLayout();
+			final Layout outHeader = new HorizontalLayout();
 			outHeader.setStyleName("ripla-header"); //$NON-NLS-1$
 			outHeader.setWidth("100%"); //$NON-NLS-1$
 			outHeader.setHeight(70, Sizeable.UNITS_PIXELS);
-			outHeader.addComponent(LabelHelper.createLabel("header", "ripla-header-text"));
+			outHeader.addComponent(LabelHelper.createLabel("header",
+					"ripla-header-text"));
 			return outHeader;
 		}
-	
+
 		@Override
 		public boolean hasFooter() {
 			return true;
 		}
+
 		@Override
 		public Component getFooter() {
-			Layout outFooter = new HorizontalLayout();
+			final Layout outFooter = new HorizontalLayout();
 			outFooter.setStyleName("ripla-footer"); //$NON-NLS-1$
 			outFooter.setWidth("100%"); //$NON-NLS-1$
 			outFooter.setHeight(18, Sizeable.UNITS_PIXELS);
-			outFooter.addComponent(LabelHelper.createLabel("footer", "ripla-footer-text"));
+			outFooter.addComponent(LabelHelper.createLabel("footer",
+					"ripla-footer-text"));
 			return outFooter;
 		}
 
@@ -164,18 +176,22 @@ public class SkinRegistry {
 		public boolean hasToolBar() {
 			return true;
 		}
+
 		@Override
 		public Label getToolbarSeparator() {
-			Label outSeparator = new Label("&bull;", Label.CONTENT_XHTML); //$NON-NLS-1$
+			final Label outSeparator = new Label("&bull;", Label.CONTENT_XHTML); //$NON-NLS-1$
 			outSeparator.setSizeUndefined();
 			return outSeparator;
 		}
+
 		@Override
 		public boolean hasMenuBar() {
 			return true;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see org.ripla.web.services.ISkin#getMenuBarLayout()
 		 */
 		@Override
@@ -183,7 +199,9 @@ public class SkinRegistry {
 			return null;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see org.ripla.web.services.ISkin#getMenuBarComponent()
 		 */
 		@Override
@@ -191,5 +209,5 @@ public class SkinRegistry {
 			return null;
 		}
 	}
-	
+
 }

@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2012 RelationWare, Benno Luthiger
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* RelationWare, Benno Luthiger
-******************************************************************************/
+ * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 
 package org.ripla.demo.widgets.views;
 
@@ -29,37 +29,46 @@ import com.vaadin.ui.VerticalLayout;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractWidgetsView extends CustomComponent {
-	
-	protected VerticalLayout initLayout(IMessages inMessages) {
-		VerticalLayout outLayout = new VerticalLayout();
+
+	protected VerticalLayout initLayout(final IMessages inMessages) {
+		final VerticalLayout outLayout = new VerticalLayout();
 		setCompositionRoot(outLayout);
 		outLayout.setStyleName("demo-view"); //$NON-NLS-1$
 		return outLayout;
 	}
-	
-	protected VerticalLayout initLayout(IMessages inMessages, String inTitleKey) {
-		VerticalLayout outLayout = initLayout(inMessages);
-		outLayout.addComponent(new Label(String.format(RiplaViewHelper.TMPL_TITLE, "demo-pagetitle", inMessages.getMessage(inTitleKey)), Label.CONTENT_XHTML)); //$NON-NLS-1$ //$NON-NLS-2$
+
+	protected VerticalLayout initLayout(final IMessages inMessages,
+			final String inTitleKey) {
+		final VerticalLayout outLayout = initLayout(inMessages);
+		outLayout
+				.addComponent(new Label(
+						String.format(
+								RiplaViewHelper.TMPL_TITLE,
+								"demo-pagetitle", inMessages.getMessage(inTitleKey)), Label.CONTENT_XHTML)); //$NON-NLS-1$ //$NON-NLS-2$
 		return outLayout;
 	}
-	
-	protected Label getSubtitle(String inTitle) {
-		return new Label(String.format(RiplaViewHelper.TMPL_TITLE, "demo-subtitle", inTitle), Label.CONTENT_XHTML); //$NON-NLS-1$
+
+	protected Label getSubtitle(final String inTitle) {
+		return new Label(String.format(RiplaViewHelper.TMPL_TITLE,
+				"demo-subtitle", inTitle), Label.CONTENT_XHTML); //$NON-NLS-1$
 	}
 
 	/**
 	 * @param inCountry
 	 * @return {@link Layout}
 	 */
-	protected Layout createCountryPopup(CountryBean inCountry) {
-		VerticalLayout outLayout = new VerticalLayout();
+	protected Layout createCountryPopup(final CountryBean inCountry) {
+		final VerticalLayout outLayout = new VerticalLayout();
 		outLayout.addComponent(getSubtitle(inCountry.getName()));
-		
-		IMessages lMessages = Activator.getMessages();
-		LabelValueTable lValues = new LabelValueTable();
-		lValues.addRowEmphasized(lMessages.getMessage("widgets.view.code.un"), inCountry.getUnCode()); //$NON-NLS-1$
-		lValues.addRowEmphasized(lMessages.getMessage("widgets.view.region.un11"), inCountry.getUnRegion11()); //$NON-NLS-1$
-		lValues.addRowEmphasized(lMessages.getMessage("widgets.view.region.sres4"), inCountry.getSresRegion()); //$NON-NLS-1$
+
+		final IMessages lMessages = Activator.getMessages();
+		final LabelValueTable lValues = new LabelValueTable();
+		lValues.addRowEmphasized(
+				lMessages.getMessage("widgets.view.code.un"), inCountry.getUnCode()); //$NON-NLS-1$
+		lValues.addRowEmphasized(
+				lMessages.getMessage("widgets.view.region.un11"), inCountry.getUnRegion11()); //$NON-NLS-1$
+		lValues.addRowEmphasized(
+				lMessages.getMessage("widgets.view.region.sres4"), inCountry.getSresRegion()); //$NON-NLS-1$
 		lValues.addRow(new Label(lMessages.getMessage("widgets.view.label"))); //$NON-NLS-1$
 		lValues.addRowEmphasized("1990", inCountry.getPop1990()); //$NON-NLS-1$
 		lValues.addRowEmphasized("1995", inCountry.getPop1995()); //$NON-NLS-1$

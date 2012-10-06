@@ -15,7 +15,7 @@
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 
 package org.ripla.web.services;
 
@@ -31,70 +31,88 @@ import com.vaadin.ui.Label;
 public interface ISkin {
 
 	/**
-	 * @return String this skin bundle's ID, i.e. symbolic name: <code>bundleContext.getBundle().getSymbolicName()</code>.
+	 * @return String this skin bundle's ID, i.e. symbolic name:
+	 *         <code>bundleContext.getBundle().getSymbolicName()</code>.
 	 */
 	String getSkinID();
-	
+
 	/**
 	 * @return String the name of the skin, displayed in the skin select view
 	 */
 	String getSkinName();
-	
+
 	/**
-	 * @return boolean <code>true</code> if the application should display a header view
+	 * @return boolean <code>true</code> if the application should display a
+	 *         header view
 	 */
 	boolean hasHeader();
-	
+
 	/**
 	 * Create the skin's header component.
 	 * 
 	 * @return {@link Component}
 	 */
 	Component getHeader();
-	
+
 	/**
 	 * @return <code>true</code> if the application should display a footer
 	 */
 	boolean hasFooter();
-	
+
 	/**
 	 * Create the skin's footer component.
 	 * 
 	 * @return {@link Component}
 	 */
 	Component getFooter();
-	
+
 	/**
-	 * @return boolean <code>true</code> if the application should display a tool bar
+	 * @return boolean <code>true</code> if the application should display a
+	 *         tool bar
 	 */
 	boolean hasToolBar();
-	
+
 	/**
 	 * @return {@link Label} the toolbar separator
 	 */
 	Label getToolbarSeparator();
 
 	/**
-	 * @return boolean <code>true</code> if the application should display a menu bar
+	 * @return boolean <code>true</code> if the application should display a
+	 *         menu bar
 	 */
 	boolean hasMenuBar();
-	
+
 	/**
-	 * <p>Returns the menu bar component.</p>
-	 * <p>This component is added to the application's body component. 
-	 * This component has to contain the <code>MenuBarLayout</code>.</p> 
-	 * <p>May be <code>null</code> for the default menu bar component.</p>
+	 * <p>
+	 * Returns the menu bar component.
+	 * </p>
+	 * <p>
+	 * This component is added to the application's body component. This
+	 * component has to contain the <code>MenuBarLayout</code>.
+	 * </p>
+	 * <p>
+	 * May be <code>null</code> for the default menu bar component.
+	 * </p>
 	 * 
 	 * @return {@link HorizontalLayout} the menu bar component
 	 */
-	HorizontalLayout getMenuBarComponent();	
-	
+	HorizontalLayout getMenuBarComponent();
+
 	/**
-	 * <p>Returns the menu bar layout.</p>
-	 * <p>You have to add this layout to the <code>MenuBarComponent</code>.
-	 * This layout is the component where the application's <code>Vaadin MenuBar</code> is added too.
-	 * In simple cases, the <code>MenuBarLayout</code> is the <code>MenuBarComponent</code>.</p>
-	 * <p>May be <code>null</code> for the default menu bar layout.</p>
+	 * <p>
+	 * Returns the menu bar layout.
+	 * </p>
+	 * <p>
+	 * You have to add this layout to the <code>MenuBarComponent</code>. This
+	 * layout is the component where the application's
+	 * <code>Vaadin MenuBar</code> (i.e. the main menu items) is added to. In
+	 * simple cases, the <code>MenuBarLayout</code> is the
+	 * <code>MenuBarComponent</code>.
+	 * </p>
+	 * <p>
+	 * May be <code>null</code> for the default menu bar layout.
+	 * </p>
 	 * 
 	 * @return {@link HorizontalLayout} a layout for the menu bar
 	 */

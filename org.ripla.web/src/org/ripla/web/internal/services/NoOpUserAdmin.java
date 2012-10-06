@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2012 RelationWare, Benno Luthiger
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* RelationWare, Benno Luthiger
-******************************************************************************/
+ * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 
 package org.ripla.web.internal.services;
 
@@ -18,83 +18,108 @@ import org.osgi.service.useradmin.User;
 import org.osgi.service.useradmin.UserAdmin;
 
 /**
- * A user admin instance doin nothing.
+ * A user admin instance doing nothing.
  * 
  * @author Luthiger
  */
 public class NoOpUserAdmin implements UserAdmin {
 
-	/* (non-Javadoc)
-	 * @see org.osgi.service.useradmin.UserAdmin#createRole(java.lang.String, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.osgi.service.useradmin.UserAdmin#createRole(java.lang.String,
+	 * int)
 	 */
 	@Override
-	public Role createRole(String inName, int inType) {
+	public Role createRole(final String inName, final int inType) {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.osgi.service.useradmin.UserAdmin#removeRole(java.lang.String)
 	 */
 	@Override
-	public boolean removeRole(String inName) {
+	public boolean removeRole(final String inName) {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.osgi.service.useradmin.UserAdmin#getRole(java.lang.String)
 	 */
 	@Override
-	public Role getRole(String inName) {
+	public Role getRole(final String inName) {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.osgi.service.useradmin.UserAdmin#getRoles(java.lang.String)
 	 */
 	@Override
-	public Role[] getRoles(String inFilter) throws InvalidSyntaxException {
+	public Role[] getRoles(final String inFilter) throws InvalidSyntaxException {
 		return inFilter == null ? new Role[] {} : null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.osgi.service.useradmin.UserAdmin#getUser(java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.osgi.service.useradmin.UserAdmin#getUser(java.lang.String,
+	 * java.lang.String)
 	 */
 	@Override
-	public User getUser(String inKey, String inValue) {
+	public User getUser(final String inKey, final String inValue) {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.osgi.service.useradmin.UserAdmin#getAuthorization(org.osgi.service.useradmin.User)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.osgi.service.useradmin.UserAdmin#getAuthorization(org.osgi.service
+	 * .useradmin.User)
 	 */
 	@Override
-	public Authorization getAuthorization(User inUser) {
+	public Authorization getAuthorization(final User inUser) {
 		return new NoOpAuthorization();
 	}
-	
-// ---
-	
+
+	// ---
+
 	private static class NoOpAuthorization implements Authorization {
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see org.osgi.service.useradmin.Authorization#getName()
 		 */
 		@Override
 		public String getName() {
 			return null;
 		}
-		/* (non-Javadoc)
-		 * @see org.osgi.service.useradmin.Authorization#hasRole(java.lang.String)
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.osgi.service.useradmin.Authorization#hasRole(java.lang.String)
 		 */
 		@Override
-		public boolean hasRole(String inName) {
+		public boolean hasRole(final String inName) {
 			return false;
-		}	
-		/* (non-Javadoc)
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see org.osgi.service.useradmin.Authorization#getRoles()
 		 */
 		@Override
 		public String[] getRoles() {
-			return null;
+			return new String[] {};
 		}
 	}
 

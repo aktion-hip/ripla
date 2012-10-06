@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2012 RelationWare, Benno Luthiger
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* RelationWare, Benno Luthiger
-******************************************************************************/
+ * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 
 package org.ripla.web.internal.services;
 
@@ -30,26 +30,37 @@ import org.slf4j.LoggerFactory;
 import com.vaadin.ui.Component;
 
 /**
- * The controller manager class.
+ * The controller manager class.<br />
+ * Instances of this class are responsible for managing controllers provided by
+ * the use case bundles. All controller classes are registered here. Therefore,
+ * when the application calls a controller, this manager instance has to look up
+ * the controller class and load it using the providing bundle's class loader.
+ * Then, the controller instance is executed and the created view component are
+ * returned to the application.
  * 
  * @author Luthiger
  */
-public class ControllerManager {
-	private static final Logger LOG = LoggerFactory.getLogger(ControllerManager.class);
-	
+public final class ControllerManager {
+	private static final Logger LOG = LoggerFactory
+			.getLogger(ControllerManager.class);
+
 	private EventAdmin eventAdmin;
-	private Map<String, BundleClassLoader> controllerMappingTable = Collections.synchronizedMap(new Hashtable<String, BundleClassLoader>());
+	private final transient Map<String, BundleClassLoader> controllerMappingTable = Collections
+			.synchronizedMap(new Hashtable<String, BundleClassLoader>());
 
 	private UserAdmin userAdmin = new NoOpUserAdmin();
 
 	/**
 	 * Loads the specified controller.
 	 * 
-	 * @param inControllerName String
+	 * @param inControllerName
+	 *            String
 	 * @return {@link Component}
 	 */
-	public Component getContent(String inControllerName) throws NoControllerFoundException {
-		BundleClassLoader lLoader = controllerMappingTable.get(inControllerName);
+	public Component getContent(final String inControllerName)
+			throws NoControllerFoundException {
+		final BundleClassLoader lLoader = controllerMappingTable
+				.get(inControllerName);
 		if (lLoader == null) {
 			throw new NoControllerFoundException(inControllerName);
 		}
@@ -60,19 +71,19 @@ public class ControllerManager {
 	 * @param inLoader
 	 * @return
 	 */
-	private Component runController(BundleClassLoader inLoader) {
+	private Component runController(final BundleClassLoader inLoader) {
 		try {
-			IPluggable lController = inLoader.createLoader();
+			final IPluggable lController = inLoader.createLoader();
 			lController.setEventAdmin(eventAdmin);
 			lController.setUserAdmin(userAdmin);
 			ApplicationData.setActiveMenuItem(inLoader.getSymbolicName());
 			return lController.run();
-		} 
-		catch (Exception exc) {
-			Throwable lThrowable = exc;
-//			if (exc instanceof RiplaException) {
-//				lThrowable = ((RiplaException) exc).getRootCause();
-//			}
+		}
+		catch (final Exception exc) {
+			final Throwable lThrowable = exc;
+			// if (exc instanceof RiplaException) {
+			// lThrowable = ((RiplaException) exc).getRootCause();
+			// }
 			LOG.error("Problem during task execution.", lThrowable); //$NON-NLS-1$
 			return new DefaultRiplaView(exc);
 		}
@@ -81,43 +92,55 @@ public class ControllerManager {
 	/**
 	 * Registers the specified controller to the manager.
 	 * 
-	 * @param inControllerSet {@link IControllerSet}
+	 * @param inControllerSet
+	 *            {@link IControllerSet}
 	 */
-	public void addControllerSet(IControllerSet inControllerSet) {
-		for (IControllerConfiguration lControllerConfiguration : inControllerSet.getControllerConfigurations()) {
-			Bundle lBundle = lControllerConfiguration.getBundle();
-			String lControllerName = lControllerConfiguration.getControllerName();
-			controllerMappingTable.put(UseCaseHelper.createFullyQualifiedControllerName(lBundle, lControllerName), new BundleClassLoader(lControllerName, lBundle));
+	public void addControllerSet(final IControllerSet inControllerSet) {
+		for (final IControllerConfiguration lControllerConfiguration : inControllerSet
+				.getControllerConfigurations()) {
+			final Bundle lBundle = lControllerConfiguration.getBundle();
+			final String lControllerName = lControllerConfiguration
+					.getControllerName();
+			controllerMappingTable.put(UseCaseHelper
+					.createFullyQualifiedControllerName(lBundle,
+							lControllerName), new BundleClassLoader( // NOPMD
+					lControllerName, lBundle));
 		}
 	}
 
 	/**
 	 * Unregisters the specified controller from the manager.
 	 * 
-	 * @param inControllerSet {@link IControllerSet}
+	 * @param inControllerSet
+	 *            {@link IControllerSet}
 	 */
-	public void removeControllerSet(IControllerSet inControllerSet) {
-		for (IControllerConfiguration lControllerConfiguration : inControllerSet.getControllerConfigurations()) {
-			Bundle lBundle = lControllerConfiguration.getBundle();
-			String lControllerName = lControllerConfiguration.getControllerName();
-			BundleClassLoader lLoader = controllerMappingTable.get(UseCaseHelper.createFullyQualifiedControllerName(lBundle, lControllerName));
+	public void removeControllerSet(final IControllerSet inControllerSet) {
+		for (final IControllerConfiguration lControllerConfiguration : inControllerSet
+				.getControllerConfigurations()) {
+			final Bundle lBundle = lControllerConfiguration.getBundle();
+			final String lControllerName = lControllerConfiguration
+					.getControllerName();
+			final BundleClassLoader lLoader = controllerMappingTable
+					.get(UseCaseHelper.createFullyQualifiedControllerName(
+							lBundle, lControllerName));
 			if (lLoader != null) {
 				lLoader.dispose();
 				controllerMappingTable.remove(lLoader);
 			}
 		}
 	}
-	
+
 	/**
 	 * Sets the OSGi event admin.
 	 * 
-	 * @param inEventAdmin {@link EventAdmin}
+	 * @param inEventAdmin
+	 *            {@link EventAdmin}
 	 */
-	public void setEventAdmin(EventAdmin inEventAdmin) {
+	public void setEventAdmin(final EventAdmin inEventAdmin) {
 		eventAdmin = inEventAdmin;
 		LOG.trace("Set OSGi event admin to Ripla controller manager."); //$NON-NLS-1$
 	}
-	
+
 	/**
 	 * @return {@link EventAdmin}
 	 */
@@ -128,10 +151,10 @@ public class ControllerManager {
 	/**
 	 * @param inUserAdmin
 	 */
-	public void setUserAdmin(UserAdmin inUserAdmin) {
+	public void setUserAdmin(final UserAdmin inUserAdmin) {
 		userAdmin = inUserAdmin == null ? new NoOpUserAdmin() : inUserAdmin;
 	}
-	
+
 	/**
 	 * @return {@link UserAdmin} the user admin instance
 	 */
@@ -139,16 +162,18 @@ public class ControllerManager {
 		return userAdmin;
 	}
 
-// ---
+	// ---
 
-	private static class BundleClassLoader	{
-		private String controllerName;
-		private Bundle bundle;
+	private static class BundleClassLoader {
+		private final transient String controllerName;
+		private transient Bundle bundle;
 
-		public BundleClassLoader(String inControllerName, Bundle inBundle) {
+		public BundleClassLoader(final String inControllerName,
+				final Bundle inBundle) {
 			controllerName = inControllerName;
 			bundle = inBundle;
 		}
+
 		/**
 		 * Uses the registered <code>Bundle</code> to load the controller.
 		 * 
@@ -157,20 +182,24 @@ public class ControllerManager {
 		 * @throws InstantiationException
 		 * @throws IllegalAccessException
 		 */
-		public IPluggable createLoader() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-			Class <?> lClass = bundle.loadClass(controllerName);
-			return (IPluggable)lClass.newInstance();
+		public IPluggable createLoader() throws ClassNotFoundException,
+				InstantiationException, IllegalAccessException {
+			final Class<?> lClass = bundle.loadClass(controllerName);
+			return (IPluggable) lClass.newInstance();
 		}
+
 		@Override
 		public String toString() {
 			return controllerName;
 		}
-		String getSymbolicName() {
+
+		protected String getSymbolicName() {
 			return bundle.getSymbolicName();
 		}
+
 		public void dispose() {
-			bundle = null;
+			bundle = null; // NOPMD by Luthiger on 09.09.12 23:46
 		}
 	}
-	
+
 }

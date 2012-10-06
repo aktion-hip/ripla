@@ -26,7 +26,7 @@ public class Messages extends AbstractMessages {
 	 */
 	@Override
 	protected ClassLoader getLoader() {
-		return getClass().getClassLoader();
+		return getClass().getClassLoader(); // NOPMD by Luthiger on 09.09.12 00:40
 	}
 
 	/* (non-Javadoc)

@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2012 RelationWare, Benno Luthiger
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* RelationWare, Benno Luthiger
-******************************************************************************/
+ * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 
 package org.ripla.demo.config.views;
 
@@ -26,25 +26,30 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * The view to configure the active skin for the application. 
+ * The view to configure the active skin for the application.
  * 
  * @author Luthiger
  */
 @SuppressWarnings("serial")
 public class SkinConfigurationView extends CustomComponent {
 
-	private ComboBox skinSelect;
+	private final ComboBox skinSelect;
 
 	/**
 	 * @param inSkinSelectController
 	 */
 	public SkinConfigurationView(final SkinSelectController inController) {
-		IMessages lMessages = Activator.getMessages();
-		VerticalLayout lLayout = new VerticalLayout();
+		super();
+
+		final IMessages lMessages = Activator.getMessages();
+		final VerticalLayout lLayout = new VerticalLayout();
 		setCompositionRoot(lLayout);
 		lLayout.setStyleName("demo-view"); //$NON-NLS-1$
-		lLayout.addComponent(new Label(String.format(RiplaViewHelper.TMPL_TITLE, "demo-pagetitle", lMessages.getMessage("config.skin.page.title")), Label.CONTENT_XHTML)); //$NON-NLS-1$ //$NON-NLS-2$
-		
+		lLayout.addComponent(new Label(
+				String.format(
+						RiplaViewHelper.TMPL_TITLE,
+						"demo-pagetitle", lMessages.getMessage("config.skin.page.title")), Label.CONTENT_XHTML)); //$NON-NLS-1$ //$NON-NLS-2$
+
 		skinSelect = new ComboBox(null, SkinConfigRegistry.INSTANCE.getSkins());
 		skinSelect.setNullSelectionAllowed(false);
 		skinSelect.setNewItemsAllowed(false);
@@ -52,27 +57,31 @@ public class SkinConfigurationView extends CustomComponent {
 		skinSelect.setWidth(200, UNITS_PIXELS);
 		skinSelect.focus();
 		lLayout.addComponent(skinSelect);
-		
-		Button lSave = new Button(lMessages.getMessage("config.view.button.save")); //$NON-NLS-1$
-		lSave.addListener(new Button.ClickListener() {			
+
+		final Button lSave = new Button(
+				lMessages.getMessage("config.view.button.save")); //$NON-NLS-1$
+		lSave.addListener(new Button.ClickListener() {
 			@Override
-			public void buttonClick(ClickEvent inEvent) {
-				inController.save((SkinBean)skinSelect.getValue(), getApplication());
+			public void buttonClick(final ClickEvent inEvent) {
+				inController.save((SkinBean) skinSelect.getValue(),
+						getApplication());
 			}
 		});
 		lLayout.addComponent(lSave);
 	}
 
-	private SkinBean getActive(String inSkinID) {
-		for (SkinBean lSkin : SkinConfigRegistry.INSTANCE.getSkins()) {
+	private SkinBean getActive(final String inSkinID) {
+		for (final SkinBean lSkin : SkinConfigRegistry.INSTANCE.getSkins()) {
 			if (inSkinID.equals(lSkin.getID())) {
 				return lSkin;
 			}
 		}
 		return null;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.vaadin.ui.AbstractComponentContainer#attach()
 	 */
 	@Override

@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2012 RelationWare, Benno Luthiger
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* RelationWare, Benno Luthiger
-******************************************************************************/
+ * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 
 package org.ripla.demo.widgets.data;
 
@@ -19,40 +19,40 @@ import java.text.NumberFormat;
  * 
  * @author Luthiger
  */
-public class CountryBean {
-	private static final NumberFormat FORMAT = new DecimalFormat("#,##0"); //$NON-NLS-1$
+public final class CountryBean { // NOPMD by Luthiger on 06.09.12 23:53
+	private static final NumberFormat FORMAT = new DecimalFormat("#,##0"); //$NON-NLS-1$ // NOPMD by Luthiger on 06.09.12 23:55
 	private static final String SEPARATOR = ";"; //$NON-NLS-1$
-	
-	private String pop2100;
-	private String pop2095;
-	private String pop2090;
-	private String pop2085;
-	private String pop2080;
-	private String pop2075;
-	private String pop2070;
-	private String pop2065;
-	private String pop2060;
-	private String pop2055;
-	private String pop2050;
-	private String pop2045;
-	private String pop2040;
-	private String pop2035;
-	private String pop2030;
-	private String pop2025;
-	private String pop2020;
-	private String pop2015;
-	private String pop2010;
-	private String pop2005;
-	private String pop2000;
-	private String pop1995;
-	private String pop1990;
-	private String sresRegion;
-	private String unRegion11;
-	private String name;
-	private String unCode;
-	
-	private CountryBean(String inLine) {
-		String[] lData = inLine.split(SEPARATOR);
+
+	private final transient String pop2100;
+	private final transient String pop2095;
+	private final transient String pop2090;
+	private final transient String pop2085;
+	private final transient String pop2080;
+	private final transient String pop2075;
+	private final transient String pop2070;
+	private final transient String pop2065;
+	private final transient String pop2060;
+	private final transient String pop2055;
+	private final transient String pop2050;
+	private final transient String pop2045;
+	private final transient String pop2040;
+	private final transient String pop2035;
+	private final transient String pop2030;
+	private final transient String pop2025;
+	private final transient String pop2020;
+	private final transient String pop2015;
+	private final transient String pop2010;
+	private final transient String pop2005;
+	private final transient String pop2000;
+	private final transient String pop1995;
+	private final transient String pop1990;
+	private final transient String sresRegion;
+	private final transient String unRegion11;
+	private final transient String name;
+	private final transient String unCode;
+
+	private CountryBean(final String inLine) {
+		final String[] lData = inLine.split(SEPARATOR);
 		unCode = lData[0];
 		name = lData[1];
 		unRegion11 = lData[2];
@@ -81,19 +81,20 @@ public class CountryBean {
 		pop2095 = format(lData[25]);
 		pop2100 = format(lData[26]);
 	}
-	
-	private String format(String inValue) {
-		long lValue = Long.parseLong(inValue);
+
+	private String format(final String inValue) {
+		final long lValue = Long.parseLong(inValue);
 		return FORMAT.format(lValue);
 	}
 
 	/**
 	 * Factory method
 	 * 
-	 * @param inLine String the input data, ';' separated 
+	 * @param inLine
+	 *            String the input data, ';' separated
 	 * @return {@link CountryBean}
 	 */
-	public static CountryBean createItem(String inLine) {
+	public static CountryBean createItem(final String inLine) {
 		return new CountryBean(inLine);
 	}
 
@@ -285,8 +286,10 @@ public class CountryBean {
 	public String getUnCode() {
 		return unCode;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

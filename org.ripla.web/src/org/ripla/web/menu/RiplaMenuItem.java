@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2012 RelationWare, Benno Luthiger
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* RelationWare, Benno Luthiger
-******************************************************************************/
+ * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 package org.ripla.web.menu;
 
 import java.util.Collections;
@@ -19,39 +19,43 @@ import org.ripla.web.interfaces.IMenuItem;
 /**
  * A menu item implementing the <code>IMenuItem</code> interface.<br />
  * This item implementation doesn't contain sub menus.
- *
+ * 
  * @author Luthiger
  * @see IMenuItem
  */
 public class RiplaMenuItem implements IMenuItem {
-	private String label;
-	private int position;
+	private transient String label;
+	private transient int position;
 	private String controllerName;
 	private String permission;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param inLabel String the label displayed on the menu
+	 * @param inLabel
+	 *            String the label displayed on the menu
 	 */
-	public RiplaMenuItem(String inLabel) {
+	public RiplaMenuItem(final String inLabel) {
 		this(inLabel, 0);
 	}
-	
+
 	/**
 	 * Constructor
 	 * 
-	 * @param inLabel String the label displayed on the menu
-	 * @param inPosition int the menu's position
+	 * @param inLabel
+	 *            String the label displayed on the menu
+	 * @param inPosition
+	 *            int the menu's position
 	 */
-	public RiplaMenuItem(String inLabel, int inPosition) {
+	public RiplaMenuItem(final String inLabel, final int inPosition) {
 		label = inLabel;
 		position = inPosition;
 	}
-	
+
 	/**
 	 * @return String caption in Vaadin menu
 	 */
+	@Override
 	public String getLabel() {
 		return label;
 	}
@@ -59,20 +63,29 @@ public class RiplaMenuItem implements IMenuItem {
 	/**
 	 * @return int position in Vaadin menu bar.
 	 */
+	@Override
 	public int getPosition() {
 		return position;
 	}
-	
+
 	/**
-	 * Sets the fully qualified name of the controller to be executed when the menu item is clicked.<br />
-	 * Use <pre>UseCaseHelper.createFullyQualifiedControllerName(MyController.class)</pre> for a consistent naming.
+	 * Sets the fully qualified name of the controller to be executed when the
+	 * menu item is clicked.<br />
+	 * Use
 	 * 
-	 * @param inControllerName String
+	 * <pre>
+	 * UseCaseHelper.createFullyQualifiedControllerName(MyController.class)
+	 * </pre>
+	 * 
+	 * for a consistent naming.
+	 * 
+	 * @param inControllerName
+	 *            String
 	 */
-	public void setControllerName(String inControllerName) {
+	public void setControllerName(final String inControllerName) {
 		controllerName = inControllerName;
 	}
-	
+
 	@Override
 	public String getControllerName() {
 		return controllerName;
@@ -80,6 +93,7 @@ public class RiplaMenuItem implements IMenuItem {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.interfaces.IMenuCommand#getMenuCommand()
 	 */
 	public IMenuCommand getMenuCommand() {
@@ -90,16 +104,18 @@ public class RiplaMenuItem implements IMenuItem {
 			}
 		};
 	}
-	
+
 	/**
-	 * Sets the permission the user needs for that the menu item becomes visible (and selectable).
+	 * Sets the permission the user needs for that the menu item becomes visible
+	 * (and selectable).
 	 * 
-	 * @param inPermission String
+	 * @param inPermission
+	 *            String
 	 */
-	public void setPermission(String inPermission) {
+	public void setPermission(final String inPermission) {
 		permission = inPermission;
 	}
-	
+
 	@Override
 	public String getPermission() {
 		return permission == null ? "" : permission; //$NON-NLS-1$

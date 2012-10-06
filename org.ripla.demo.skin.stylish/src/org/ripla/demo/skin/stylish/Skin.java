@@ -17,36 +17,39 @@ import com.vaadin.ui.Label;
  */
 public class Skin implements ISkin {
 	public static final String SKIN_ID = "org.ripla.demo.skin.stylish";
-	
-	private HorizontalLayout menuBarComponent;
-	private HorizontalLayout menuBarLayout;
-	
+
+	private final transient HorizontalLayout menuBarComponent;
+	private final transient HorizontalLayout menuBarLayout;
+
 	public Skin() {
 		menuBarLayout = new HorizontalLayout();
 		menuBarLayout.setWidth("100%"); //$NON-NLS-1$
 		menuBarLayout.setHeight(45, Sizeable.UNITS_PIXELS);
 		menuBarLayout.setStyleName("stylish-menubar");
-		
+
 		menuBarComponent = new HorizontalLayout();
 		menuBarComponent.setStyleName("ripla-menubar"); //$NON-NLS-1$
 		menuBarComponent.setWidth("100%"); //$NON-NLS-1$
 		menuBarComponent.setHeight(45, Sizeable.UNITS_PIXELS);
-		
+
 		menuBarComponent.addComponent(createMargin("stylish-menubar-left", 6));
 		menuBarComponent.addComponent(menuBarLayout);
 		menuBarComponent.setExpandRatio(menuBarLayout, 1);
-		menuBarComponent.addComponent(createMargin("stylish-menubar-right", 11));
+		menuBarComponent
+				.addComponent(createMargin("stylish-menubar-right", 11));
 	}
-	
-	private Label createMargin(String inStyle, int inWidth) {
-		Label out = new Label("&#160;", Label.CONTENT_XHTML);
+
+	private Label createMargin(final String inStyle, final int inWidth) {
+		final Label out = new Label("&#160;", Label.CONTENT_XHTML);
 		out.setStyleName(inStyle);
 		out.setWidth(inWidth, Sizeable.UNITS_PIXELS);
 		out.setHeight(45, Sizeable.UNITS_PIXELS);
 		return out;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.services.ISkin#getSkinID()
 	 */
 	@Override
@@ -54,7 +57,9 @@ public class Skin implements ISkin {
 		return SKIN_ID;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.services.ISkin#getSkinName()
 	 */
 	@Override
@@ -62,25 +67,30 @@ public class Skin implements ISkin {
 		return "Stylish Demo Skin (Runo)";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.services.ISkin#hasHeader()
 	 */
 	@Override
 	public boolean hasHeader() {
 		return true;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.services.ISkin#getHeader()
 	 */
 	@Override
 	public Component getHeader() {
-		HorizontalLayout out = new HorizontalLayout();
+		final HorizontalLayout out = new HorizontalLayout();
 		out.setStyleName("demo-header"); //$NON-NLS-1$
 		out.setWidth("100%"); //$NON-NLS-1$
 		out.setHeight(50, Sizeable.UNITS_PIXELS);
-		
-		Label lTitle = LabelHelper.createLabel("Ripla Demo [with stylish skin]", "demo-header-text");
+
+		final Label lTitle = LabelHelper.createLabel(
+				"Ripla Demo [with stylish skin]", "demo-header-text");
 		lTitle.setSizeUndefined();
 		out.addComponent(lTitle);
 		out.setComponentAlignment(lTitle, Alignment.MIDDLE_CENTER);
@@ -88,26 +98,33 @@ public class Skin implements ISkin {
 		return out;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.services.ISkin#hasFooter()
 	 */
 	@Override
 	public boolean hasFooter() {
 		return true;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.services.ISkin#getFooter()
 	 */
 	@Override
 	public Component getFooter() {
-		FooterHelper out = FooterHelper.createFooter(FooterHelper.DFT_FOOTER_TEXT);
+		final FooterHelper out = FooterHelper
+				.createFooter(FooterHelper.DFT_FOOTER_TEXT);
 		out.setHeight(19);
 		out.setStyleName("demo-footer");
 		return out;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.services.ISkin#hasToolBar()
 	 */
 	@Override
@@ -115,7 +132,9 @@ public class Skin implements ISkin {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.services.ISkin#hatMenuBar()
 	 */
 	@Override
@@ -123,17 +142,21 @@ public class Skin implements ISkin {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.services.ISkin#getToolbarSeparator()
 	 */
 	@Override
 	public Label getToolbarSeparator() {
-		Label outSeparator = new Label("|", Label.CONTENT_XHTML); //$NON-NLS-1$
+		final Label outSeparator = new Label("|", Label.CONTENT_XHTML); //$NON-NLS-1$
 		outSeparator.setSizeUndefined();
 		return outSeparator;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.services.ISkin#getMenuBarLayout()
 	 */
 	@Override
@@ -141,7 +164,9 @@ public class Skin implements ISkin {
 		return menuBarLayout;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.services.ISkin#getMenuBarComponent()
 	 */
 	@Override

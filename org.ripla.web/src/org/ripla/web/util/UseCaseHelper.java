@@ -15,7 +15,7 @@
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 
 package org.ripla.web.util;
 
@@ -32,49 +32,69 @@ import org.ripla.web.interfaces.IPluggable;
  * 
  * @author Luthiger
  */
-public class UseCaseHelper {
+public final class UseCaseHelper {
 	public static final IControllerSet EMPTY_CONTROLLER_SET = new EmptyControllerSet();
 	public static final IMenuSet[] EMPTY_CONTEXT_MENU_SET = new IMenuSet[] {};
-	
+
+	private UseCaseHelper() {
+	}
+
 	/**
-	 * Convenience method to create the fully qualified controller name in a consistent way.
+	 * Convenience method to create the fully qualified controller name in a
+	 * consistent way.
 	 * 
-	 * @param inController Class an instance of the controller class in the calling bundle, must extend <code>IPluggable</code>
+	 * @param inController
+	 *            Class an instance of the controller class in the calling
+	 *            bundle, must extend <code>IPluggable</code>
 	 * @return String the fully qualified name of the controller.
 	 */
-	public static String createFullyQualifiedControllerName(Class<? extends IPluggable> inController) {
-		return createFullyQualifiedControllerName(FrameworkUtil.getBundle(inController), inController.getName());
+	public static String createFullyQualifiedControllerName(
+			final Class<? extends IPluggable> inController) {
+		return createFullyQualifiedControllerName(
+				FrameworkUtil.getBundle(inController), inController.getName());
 	}
 
 	/**
-	 * Convenience method to create the fully qualified controller name in a consistent way.
+	 * Convenience method to create the fully qualified controller name in a
+	 * consistent way.
 	 * 
-	 * @param inBundle {@link Bundle} the bundle that provides the controller
-	 * @param inControllerName String the unqualified controller name
+	 * @param inBundle
+	 *            {@link Bundle} the bundle that provides the controller
+	 * @param inControllerName
+	 *            String the unqualified controller name
 	 * @return String the fully qualified name of the controller
 	 */
-	public static String createFullyQualifiedControllerName(Bundle inBundle, String inControllerName) {
-		return String.format(Constants.CONTROLLER_PATTERN, inBundle.getSymbolicName(), inControllerName);
-	}
-	
-	/**
-	 * Convenience method to create an id in the namespace of the bundle that provides (i.e. defines) the element.
-	 * 
-	 * @param inID String the ID to qualify
-	 * @param inClass Class an arbitrary class from the bundle (used to retrieve the bundle context)
-	 * @return String the ID prefixed with the bundle name, i.e. <code>the.bundle.name/ID</code>
-	 */
-	public static String createFullyQualifiedID(String inID, Class<?> inClass) {
-		return String.format(Constants.CONTROLLER_PATTERN, FrameworkUtil.getBundle(inClass).getSymbolicName(), inID);
+	public static String createFullyQualifiedControllerName(
+			final Bundle inBundle, final String inControllerName) {
+		return String.format(Constants.CONTROLLER_PATTERN,
+				inBundle.getSymbolicName(), inControllerName);
 	}
 
-// --- private classes ---
-	
+	/**
+	 * Convenience method to create an id in the namespace of the bundle that
+	 * provides (i.e. defines) the element.
+	 * 
+	 * @param inID
+	 *            String the ID to qualify
+	 * @param inClass
+	 *            Class an arbitrary class from the bundle (used to retrieve the
+	 *            bundle context)
+	 * @return String the ID prefixed with the bundle name, i.e.
+	 *         <code>the.bundle.name/ID</code>
+	 */
+	public static String createFullyQualifiedID(final String inID,
+			final Class<?> inClass) {
+		return String.format(Constants.CONTROLLER_PATTERN, FrameworkUtil
+				.getBundle(inClass).getSymbolicName(), inID);
+	}
+
+	// --- private classes ---
+
 	private static class EmptyControllerSet implements IControllerSet {
 		@Override
 		public IControllerConfiguration[] getControllerConfigurations() {
 			return new IControllerConfiguration[] {};
 		}
 	}
-	
+
 }

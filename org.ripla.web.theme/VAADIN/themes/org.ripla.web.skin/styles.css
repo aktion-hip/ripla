@@ -16,6 +16,7 @@
 
 .ripla-menubar {
     background-color:#C9E574;
+    background-image: url(./images/menubar.png);
 }
 
 .ripla-menubar .ripla-menu {
@@ -40,10 +41,6 @@
 }
 
 .ripla-sidebar {
-    background-image: url(./images/sidebar.png);
-}
-
-.ripla-sidebar-text {
     background-image: url(./images/sidebar.png);
 }
 

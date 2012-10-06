@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2012 RelationWare, Benno Luthiger
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* RelationWare, Benno Luthiger
-******************************************************************************/
+ * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 
 package org.ripla.web.internal.services;
 
@@ -21,18 +21,19 @@ import org.ripla.web.services.IToolbarItem;
 
 /**
  * The toolbar helper class to manage toolbar items.
- *
+ * 
  * @author Luthiger
  */
-public class ToolbarItemRegistry {
-	private List<IToolbarItem> toolbarItems = Collections.synchronizedList(new ArrayList<IToolbarItem>());
+public final class ToolbarItemRegistry {
+	private final transient List<IToolbarItem> toolbarItems = Collections
+			.synchronizedList(new ArrayList<IToolbarItem>());
 
-	public void registerToolbarItem(IToolbarItem inItem) {
+	public void registerToolbarItem(final IToolbarItem inItem) {
 		toolbarItems.add(inItem);
 	}
 
-	public void unregisterToolbarItem(IToolbarItem inItem) {
-		toolbarItems.remove(inItem);		
+	public void unregisterToolbarItem(final IToolbarItem inItem) {
+		toolbarItems.remove(inItem);
 	}
 
 	/**
@@ -42,12 +43,13 @@ public class ToolbarItemRegistry {
 		Collections.sort(toolbarItems, new ItemComparator());
 		return toolbarItems;
 	}
-	
+
 	private static class ItemComparator implements Comparator<IToolbarItem> {
 		@Override
-		public int compare(IToolbarItem inItem1, IToolbarItem inItem2) {
+		public int compare(final IToolbarItem inItem1,
+				final IToolbarItem inItem2) {
 			return inItem2.getPosition() - inItem1.getPosition();
 		}
 	}
-	
+
 }

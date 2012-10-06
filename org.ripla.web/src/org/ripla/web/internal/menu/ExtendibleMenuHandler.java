@@ -1,38 +1,41 @@
 /*******************************************************************************
-* Copyright (c) 2012 RelationWare, Benno Luthiger
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* RelationWare, Benno Luthiger
-******************************************************************************/
+ * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 package org.ripla.web.internal.menu;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Vector;
 
 import org.ripla.web.interfaces.IMenuExtendible;
 import org.ripla.web.services.IExtendibleMenuContribution;
 
 /**
- * Helper class for handling extendible menus (i.e. <code>IVIFMenuExtendible</code>) and their contributions.<br />
- * This class contains all contributions for the same menu, identified by <code>IExtendibleMenuContribution.getExtendibleMenuID()</code>.
+ * Helper class for handling extendible menus (i.e. <code>IMenuExtendible</code>
+ * ) and their contributions.<br />
+ * This class contains all contributions for the same menu, identified by
+ * <code>IExtendibleMenuContribution.getExtendibleMenuID()</code>.
  * 
  * @author Luthiger
- * Created: 29.10.2011
- * @see IVIFMenuExtendible
+ * @see IMenuExtendible
  */
-public class ExtendibleMenuHandler {
-	private Collection<IExtendibleMenuContribution> contributions = new Vector<IExtendibleMenuContribution>();
-	
+public final class ExtendibleMenuHandler {
+	private final transient Collection<IExtendibleMenuContribution> contributions = new ArrayList<IExtendibleMenuContribution>();
+
 	/**
-	 * Constructor 
+	 * Constructor
 	 * 
-	 * @param inContribution {@link IExtendibleMenuContribution}
+	 * @param inContribution
+	 *            {@link IExtendibleMenuContribution}
 	 */
-	public ExtendibleMenuHandler(IExtendibleMenuContribution inContribution) {
+	public ExtendibleMenuHandler(
+			final IExtendibleMenuContribution inContribution) {
 		contributions.add(inContribution);
 	}
 
@@ -41,21 +44,25 @@ public class ExtendibleMenuHandler {
 	 * 
 	 * @return {@link MenuFactory}
 	 */
-	public MenuFactory getMenuFactory(IMenuExtendible inExtendibleMenu) {
+	public MenuFactory getMenuFactory(final IMenuExtendible inExtendibleMenu) {
 		return new ExtendibleMenuFactory(inExtendibleMenu, contributions);
 	}
 
 	/**
-	 * @param inContribution {@link IExtendibleMenuContribution} adds the menu contribution
+	 * @param inContribution
+	 *            {@link IExtendibleMenuContribution} adds the menu contribution
 	 */
-	public void addContribution(IExtendibleMenuContribution inContribution) {
-		contributions.add(inContribution);		
+	public void addContribution(final IExtendibleMenuContribution inContribution) {
+		contributions.add(inContribution);
 	}
 
 	/**
-	 * @param inContribution {@link IExtendibleMenuContribution} removes the menu contribution
+	 * @param inContribution
+	 *            {@link IExtendibleMenuContribution} removes the menu
+	 *            contribution
 	 */
-	public void removeContribution(IExtendibleMenuContribution inContribution) {
+	public void removeContribution(
+			final IExtendibleMenuContribution inContribution) {
 		contributions.remove(inContribution);
 	}
 

@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2012 RelationWare, Benno Luthiger
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* RelationWare, Benno Luthiger
-******************************************************************************/
+ * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 
 package org.ripla.demo.widgets.controllers;
 
@@ -29,7 +29,9 @@ import com.vaadin.ui.Component;
 @UseCaseController
 public class FormController extends AbstractController {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.controllers.AbstractController#needsPermission()
 	 */
 	@Override
@@ -37,13 +39,15 @@ public class FormController extends AbstractController {
 		return Constants.PERMISSION_FORM;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.controllers.AbstractController#runChecked()
 	 */
 	@Override
 	protected Component runChecked() throws RiplaException {
 		loadContextMenu(Constants.CONTEXT_MENU_SET_WIDGETS);
-		
+
 		return new FormView(this);
 	}
 
@@ -62,30 +66,44 @@ public class FormController extends AbstractController {
 	 * @param inWorkArea
 	 * @return String feedback
 	 */
-	public String save(String inGender, String inName, String inFirstName,
-			String inStreet, String inPostal, String inCity, String inMail,
-			String inAge, String inEducation, String inWorkArea) {
+	public String save(final String inGender, final String inName, // NOPMD by Luthiger on 06.09.12 23:52
+			final String inFirstName, final String inStreet,
+			final String inPostal, final String inCity, final String inMail,
+			final String inAge, final String inEducation,
+			final String inWorkArea) {
 		// nothing saved in this demo
-		IMessages lMessages = Activator.getMessages();
-		StringBuilder outFeedback = new StringBuilder();
+		final IMessages lMessages = Activator.getMessages();
+		final StringBuilder outFeedback = new StringBuilder();
 		outFeedback.append("<ul>");
-		appendChecked(outFeedback, inGender, lMessages.getMessage("widgets.view.form.gender"));
-		appendChecked(outFeedback, inName, lMessages.getMessage("widgets.view.form.name"));
-		appendChecked(outFeedback, inFirstName, lMessages.getMessage("widgets.view.form.firstname"));
-		appendChecked(outFeedback, inStreet, lMessages.getMessage("widgets.view.form.street"));
-		appendChecked(outFeedback, inPostal, lMessages.getMessage("widgets.view.form.city"));
-		appendChecked(outFeedback, inCity, lMessages.getMessage("widgets.view.form.city"));
-		appendChecked(outFeedback, inMail, lMessages.getMessage("widgets.view.form.mail"));
-		appendChecked(outFeedback, inAge, lMessages.getMessage("widgets.view.form.age"));
-		appendChecked(outFeedback, inEducation, lMessages.getMessage("widgets.view.form.education"));
-		appendChecked(outFeedback, inWorkArea, lMessages.getMessage("widgets.view.form.workarea"));
+		appendChecked(outFeedback, inGender,
+				lMessages.getMessage("widgets.view.form.gender"));
+		appendChecked(outFeedback, inName,
+				lMessages.getMessage("widgets.view.form.name"));
+		appendChecked(outFeedback, inFirstName,
+				lMessages.getMessage("widgets.view.form.firstname"));
+		appendChecked(outFeedback, inStreet,
+				lMessages.getMessage("widgets.view.form.street"));
+		appendChecked(outFeedback, inPostal,
+				lMessages.getMessage("widgets.view.form.city"));
+		appendChecked(outFeedback, inCity,
+				lMessages.getMessage("widgets.view.form.city"));
+		appendChecked(outFeedback, inMail,
+				lMessages.getMessage("widgets.view.form.mail"));
+		appendChecked(outFeedback, inAge,
+				lMessages.getMessage("widgets.view.form.age"));
+		appendChecked(outFeedback, inEducation,
+				lMessages.getMessage("widgets.view.form.education"));
+		appendChecked(outFeedback, inWorkArea,
+				lMessages.getMessage("widgets.view.form.workarea"));
 		outFeedback.append("</ul>");
 		return new String(outFeedback);
 	}
-	
-	private void appendChecked(StringBuilder inFeedback, String inValue, String inLabel) {
+
+	private void appendChecked(final StringBuilder inFeedback,
+			final String inValue, final String inLabel) {
 		if (inValue != null && !inValue.isEmpty()) {
-			inFeedback.append("<li><b>").append(inLabel).append("</b>:").append(inValue).append("</li>");
+			inFeedback.append("<li><b>").append(inLabel).append("</b>:")
+					.append(inValue).append("</li>");
 		}
 	}
 

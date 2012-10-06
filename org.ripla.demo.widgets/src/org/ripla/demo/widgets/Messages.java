@@ -10,15 +10,20 @@ import org.ripla.web.util.AbstractMessages;
 public class Messages extends AbstractMessages {
 	private static final String BASE_NAME = "messages"; //$NON-NLS-1$
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.util.AbstractMessages#getLoader()
 	 */
 	@Override
 	protected ClassLoader getLoader() {
-		return getClass().getClassLoader();
+		return getClass().getClassLoader(); // NOPMD by Luthiger on 06.09.12
+											// 23:26
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.util.AbstractMessages#getBaseName()
 	 */
 	@Override

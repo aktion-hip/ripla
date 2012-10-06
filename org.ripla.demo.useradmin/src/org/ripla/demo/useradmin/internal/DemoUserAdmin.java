@@ -24,7 +24,7 @@ public class DemoUserAdmin extends RiplaUserAdmin implements UserAdmin {
 	/**
 	 * @throws Exception
 	 */
-	public DemoUserAdmin() throws Exception {
+	public DemoUserAdmin() throws Exception { // NOPMD by Luthiger on 06.09.12 23:50
 		super();
 	}
 

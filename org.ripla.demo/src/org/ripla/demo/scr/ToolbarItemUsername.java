@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2012 RelationWare, Benno Luthiger
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* RelationWare, Benno Luthiger
-******************************************************************************/
+ * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 
 package org.ripla.demo.scr;
 
@@ -23,38 +23,46 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 
 /**
- * A provider for the <code>IToolbarItem</code> service.
- * This toolbar item displays the user's name.
+ * A provider for the <code>IToolbarItem</code> service. This toolbar item
+ * displays the user's name.
  * 
  * @author Luthiger
  */
 public class ToolbarItemUsername implements IToolbarItem {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.services.IToolbarItem#getComponent()
 	 */
 	@Override
 	public Component getComponent() {
 		return null;
 	}
-	
+
+	@Override
 	public IToolbarItemCreator getCreator() {
 		return new IToolbarItemCreator() {
 			@Override
-			public Component createToolbarItem(RiplaApplication inApplication, User inUser) {
+			public Component createToolbarItem(
+					final RiplaApplication inApplication, final User inUser) {
 				if (inUser == null) {
 					return null;
 				}
-				
-				HorizontalLayout out = new HorizontalLayout();
+
+				final HorizontalLayout out = new HorizontalLayout();
 				out.setSizeUndefined();
-				out.addComponent(new Label(Activator.getMessages().getFormattedMessage("toolbar.username.label", inUser.getName())));
+				out.addComponent(new Label(Activator.getMessages()
+						.getFormattedMessage("toolbar.username.label",
+								inUser.getName())));
 				return out;
-			}			
+			}
 		};
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.services.IToolbarItem#getPosition()
 	 */
 	@Override
@@ -62,11 +70,16 @@ public class ToolbarItemUsername implements IToolbarItem {
 		return 5;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ripla.web.services.IToolbarItem#registerToolbarActionListener(org.ripla.web.interfaces.IToolbarActionListener)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.ripla.web.services.IToolbarItem#registerToolbarActionListener(org
+	 * .ripla.web.interfaces.IToolbarActionListener)
 	 */
 	@Override
-	public void registerToolbarActionListener(IToolbarActionListener inListener) {
+	public void registerToolbarActionListener(
+			final IToolbarActionListener inListener) {
 		// this item has no action
 	}
 

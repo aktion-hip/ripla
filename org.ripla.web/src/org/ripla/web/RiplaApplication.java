@@ -1,15 +1,15 @@
 /*******************************************************************************
-* Copyright (c) 2012 RelationWare, Benno Luthiger
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* RelationWare, Benno Luthiger
-******************************************************************************/
+ * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 
-package org.ripla.web;
+package org.ripla.web; // NOPMD by Luthiger on 09.09.12 00:42
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,65 +50,76 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 
 /**
- * <p>The base class of all web applications using the Ripla platform.</p>
- * <p>Subclasses should override the method {@link #RiplaApplication.createWindow()}.
+ * <p>
+ * The base class of all web applications using the Ripla platform.
  * </p>
- * <p>Subclasses may override the following methods:<br />
+ * <p>
+ * Subclasses should override the method
+ * {@link #RiplaApplication.createWindow()}.
+ * </p>
+ * <p>
+ * Subclasses may override the following methods:<br />
  * <ul>
  * <li>{@link #getAppConfiguration()}</li>
  * <li>{@link #createBodyView(ISkin)}</li>
  * <li>{@link #createPreferencesHelper()}</li>
  * <li>{@link #beforeLogin()}</li>
  * <li>{@link #workflowExit()}</li>
+ * <li>{@link #initializePermissions()}</li>
  * </ul>
- * </p> 
- *
+ * </p>
+ * 
  * @author Luthiger
  */
 @SuppressWarnings("serial")
-public class RiplaApplication extends Application implements EventHandler, HttpServletRequestListener, IWorkflowListener {
-	private static final Logger LOG = LoggerFactory.getLogger(RiplaApplication.class);
-	
-	private PreferencesHelper preferences = createPreferencesHelper();
-	private SkinRegistry skinRegistry = new SkinRegistry(preferences);
-	private ToolbarItemRegistry toolbarRegistry = new ToolbarItemRegistry();
-	private UseCaseManager useCaseHelper = new UseCaseManager();
-	private RiplaEventHandler eventHandler = new RiplaEventHandler();
-	private PermissionHelper permissionHelper = new PermissionHelper();
-	
-	private String requestURL;	
+public class RiplaApplication extends Application implements EventHandler,
+		HttpServletRequestListener, IWorkflowListener { // NOPMD by Luthiger
+	private static final Logger LOG = LoggerFactory
+			.getLogger(RiplaApplication.class);
+
+	private final PreferencesHelper preferences = createPreferencesHelper();
+	private final SkinRegistry skinRegistry = new SkinRegistry(preferences);
+	private final ToolbarItemRegistry toolbarRegistry = new ToolbarItemRegistry();
+	private final UseCaseManager useCaseHelper = new UseCaseManager();
+	private final RiplaEventHandler eventHandler = new RiplaEventHandler();
+	private final PermissionHelper permissionHelper = new PermissionHelper();
+
+	private String requestURL;
 	private RequestHandler requestHandler;
 	private Layout bodyView;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.vaadin.Application#init()
 	 */
 	@Override
 	public final void init() {
 		ApplicationData.create(this);
-		
-		//synchronize language settings
+
+		// synchronize language settings
 		ApplicationData.initLocale(preferences.getLocale(getLocale()));
-		
-		Window lWindow = createWindow();
+
+		final Window lWindow = createWindow();
 		ApplicationData.setWindow(lWindow);
 		ApplicationData.setPreferences(preferences);
-		
+
 		useCaseHelper.registerContextMenus();
 		if (!initializeLayout(lWindow, getAppConfiguration())) {
 			return;
 		}
 	}
-	
+
 	/**
-	 * Subclasses may override to provide their own <code>PreferencesHelper</code>.
+	 * Subclasses may override to provide their own
+	 * <code>PreferencesHelper</code>.
 	 * 
 	 * @return PreferencesHelper
 	 */
 	protected PreferencesHelper createPreferencesHelper() {
 		return new PreferencesHelper();
 	}
-	
+
 	/**
 	 * Returns the configuration object to configure the application.<br />
 	 * Subclasses may override.
@@ -121,10 +132,12 @@ public class RiplaApplication extends Application implements EventHandler, HttpS
 			public String getWelcome() {
 				return null;
 			}
+
 			@Override
 			public String getDftSkinID() {
 				return SkinRegistry.DFT_SKIN_ID;
 			}
+
 			@Override
 			public IAuthenticator getLoginAuthenticator() {
 				return null;
@@ -132,87 +145,89 @@ public class RiplaApplication extends Application implements EventHandler, HttpS
 		};
 	}
 
-	private boolean initializeLayout(Window inMain, IAppConfiguration inConfiguration) {
+	private boolean initializeLayout(final Window inMain,
+			final IAppConfiguration inConfiguration) {
 		inMain.setStyleName("ripla-window"); //$NON-NLS-1$
-		inMain.addListener(new Window.CloseListener() {			
+		inMain.addListener(new Window.CloseListener() {
 			@Override
-			public void windowClose(CloseEvent inEvent) {
+			public void windowClose(final CloseEvent inEvent) {
 				close();
 			}
 		});
-		
+
 		requestHandler = setRequestHandler(inMain);
 		skinRegistry.setDefaultSkin(inConfiguration.getDftSkinID());
-		ISkin lSkin = skinRegistry.getActiveSkin();
+		final ISkin lSkin = skinRegistry.getActiveSkin();
 
 		setTheme(lSkin.getSkinID());
 		inMain.getContent().setSizeFull();
 
-		VerticalLayout lLayout = new VerticalLayout();
+		final VerticalLayout lLayout = new VerticalLayout();
 		lLayout.setSizeFull();
 		lLayout.setStyleName("ripla-main");
 		getMainWindow().setContent(lLayout);
-		
-		if (lSkin.hasHeader()) {
-			Component lHeader = lSkin.getHeader();
-			lLayout.addComponent(lHeader);
-			lLayout.setExpandRatio(lHeader, 0);
-		}
-		
+
 		bodyView = createBody();
 		lLayout.addComponent(bodyView);
 		lLayout.setExpandRatio(bodyView, 1);
-		
+
 		if (!beforeLogin(inMain, this)) {
 			return false;
 		}
-		
-		if (inConfiguration.getLoginAuthenticator() != null) {
+
+		if (inConfiguration.getLoginAuthenticator() == null) {
+			bodyView.addComponent(createBodyView(lSkin));
+		} else {
 			bodyView.addComponent(createLoginView(inConfiguration));
 		}
-		else {
-			bodyView.addComponent(createBodyView(lSkin));
-		}
-		
+
 		if (lSkin.hasFooter()) {
-			Component lFooter = lSkin.getFooter();
+			final Component lFooter = lSkin.getFooter();
 			lLayout.addComponent(lFooter);
 			lLayout.setExpandRatio(lFooter, 0);
 		}
 		return true;
 	}
-	
+
 	/**
-	 * Callback method to display the application's views after the user has successfully logged in.
+	 * Callback method to display the application's views after the user has
+	 * successfully logged in.
 	 * 
-	 * @param inUser {@link User} the user instance
+	 * @param inUser
+	 *            {@link User} the user instance
 	 */
-	public void showAfterLogin(User inUser) {
+	public void showAfterLogin(final User inUser) {
 		ApplicationData.setUser(inUser);
 		refreshBody();
 	}
-	
+
 	/**
-	 * Hook for application configuration.
+	 * Hook for application configuration.<br />
+	 * Subclasses may override to plug in a configuration workflow.
 	 * 
-	 * @param inMain {@link Window} the application's main window
-	 * @param inWorkflowListener {@link IWorkflowListener} the listener of the application workflow configuration
-	 * @return boolean <code>true</code> in case of no there's no need of application configuration and, therefore, 
-	 * the startup process can continue, <code>false</code> if the startup is handed over to the 
-	 * application configuration workflow.
+	 * @param inMain
+	 *            {@link Window} the application's main window
+	 * @param inWorkflowListener
+	 *            {@link IWorkflowListener} the listener of the application
+	 *            workflow configuration
+	 * @return boolean <code>true</code> in case there's no need of application
+	 *         configuration and, therefore, the startup process can continue,
+	 *         <code>false</code> if the startup is handed over to the
+	 *         application configuration workflow.
 	 */
-	protected boolean beforeLogin(Window inMain, IWorkflowListener inWorkflowListener) {
+	protected boolean beforeLogin(final Window inMain,
+			final IWorkflowListener inWorkflowListener) {
 		return true;
 	}
 
-	private RequestHandler setRequestHandler(Window inMain) {
-		RequestHandler out = new RequestHandler(requestURL, useCaseHelper);
+	private RequestHandler setRequestHandler(final Window inMain) {
+		final RequestHandler out = new RequestHandler(requestURL, useCaseHelper);
 		inMain.addParameterHandler(out);
 		return out;
 	}
-	
+
 	private Layout createBody() {
-		Layout outBody = new VerticalLayout();
+		final Layout outBody = new VerticalLayout();
 		outBody.setStyleName("ripla-body");
 		outBody.setSizeFull();
 		return outBody;
@@ -221,37 +236,48 @@ public class RiplaApplication extends Application implements EventHandler, HttpS
 	/**
 	 * Refreshes the body component.
 	 */
-	public void refreshBody() {
+	public final void refreshBody() {
 		bodyView.removeAllComponents();
 		bodyView.addComponent(createBodyView(skinRegistry.getActiveSkin()));
 	}
-	
+
 	/**
 	 * Creates the application's body view.<br />
-	 * Subclasses may override.
+	 * Subclasses may override to provide their own body views.
+	 * <p>
+	 * This implementation creates an instance of {@link RiplaBody}, notifies
+	 * the event handler about the new body component, calls the request handler
+	 * for that a requested view can be displayed in the main view and then
+	 * passes the new view back to the application.
+	 * </p>
 	 * 
-	 * @param inSkin {@link ISkin} the actual application skin
+	 * @param inSkin
+	 *            {@link ISkin} the actual application skin
 	 * @return {@link Component} the application's body view
 	 */
-	protected Component createBodyView(ISkin inSkin) {
-		RiplaBody out = new RiplaBody(inSkin, toolbarRegistry, useCaseHelper, this);
+	protected Component createBodyView(final ISkin inSkin) {
+		final RiplaBody out = RiplaBody.createInstance(inSkin, toolbarRegistry,
+				useCaseHelper, this);
 		eventHandler.setBodyComponent(out);
-		
+
 		if (!requestHandler.process(out)) {
 			out.showDefault();
 		}
 		return out;
 	}
-	
+
 	/**
 	 * Creates the application's login view.<br />
 	 * Subclasses may override.
 	 * 
-	 * @param inConfiguration {@link IAppConfiguration} the application's configuration object
+	 * @param inConfiguration
+	 *            {@link IAppConfiguration} the application's configuration
+	 *            object
 	 * @return {@link Component} the application's login view
 	 */
-	private Component createLoginView(IAppConfiguration inConfiguration) {
-		RiplaLogin out = new RiplaLogin(inConfiguration, this, useCaseHelper.getUserAdmin());
+	private Component createLoginView(final IAppConfiguration inConfiguration) {
+		final RiplaLogin out = new RiplaLogin(inConfiguration, this,
+				useCaseHelper.getUserAdmin());
 		return out;
 	}
 
@@ -262,45 +288,62 @@ public class RiplaApplication extends Application implements EventHandler, HttpS
 	 * @return {@link Window} the application's main window
 	 */
 	protected Window createWindow() {
-		Window outWindow = new Window("Ripla");
+		final Window outWindow = new Window("Ripla");
 		setMainWindow(outWindow);
 		return outWindow;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.osgi.service.event.EventHandler#handleEvent(org.osgi.service.event.Event)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.osgi.service.event.EventHandler#handleEvent(org.osgi.service.event
+	 * .Event)
 	 */
 	@Override
-	public void handleEvent(Event inEvent) {
+	public final void handleEvent(final Event inEvent) {
 		eventHandler.handleEvent(inEvent);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.vaadin.terminal.gwt.server.HttpServletRequestListener#onRequestStart(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 * 
+	 * @see
+	 * com.vaadin.terminal.gwt.server.HttpServletRequestListener#onRequestStart
+	 * (javax.servlet.http.HttpServletRequest,
+	 * javax.servlet.http.HttpServletResponse)
 	 */
-	public void onRequestStart(HttpServletRequest inRequest, HttpServletResponse inResponse) {
+	@Override
+	public void onRequestStart(final HttpServletRequest inRequest,
+			final HttpServletResponse inResponse) {
 		requestURL = new String(inRequest.getRequestURL());
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see com.vaadin.terminal.gwt.server.HttpServletRequestListener#onRequestEnd(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 * 
+	 * @see
+	 * com.vaadin.terminal.gwt.server.HttpServletRequestListener#onRequestEnd
+	 * (javax.servlet.http.HttpServletRequest,
+	 * javax.servlet.http.HttpServletResponse)
 	 */
-	public void onRequestEnd(HttpServletRequest inRequest, HttpServletResponse inResponse) {
-		//intentionally left empty		
+	@Override
+	public void onRequestEnd(final HttpServletRequest inRequest,
+			final HttpServletResponse inResponse) {
+		// intentionally left empty
 	}
 
 	/**
 	 * Subclasses may override.
 	 * 
-	 * @see org.ripla.web.interfaces.IWorkflowListener#workflowExit(int, java.lang.String)
+	 * @see org.ripla.web.interfaces.IWorkflowListener#workflowExit(int,
+	 *      java.lang.String)
 	 */
 	@Override
-	public void workflowExit(int inReturnCode, String inMessage) {
+	public void workflowExit(final int inReturnCode, final String inMessage) {
 		// intentionally left empty
 	}
-	
+
 	/**
 	 * Allows access to the application's preferences.
 	 * 
@@ -309,111 +352,132 @@ public class RiplaApplication extends Application implements EventHandler, HttpS
 	public PreferencesHelper getPreferences() {
 		return preferences;
 	}
-	
+
 	/**
-	 * <p>Subclasses that want to make use of the OSGi user admin service functionality
-	 * may trigger initialization of registered permissions.</p>
+	 * <p>
+	 * Subclasses that want to make use of the OSGi user admin service
+	 * functionality may trigger initialization of registered permissions.
+	 * </p>
 	 * 
-	 * <p>This will create a permission group for each registered <code>IPermissionEntry</code> and
-	 * add the members defined in those permission instances.</p>
+	 * <p>
+	 * This will create a permission group for each registered
+	 * <code>IPermissionEntry</code> and add the members defined in those
+	 * permission instances.
+	 * </p>
 	 * 
-	 * <p>This requires that such member instances exist already. 
-	 * Thus, subclasses have to prepare groups (i.e. roles) that can act as members for the registered 
-	 * permission groups before the registered permission instances are processed.</p> 
-	 * <p>This method is best called in the subclass's <code>setUserAdmin(UserAdmin inUserAdmin)</code> method:
+	 * <p>
+	 * This requires that such member instances exist already. Thus, subclasses
+	 * have to prepare groups (i.e. roles) that can act as members for the
+	 * registered permission groups before the registered permission instances
+	 * are processed.
+	 * </p>
+	 * <p>
+	 * This method is best called in the subclass's
+	 * <code>setUserAdmin(UserAdmin inUserAdmin)</code> method:
 	 * 
-	 * <pre>public void setUserAdmin(UserAdmin inUserAdmin) {
-	 *    super.setUserAdmin(inUserAdmin);
-	 *    Group lAdministrators = (Group)inUserAdmin.createRole("ripla.admin", Role.GROUP);
-	 *    initializePermissions();
-	 *}</pre></p>
+	 * <pre>
+	 * public void setUserAdmin(UserAdmin inUserAdmin) {
+	 * 	super.setUserAdmin(inUserAdmin);
+	 * 	Group lAdministrators = (Group) inUserAdmin.createRole(&quot;ripla.admin&quot;,
+	 * 			Role.GROUP);
+	 * 	initializePermissions();
+	 * }
+	 * </pre>
+	 * 
+	 * </p>
 	 */
 	protected void initializePermissions() {
 		permissionHelper.initializePermissions();
 	}
-	
-//--- OSGi DS bind and unbind methods --- 
-	
-	public void setPreferences(PreferencesService inPreferences) {
+
+	// --- OSGi DS bind and unbind methods ---
+
+	public void setPreferences(final PreferencesService inPreferences) {
 		preferences.setPreferences(inPreferences);
 		LOG.debug("The OSGi preferences service is made available.");
 	}
-	
-	public void unsetPreferences(PreferencesService inPreferences) {
+
+	public void unsetPreferences(final PreferencesService inPreferences) {
 		preferences.dispose();
 		LOG.debug("Removed the OSGi preferences service.");
 	}
-	
-	public void setEventAdmin(EventAdmin inEventAdmin) {
+
+	public void setEventAdmin(final EventAdmin inEventAdmin) {
 		useCaseHelper.setEventAdmin(inEventAdmin);
 		LOG.debug("The OSGi event admin service is made available.");
 	}
-	
-	public void unsetEventAdmin(EventAdmin inEventAdmin) {
-		useCaseHelper.setEventAdmin(null);		
+
+	public void unsetEventAdmin(final EventAdmin inEventAdmin) {
+		useCaseHelper.setEventAdmin(null);
 		LOG.debug("Removed the OSGi event admin service.");
 	}
-	
-	public void setUserAdmin(UserAdmin inUserAdmin) {		
+
+	public void setUserAdmin(final UserAdmin inUserAdmin) {
 		useCaseHelper.setUserAdmin(inUserAdmin);
 		permissionHelper.setUserAdmin(inUserAdmin);
 		LOG.debug("The OSGi user admin service is made available.");
 	}
-	
-	public void unsetUserAdmin(UserAdmin inUserAdmin) {
+
+	public void unsetUserAdmin(final UserAdmin inUserAdmin) {
 		useCaseHelper.setUserAdmin(null);
 		permissionHelper.setUserAdmin(null);
 		LOG.debug("Removed the OSGi user admin service is made available.");
 	}
 
-	public void registerSkin(ISkin inSkin) {
+	public void registerSkin(final ISkin inSkin) {
 		LOG.debug("Registered skin '{}'.", inSkin.getSkinID());
 		skinRegistry.registerSkin(inSkin);
 	}
-	
-	public void unregisterSkin(ISkin inSkin) {
+
+	public void unregisterSkin(final ISkin inSkin) {
 		LOG.debug("Unregistered skin '{}'.", inSkin.getSkinID());
 		skinRegistry.unregisterSkin(inSkin);
 	}
-	
-	public void registerToolbarItem(IToolbarItem inItem) {
+
+	public void registerToolbarItem(final IToolbarItem inItem) {
 		LOG.debug("Registered the toolbar item '{}'.", inItem);
 		toolbarRegistry.registerToolbarItem(inItem);
 	}
 
-	public void unregisterToolbarItem(IToolbarItem inItem) {
+	public void unregisterToolbarItem(final IToolbarItem inItem) {
 		LOG.debug("Unregistered the toolbar item '{}'.", inItem);
-		toolbarRegistry.unregisterToolbarItem(inItem);		
+		toolbarRegistry.unregisterToolbarItem(inItem);
 	}
-	
-	public void addUseCase(IUseCase inUseCase) {
+
+	public void addUseCase(final IUseCase inUseCase) {
 		LOG.debug("Added use case {}.", inUseCase);
 		useCaseHelper.addUseCase(inUseCase);
 	}
-	
-	public void removeUseCase(IUseCase inUseCase) {
+
+	public void removeUseCase(final IUseCase inUseCase) {
 		LOG.debug("Removed use case {}.", inUseCase);
-		useCaseHelper.removeUseCase(inUseCase);		
+		useCaseHelper.removeUseCase(inUseCase);
 	}
-	
-	public void registerMenuContribution(IExtendibleMenuContribution inMenuContribution) {
-		LOG.debug("Registered extendible menu contribution '{}'.", inMenuContribution.getExtendibleMenuID());
+
+	public void registerMenuContribution(
+			final IExtendibleMenuContribution inMenuContribution) {
+		LOG.debug("Registered extendible menu contribution '{}'.",
+				inMenuContribution.getExtendibleMenuID());
 		useCaseHelper.registerMenuContribution(inMenuContribution);
 	}
-	
-	public void unregisterMenuContribution(IExtendibleMenuContribution inMenuContribution) {
-		LOG.debug("Unregistered extendible menu contribution '{}'.", inMenuContribution.getExtendibleMenuID());
-		useCaseHelper.unregisterMenuContribution(inMenuContribution);		
+
+	public void unregisterMenuContribution(
+			final IExtendibleMenuContribution inMenuContribution) {
+		LOG.debug("Unregistered extendible menu contribution '{}'.",
+				inMenuContribution.getExtendibleMenuID());
+		useCaseHelper.unregisterMenuContribution(inMenuContribution);
 	}
-	
-	public void registerPermission(IPermissionEntry inPermission) {
-		LOG.debug("Registered permission '{}'.", inPermission.getPermissionName());
+
+	public void registerPermission(final IPermissionEntry inPermission) {
+		LOG.debug("Registered permission '{}'.",
+				inPermission.getPermissionName());
 		permissionHelper.addPermission(inPermission);
 	}
-	
-	public void unregisterPermission(IPermissionEntry inPermission) {
-		LOG.debug("Unregistered permission '{}'.", inPermission.getPermissionName());
-		permissionHelper.removePermission(inPermission);		
+
+	public void unregisterPermission(final IPermissionEntry inPermission) {
+		LOG.debug("Unregistered permission '{}'.",
+				inPermission.getPermissionName());
+		permissionHelper.removePermission(inPermission);
 	}
 
 }

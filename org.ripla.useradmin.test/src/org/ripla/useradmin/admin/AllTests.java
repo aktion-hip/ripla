@@ -22,6 +22,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ RiplaAuthorizationTest.class, RiplaGroupTest.class,
 		RiplaUserAdminTest.class, RiplaUserTest.class })
-public class AllTests {
+public class AllTests { // NOPMD by Luthiger on 08.09.12 23:38
 
 }

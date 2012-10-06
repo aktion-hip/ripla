@@ -6,35 +6,39 @@ package org.ripla.demo.config.data;
  * @author Luthiger
  */
 public class SkinBean implements Comparable<SkinBean> {
-	private String skinID;
-	private String name;
+	private final transient String skinID;
+	private final transient String name;
 
 	/**
 	 * SkinBean constructor.
 	 * 
-	 * @param inID String the skin's id
-	 * @param inName String the skin's (display) name
+	 * @param inID
+	 *            String the skin's id
+	 * @param inName
+	 *            String the skin's (display) name
 	 */
-	public SkinBean(String inID, String inName) {
+	public SkinBean(final String inID, final String inName) {
 		skinID = inID;
 		name = inName;
 	}
-	
+
 	/**
 	 * @return String the skin's id
 	 */
 	public String getID() {
 		return skinID;
 	}
-	
+
 	/**
 	 * @return String the skin's (display) name
 	 */
 	public String getName() {
 		return name;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -42,15 +46,19 @@ public class SkinBean implements Comparable<SkinBean> {
 		return getName();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
-	public int compareTo(SkinBean inSkin) {
+	public int compareTo(final SkinBean inSkin) {
 		return getName().compareTo(inSkin.getName());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -61,18 +69,20 @@ public class SkinBean implements Comparable<SkinBean> {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SkinBean other = (SkinBean) obj;
+		final SkinBean other = (SkinBean) obj;
 		if (skinID == null) {
 			if (other.skinID != null)
 				return false;

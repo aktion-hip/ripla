@@ -20,7 +20,7 @@ import org.osgi.service.useradmin.Role;
  * 
  * @author Luthiger
  */
-public interface IUserAdminStore {
+public interface IUserAdminStore { // NOPMD by Luthiger on 07.09.12 00:23
 	
 	/**
 	 * Initializes the store, i.e. loads the entities from the storage.

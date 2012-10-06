@@ -1,15 +1,15 @@
 /*******************************************************************************
-* Copyright (c) 2012 RelationWare, Benno Luthiger
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* RelationWare, Benno Luthiger
-******************************************************************************/
+ * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 
-package org.ripla.web.controllers;
+package org.ripla.web.controllers; // NOPMD by Luthiger on 09.09.12 00:48
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,7 +33,6 @@ import org.ripla.web.internal.services.UseCaseManager;
 import org.ripla.web.internal.views.DefaultRiplaView;
 import org.ripla.web.services.ISkin;
 import org.ripla.web.services.IToolbarItem;
-import org.ripla.web.util.LabelHelper;
 import org.ripla.web.util.ParameterObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,9 +50,14 @@ import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * <p>The application's body component consisting of the toolbar, the menubar, the sidebar panel and the main content panel.</p>
- * <p>Subclasses may override the following methods:
+ * <p>
+ * The application's body component consisting of the toolbar, the menubar, the
+ * sidebar panel and the main content panel.
+ * </p>
+ * <p>
+ * Subclasses may override the following methods:
  * <ul>
+ * <li><code>RiplaBody.{@link #initializeLayout()}</code></li>
  * <li><code>RiplaBody.{@link #createParametersForContextMenu()}</code></li>
  * <li><code>RiplaBody.{@link #setContextMenu(String)}</code></li>
  * <li><code>RiplaBody.{@link #afterMenuClick()}</code></li>
@@ -61,163 +65,218 @@ import com.vaadin.ui.VerticalLayout;
  * <li><code>RiplaBody.{@link #getDftMenuBarLayout()}</code></li>
  * </ul>
  * </p>
- *
+ * 
  * @author Luthiger
  */
 @SuppressWarnings("serial")
-public class RiplaBody extends CustomComponent implements IBodyComponent {
+public class RiplaBody extends CustomComponent implements IBodyComponent { // NOPMD
 	public static final Logger LOG = LoggerFactory.getLogger(RiplaBody.class);
-	
+
 	private Map<Integer, IMenuCommand> menuMap;
-	
-	private VerticalLayout layout;
+
+	private final VerticalLayout layout;
 	private VerticalLayout sidebar;
 	private VerticalLayout content;
 
-	private UseCaseManager useCaseManager;
-	private ISkin skin;
-	private ToolbarItemRegistry toolbarRegistry;
-	private RiplaApplication application;
+	private final UseCaseManager useCaseManager;
+	private final ISkin skin;
+	private final ToolbarItemRegistry toolbarRegistry;
+	private final RiplaApplication application;
 
 	private MenuBar menuBar;
 
 	/**
-	 * RiplaBody constructor.
+	 * Private constructor.
 	 * 
-	 * @param inSkin {@link ISkin}
-	 * @param inToolbarRegistry {@link ToolbarItemRegistry}
-	 * @param inUseCaseManager {@link UseCaseManager}
-	 * @param inApplication {@link RiplaApplication}
+	 * @param inSkin
+	 *            {@link ISkin}
+	 * @param inToolbarRegistry
+	 *            {@link ToolbarItemRegistry}
+	 * @param inUseCaseManager
+	 *            {@link UseCaseManager}
+	 * @param inApplication
+	 *            {@link RiplaApplication}
 	 */
-	public RiplaBody(ISkin inSkin, ToolbarItemRegistry inToolbarRegistry, UseCaseManager inUseCaseManager, RiplaApplication inApplication) {
+	private RiplaBody(final ISkin inSkin,
+			final ToolbarItemRegistry inToolbarRegistry,
+			final UseCaseManager inUseCaseManager,
+			final RiplaApplication inApplication) {
+		super();
+
 		useCaseManager = inUseCaseManager;
 		skin = inSkin;
 		toolbarRegistry = inToolbarRegistry;
 		application = inApplication;
-		
+
 		setSizeFull();
-		
+
 		layout = new VerticalLayout();
 		setCompositionRoot(layout);
 		layout.setStyleName("ripla-body");
 		layout.setSizeFull();
 		layout.removeAllComponents();
-
-		initialize(inSkin, inToolbarRegistry);
 	}
 
 	/**
+	 * Factory method to create an initialized instance of {@link RiplaBody}.
+	 * 
 	 * @param inSkin
+	 *            {@link ISkin}
 	 * @param inToolbarRegistry
+	 *            {@link ToolbarItemRegistry}
+	 * @param inUseCaseManager
+	 *            {@link UseCaseManager}
+	 * @param inApplication
+	 *            {@link RiplaApplication}
+	 * @return {@link RiplaBody}
 	 */
-	private void initialize(ISkin inSkin, ToolbarItemRegistry inToolbarRegistry) {
-		if (inSkin.hasToolBar()) {
-			Component lToolbar = createToolbar(inToolbarRegistry, inSkin.getToolbarSeparator());
+	public static RiplaBody createInstance(final ISkin inSkin,
+			final ToolbarItemRegistry inToolbarRegistry,
+			final UseCaseManager inUseCaseManager,
+			final RiplaApplication inApplication) {
+		final RiplaBody outBody = new RiplaBody(inSkin, inToolbarRegistry,
+				inUseCaseManager, inApplication);
+		outBody.initializeLayout();
+		return outBody;
+	}
+
+	/**
+	 * Arranges the body window's views (i.e. <code>header</code>,
+	 * <code>footer</code>, <code>toolbar</code>, <code>menubar</code>,
+	 * <code>sidebar</code>, <code>content</code>).<br />
+	 * Subclasses may override for a different arrangement of the views.
+	 */
+	protected void initializeLayout() {
+		if (skin.hasHeader()) {
+			final Component lHeader = skin.getHeader();
+			layout.addComponent(lHeader);
+			layout.setExpandRatio(lHeader, 0);
+		}
+
+		if (skin.hasToolBar()) {
+			final Component lToolbar = createToolbar(toolbarRegistry,
+					skin.getToolbarSeparator());
 			layout.addComponent(lToolbar);
 		}
-		
-		if (inSkin.hasMenuBar()) {
-			Component lMenubar = createMenubar(inSkin.getMenuBarComponent(), inSkin.getMenuBarLayout());
+
+		if (skin.hasMenuBar()) {
+			final Component lMenubar = createMenubar(
+					skin.getMenuBarComponent(), skin.getMenuBarLayout());
 			layout.addComponent(lMenubar);
 		}
-		
-		HorizontalSplitPanel lPanel = new HorizontalSplitPanel();
+
+		final HorizontalSplitPanel lPanel = new HorizontalSplitPanel();
 		lPanel.setSplitPosition(10, Sizeable.UNITS_PERCENTAGE);
 		lPanel.setHeight(SIZE_UNDEFINED, 0);
 		lPanel.setStyleName("ripla-split"); //$NON-NLS-1$
 
 		sidebar = new VerticalLayout();
 		sidebar.setStyleName("ripla-sidebar");
+		sidebar.setSizeFull();
 		lPanel.setFirstComponent(sidebar);
-		//TODO: do we need this
-		sidebar.addComponent(LabelHelper.createLabel("&#160;", "ripla-sidebar-text"));
-		
+
 		content = new VerticalLayout();
 		content.setStyleName("ripla-content");
 		lPanel.setSecondComponent(content);
 		content.setMargin(true);
 		lPanel.setSizeFull();
-		
+
 		layout.addComponent(lPanel);
 		layout.setExpandRatio(lPanel, 1);
-	}	
-	
-	protected UseCaseManager getUseCaseManager() {
+	}
+
+	protected final UseCaseManager getUseCaseManager() {
 		return useCaseManager;
 	}
-	
-	protected UserAdmin getUserAdmin() {
+
+	protected final UserAdmin getUserAdmin() {
 		return useCaseManager.getUserAdmin();
 	}
-	
-	protected Layout getSidebar() {
+
+	protected final Layout getSidebar() {
 		return sidebar;
 	}
 
-	private Component createMenubar(HorizontalLayout inComponent, HorizontalLayout inMenuBarLayout) {
-		HorizontalLayout outComponent = inComponent == null ? getDftMenuBarLayout() : inComponent;
+	private Component createMenubar(final HorizontalLayout inComponent,
+			final HorizontalLayout inMenuBarLayout) {
+		final HorizontalLayout outComponent = inComponent == null ? getDftMenuBarLayout()
+				: inComponent;
 
 		menuBar = new MenuBar();
 		menuBar.setAutoOpen(true);
 		menuBar.setStyleName("ripla-menu"); //$NON-NLS-1$
 		createMenu(menuBar);
 		if (inMenuBarLayout == null) {
-			outComponent.addComponent(menuBar);			
-		}
-		else {
+			outComponent.addComponent(menuBar);
+		} else {
 			inMenuBarLayout.removeAllComponents();
 			inMenuBarLayout.addComponent(menuBar);
 		}
 
 		return outComponent;
 	}
-	
+
+	/**
+	 * Returns the default menu bar's layout component.<br />
+	 * Subclasses may override.
+	 * 
+	 * @return {@link HorizontalLayout} the default layout for the menu bar.
+	 */
 	protected HorizontalLayout getDftMenuBarLayout() {
-		HorizontalLayout outLayout = new HorizontalLayout();
+		final HorizontalLayout outLayout = new HorizontalLayout();
 		outLayout.setStyleName("ripla-menubar"); //$NON-NLS-1$
 		outLayout.setMargin(false, false, false, true);
 		outLayout.setWidth("100%"); //$NON-NLS-1$
 		outLayout.setHeight(32, UNITS_PIXELS);
 		return outLayout;
 	}
-	
-	private void createMenu(MenuBar inMenuBar) {
-		MenuBar.Command lCommand = new MenuBar.Command() {			
+
+	private void createMenu(final MenuBar inMenuBar) {
+		final MenuBar.Command lCommand = new MenuBar.Command() {
 			@Override
-			public void menuSelected(MenuItem inSelected) {
-				IMenuCommand lAction = getMenuMap().get(inSelected.getId());
+			public void menuSelected(final MenuItem inSelected) {
+				final IMenuCommand lAction = getMenuMap().get(
+						inSelected.getId());
 				afterMenuClick(getUseCaseManager());
 				if (lAction != null) {
 					try {
-						setContentView(getContentComponent(lAction.getControllerName()));
-					} 
-					catch (NoControllerFoundException exc) {
+						setContentView(getContentComponent(lAction
+								.getControllerName()));
+					}
+					catch (final NoControllerFoundException exc) {
 						handleNoTaskFound(exc);
 					}
 				}
 			}
 		};
-		
-		Authorization lAuthorization = useCaseManager.getUserAdmin().getAuthorization(ApplicationData.getUser());
-		Map<String, MenuItem> lMenuMap = new HashMap<String, MenuBar.MenuItem>();
-		for (MenuFactory lFactory : useCaseManager.getMenus()) {
-			MenuItem lItem = lFactory.createMenu(inMenuBar, getMenuMap(), lCommand, lAuthorization);
+
+		final Authorization lAuthorization = useCaseManager.getUserAdmin()
+				.getAuthorization(ApplicationData.getUser());
+		final Map<String, MenuItem> lMenuMap = new HashMap<String, MenuBar.MenuItem>();
+		for (final MenuFactory lFactory : useCaseManager.getMenus()) {
+			final MenuItem lItem = lFactory.createMenu(inMenuBar, getMenuMap(),
+					lCommand, lAuthorization);
 			lMenuMap.put(lFactory.getProviderSymbolicName(), lItem);
 		}
 		ApplicationData.setMenuMap(lMenuMap);
 		LOG.debug("Menu created for Ripla."); //$NON-NLS-1$
 	}
-	
+
 	/**
-	 * Hook for subclasses to provide functionality to be processed after the user clicked a menu item.
+	 * Hook for subclasses to provide functionality to be processed after the
+	 * user clicked a menu item.
+	 * <p>
+	 * Subclasses may override.
+	 * </p>
 	 * 
-	 * @param inUseCaseManager {@link UseCaseManager}
+	 * @param inUseCaseManager
+	 *            {@link UseCaseManager}
 	 */
-	protected void afterMenuClick(UseCaseManager inUseCaseManager) {
+	protected void afterMenuClick(final UseCaseManager inUseCaseManager) {
 		// do nothing
 	}
 
-	private void handleNoTaskFound(NoControllerFoundException inExc) {
+	private void handleNoTaskFound(final NoControllerFoundException inExc) {
 		LOG.error("Configuration error:", inExc); //$NON-NLS-1$
 		setContentView(new DefaultRiplaView(inExc));
 	}
@@ -229,137 +288,179 @@ public class RiplaBody extends CustomComponent implements IBodyComponent {
 		return menuMap;
 	}
 
-	private Component createToolbar(ToolbarItemRegistry inToolbarRegistry, Label inSeparator) {
-		HorizontalLayout outToolbar = new HorizontalLayout();
+	private Component createToolbar(
+			final ToolbarItemRegistry inToolbarRegistry, final Label inSeparator) {
+		final HorizontalLayout outToolbar = new HorizontalLayout();
 		outToolbar.setStyleName("ripla-toolbar"); //$NON-NLS-1$
 		outToolbar.setWidth("100%"); //$NON-NLS-1$
 		outToolbar.setSpacing(true);
 		outToolbar.setMargin(false, true, false, true);
 		outToolbar.setHeight(22, UNITS_PIXELS);
-		
-		Label lExpand = new Label("&#160;", Label.CONTENT_XHTML);
+
+		final Label lExpand = new Label("&#160;", Label.CONTENT_XHTML);
 		lExpand.setWidth("100%");
 		outToolbar.addComponent(lExpand);
 		outToolbar.setExpandRatio(lExpand, 1);
-		
-		Iterator<IToolbarItem> lItems = inToolbarRegistry.getSortedItems().iterator();
+
+		final Iterator<IToolbarItem> lItems = inToolbarRegistry
+				.getSortedItems().iterator();
 		boolean lFirst = true;
 		while (lItems.hasNext()) {
-			IToolbarItem lItem = lItems.next();
-			IToolbarItemCreator lFactory = lItem.getCreator();
-			Component lComponent = lFactory != null ? lFactory.createToolbarItem(application, ApplicationData.getUser()) : lItem.getComponent();
+			final IToolbarItem lItem = lItems.next();
+			final IToolbarItemCreator lFactory = lItem.getCreator();
+			final Component lComponent = lFactory == null ? lItem
+					.getComponent() : lFactory.createToolbarItem(application,
+					ApplicationData.getUser());
 			if (lComponent == null) {
 				continue;
 			}
-			
+
 			if (!lFirst) {
-				Label lSeparator = getSeparator(inSeparator);
+				final Label lSeparator = getSeparator(inSeparator);
 				outToolbar.addComponent(lSeparator);
-				outToolbar.setComponentAlignment(lSeparator, Alignment.MIDDLE_CENTER);
+				outToolbar.setComponentAlignment(lSeparator,
+						Alignment.MIDDLE_CENTER);
 			}
 			lFirst = false;
-			
+
 			outToolbar.addComponent(lComponent);
-			outToolbar.setComponentAlignment(lComponent, Alignment.MIDDLE_CENTER);
-			lItem.registerToolbarActionListener(new IToolbarActionListener() {
+			outToolbar.setComponentAlignment(lComponent,
+					Alignment.MIDDLE_CENTER);
+			lItem.registerToolbarActionListener(new IToolbarActionListener() { // NOPMD
 				@Override
-				public void processAction(IToolbarAction inAction) {
-					inAction.run(application, useCaseManager.getControllerManager().getEventAdmin());
+				public void processAction(final IToolbarAction inAction) {
+					inAction.run(application, useCaseManager
+							.getControllerManager().getEventAdmin());
 				}
 			});
 		}
 
 		return outToolbar;
 	}
-	
+
 	/**
 	 * We have to clone the separator label defined in the skin.
 	 * 
-	 * @param inSeparator Label
+	 * @param inSeparator
+	 *            Label
 	 * @return {@link Label} the cloned label
 	 */
-	private Label getSeparator(Label inSeparator) {
-		Label out = new Label(inSeparator.getValue().toString(), inSeparator.getContentMode());
+	private Label getSeparator(final Label inSeparator) {
+		final Label out = new Label(inSeparator.getValue().toString(),
+				inSeparator.getContentMode());
 		out.setWidth(inSeparator.getWidth(), inSeparator.getWidthUnits());
 		out.setStyleName(inSeparator.getStyleName());
 		return out;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.ripla.web.interfaces.IBodyComponent#getContentComponent(java.lang.String)
+	 * 
+	 * @see
+	 * org.ripla.web.interfaces.IBodyComponent#getContentComponent(java.lang
+	 * .String)
 	 */
-	public Component getContentComponent(String inControllerName) throws NoControllerFoundException {
-		return useCaseManager.getControllerManager().getContent(inControllerName);
+	@Override
+	public Component getContentComponent(final String inControllerName)
+			throws NoControllerFoundException {
+		return useCaseManager.getControllerManager().getContent(
+				inControllerName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.ripla.web.interfaces.IBodyComponent#setContentView(com.vaadin.ui.Component)
+	 * 
+	 * @see
+	 * org.ripla.web.interfaces.IBodyComponent#setContentView(com.vaadin.ui.
+	 * Component)
 	 */
-	public void setContentView(Component inComponent) {
+	@Override
+	public void setContentView(final Component inComponent) {
 		content.removeAllComponents();
 		content.addComponent(inComponent);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ripla.web.interfaces.IBodyComponent#setContextMenu(com.vaadin.ui.Component)
+	/**
+	 * Loads the context menu with the specified set name into the sidebar (i.e.
+	 * conext menu) panel.
+	 * <p>
+	 * This implementation first removes all displayed menu items from the
+	 * sidebar. Then it renders the context menu with the specified set name and
+	 * passes a parameter object created by
+	 * {@link #createParametersForContextMenu()} and adds the rendered component
+	 * to the cleaned sidebar panel.
+	 * </p>
 	 */
 	@Override
-	public void setContextMenu(String inMenuSetName) {
+	public void setContextMenu(final String inMenuSetName) {
 		getSidebar().removeAllComponents();
-		User lUser = ApplicationData.getUser();
-		getSidebar().addComponent(getUseCaseManager().getContextMenuManager().renderContextMenu(inMenuSetName, lUser, 
-				getUserAdmin().getAuthorization(lUser), 
-				createParametersForContextMenu()));
+		final User lUser = ApplicationData.getUser();
+		getSidebar().addComponent(
+				getUseCaseManager().getContextMenuManager().renderContextMenu(
+						inMenuSetName, lUser,
+						getUserAdmin().getAuthorization(lUser),
+						createParametersForContextMenu()));
 	}
-	
+
 	/**
-	 * Returns the parameter object to pass context parameters that can be evaluated to decide whether a context menu item should be displayed or hidden.<br />
+	 * Returns the parameter object to pass context parameters that can be
+	 * evaluated to decide whether a context menu item should be displayed or
+	 * hidden.<br />
 	 * By default, an empty parameter object is created.<br />
 	 * Subclasses may override.
 	 * 
-	 * @return {@link ParameterObject} 
+	 * @return {@link ParameterObject}
 	 */
 	protected ParameterObject createParametersForContextMenu() {
 		return new ParameterObject();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ripla.web.interfaces.IBodyComponent#showNotification(java.lang.String, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.ripla.web.interfaces.IBodyComponent#showNotification(java.lang.String
+	 * , int)
 	 */
 	@Override
-	public void showNotification(String inNotification, int inNotificationType) {
+	public final void showNotification(final String inNotification,
+			final int inNotificationType) {
 		getWindow().showNotification(inNotification, inNotificationType);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.interfaces.IBodyComponent#refreshBody()
 	 */
 	@Override
-	public void refreshBody() {
+	public final void refreshBody() {
 		layout.removeAllComponents();
-		initialize(skin, toolbarRegistry);
+		initializeLayout();
 		showDefault();
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.interfaces.IBodyComponent#showDefault()
 	 */
+	@Override
 	public void showDefault() {
-		List<MenuItem> lMenuItems = menuBar.getItems();
-		if (lMenuItems.size() != 0) {
-			MenuItem lMenuItem = lMenuItems.get(0);
+		final List<MenuItem> lMenuItems = menuBar.getItems();
+		if (!lMenuItems.isEmpty()) {
+			final MenuItem lMenuItem = lMenuItems.get(0);
 			lMenuItem.getCommand().menuSelected(lMenuItem);
-		}		
+		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ripla.web.interfaces.IBodyComponent#close()
 	 */
 	@Override
-	public void close() {
+	public final void close() {
 		application.close();
 	}
 
