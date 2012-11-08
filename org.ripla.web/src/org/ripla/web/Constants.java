@@ -35,6 +35,7 @@ public final class Constants {
 	public static final String EVENT_PROPERTY_NEXT_CONTROLLER = "next.controller"; //$NON-NLS-1$
 	public static final String EVENT_TOPIC_CONTEXT_MENU = "org/ripla/web/ControllerEvent/CONTEXTMENU"; //$NON-NLS-1$
 	public static final String EVENT_PROPERTY_CONTEXT_MENU_ID = "context.menu.id"; //$NON-NLS-1$
+	public static final String EVENT_PROPERTY_CONTROLLER_ID = "context.menu.controller.id"; //$NON-NLS-1$
 	public static final String EVENT_TOPIC_NOTIFICATION = "org/ripla/web/ControllerEvent/NOTIFICATION"; //$NON-NLS-1$
 	public static final String EVENT_PROPERTY_NOTIFICATION_MSG = "notification.msg"; //$NON-NLS-1$
 	public static final String EVENT_PROPERTY_NOTIFICATION_TYPE = "notification.type"; //$NON-NLS-1$

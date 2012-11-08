@@ -19,6 +19,7 @@
 
 package org.ripla.web.services;
 
+import com.vaadin.terminal.Resource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -50,9 +51,11 @@ public interface ISkin {
 	/**
 	 * Create the skin's header component.
 	 * 
+	 * @param String
+	 *            the application's name
 	 * @return {@link Component}
 	 */
-	Component getHeader();
+	Component getHeader(String inAppName);
 
 	/**
 	 * @return <code>true</code> if the application should display a footer
@@ -117,5 +120,14 @@ public interface ISkin {
 	 * @return {@link HorizontalLayout} a layout for the menu bar
 	 */
 	HorizontalLayout getMenuBarLayout();
+
+	/**
+	 * The menu items in the main menu may display an indicator for the sub
+	 * menu.
+	 * 
+	 * @return {@link Resource} the icon for the sub menu, may be
+	 *         <code>null</code>
+	 */
+	Resource getSubMenuIcon();
 
 }

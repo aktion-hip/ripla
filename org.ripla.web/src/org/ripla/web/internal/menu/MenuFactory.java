@@ -17,6 +17,7 @@ import org.osgi.service.useradmin.Authorization;
 import org.ripla.web.interfaces.IMenuCommand;
 import org.ripla.web.interfaces.IMenuItem;
 
+import com.vaadin.terminal.Resource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -44,6 +45,9 @@ public class MenuFactory implements Comparable<MenuFactory> {
 	 * 
 	 * @param inMenuBar
 	 *            {@link MenuBar}
+	 * @param inIcon
+	 *            {@link Resource} the resource for the icon to indicate a
+	 *            submenu, may be <code>null</code>
 	 * @param inMap
 	 *            Map<Integer, IMenuCommand> the map to register the menu's
 	 *            command
@@ -53,7 +57,7 @@ public class MenuFactory implements Comparable<MenuFactory> {
 	 *            {@link Authorization} the authorization object
 	 * @return MenuItem the Vaadin menu item
 	 */
-	public MenuItem createMenu(final MenuBar inMenuBar,
+	public MenuItem createMenu(final MenuBar inMenuBar, final Resource inIcon,
 			final Map<Integer, IMenuCommand> inMap, final Command inCommand,
 			final Authorization inAuthorization) {
 		if (!checkPermissions(menu.getPermission(), inAuthorization)) {
@@ -63,6 +67,7 @@ public class MenuFactory implements Comparable<MenuFactory> {
 		final MenuItem outItem = inMenuBar.addItem(menu.getLabel(), null,
 				inCommand);
 		outItem.setStyleName("ripla-menu-item"); //$NON-NLS-1$
+		outItem.setIcon(inIcon);
 		addCommand(inMap, outItem, menu);
 
 		final List<IMenuItem> lSubMenu = menu.getSubMenu();

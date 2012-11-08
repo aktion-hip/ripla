@@ -27,6 +27,7 @@ import org.ripla.web.services.IExtendibleMenuContribution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vaadin.terminal.Resource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -134,6 +135,7 @@ public final class ExtendibleMenuFactory extends MenuFactory {
 
 	@Override
 	public MenuItem createMenu(final MenuBar inMenuBar,
+			final Resource inSubMenuIcon,
 			final Map<Integer, IMenuCommand> inMap, final Command inCommand,
 			final Authorization inAuthorization) {
 		if (!checkPermissions(menu.getPermission(), inAuthorization)) {
@@ -142,6 +144,7 @@ public final class ExtendibleMenuFactory extends MenuFactory {
 
 		final MenuItem outItem = inMenuBar.addItem(menu.getLabel(), null,
 				inCommand);
+		outItem.setIcon(inSubMenuIcon);
 
 		boolean lFirst = true;
 		for (final IExtMenuItem lItem : contributions) {

@@ -283,6 +283,7 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 		final Map<String, Object> lProperties = new HashMap<String, Object>();
 		lProperties.put(Constants.EVENT_PROPERTY_CONTEXT_MENU_ID,
 				UseCaseHelper.createFullyQualifiedID(inSetName, getClass()));
+		lProperties.put(Constants.EVENT_PROPERTY_CONTROLLER_ID, getClass());
 
 		final Event lEvent = new Event(Constants.EVENT_TOPIC_CONTEXT_MENU,
 				lProperties);

@@ -77,6 +77,8 @@ public class RiplaApplication extends Application implements EventHandler,
 	private static final Logger LOG = LoggerFactory
 			.getLogger(RiplaApplication.class);
 
+	private static final String APP_NAME = "Ripla";
+
 	private final PreferencesHelper preferences = createPreferencesHelper();
 	private final SkinRegistry skinRegistry = new SkinRegistry(preferences);
 	private final ToolbarItemRegistry toolbarRegistry = new ToolbarItemRegistry();
@@ -142,7 +144,20 @@ public class RiplaApplication extends Application implements EventHandler,
 			public IAuthenticator getLoginAuthenticator() {
 				return null;
 			}
+
+			@Override
+			public String getAppName() {
+				return APP_NAME;
+			}
 		};
+	}
+
+	/**
+	 * @return String the application's name, as configured in
+	 *         <code>IAppConfiguration.getAppName()</code>
+	 */
+	public String getAppName() {
+		return getAppConfiguration().getAppName();
 	}
 
 	private boolean initializeLayout(final Window inMain,
@@ -178,7 +193,7 @@ public class RiplaApplication extends Application implements EventHandler,
 		if (inConfiguration.getLoginAuthenticator() == null) {
 			bodyView.addComponent(createBodyView(lSkin));
 		} else {
-			bodyView.addComponent(createLoginView(inConfiguration));
+			bodyView.addComponent(createLoginView(inConfiguration, lSkin));
 		}
 
 		if (lSkin.hasFooter()) {
@@ -273,11 +288,26 @@ public class RiplaApplication extends Application implements EventHandler,
 	 * @param inConfiguration
 	 *            {@link IAppConfiguration} the application's configuration
 	 *            object
+	 * @param inSkin
+	 *            {@link ISkin} the actual application skin
 	 * @return {@link Component} the application's login view
 	 */
-	private Component createLoginView(final IAppConfiguration inConfiguration) {
-		final RiplaLogin out = new RiplaLogin(inConfiguration, this,
+	private Component createLoginView(final IAppConfiguration inConfiguration,
+			final ISkin inSkin) {
+		final VerticalLayout out = new VerticalLayout();
+		out.setStyleName("ripla-body");
+		out.setSizeFull();
+
+		if (inSkin.hasHeader()) {
+			final Component lHeader = inSkin.getHeader(inConfiguration
+					.getAppName());
+			out.addComponent(lHeader);
+			out.setExpandRatio(lHeader, 0);
+		}
+
+		final RiplaLogin lLogin = new RiplaLogin(inConfiguration, this,
 				useCaseHelper.getUserAdmin());
+		out.addComponent(lLogin);
 		return out;
 	}
 
@@ -288,7 +318,7 @@ public class RiplaApplication extends Application implements EventHandler,
 	 * @return {@link Window} the application's main window
 	 */
 	protected Window createWindow() {
-		final Window outWindow = new Window("Ripla");
+		final Window outWindow = new Window(APP_NAME);
 		setMainWindow(outWindow);
 		return outWindow;
 	}

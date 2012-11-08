@@ -15,6 +15,7 @@ import org.osgi.service.event.Event;
 import org.ripla.web.Constants;
 import org.ripla.web.exceptions.NoControllerFoundException;
 import org.ripla.web.interfaces.IBodyComponent;
+import org.ripla.web.interfaces.IPluggable;
 import org.ripla.web.internal.views.DefaultRiplaView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +45,7 @@ public final class RiplaEventHandler {
 	 * @param inEvent
 	 *            {@link Event}
 	 */
+	@SuppressWarnings("unchecked")
 	public void handleEvent(final Event inEvent) {
 		// handle main view
 		final Object lNext = inEvent
@@ -64,7 +66,11 @@ public final class RiplaEventHandler {
 				.getProperty(Constants.EVENT_PROPERTY_CONTEXT_MENU_ID);
 		if (lContextMenuSet != null) {
 			LOG.debug("Event: displaying context menu={}", lContextMenuSet); //$NON-NLS-1$
-			bodyComponent.setContextMenu(lContextMenuSet.toString());
+			bodyComponent
+					.setContextMenu(
+							lContextMenuSet.toString(),
+							(Class<? extends IPluggable>) inEvent
+									.getProperty(Constants.EVENT_PROPERTY_CONTROLLER_ID));
 		}
 
 		// handle notifications

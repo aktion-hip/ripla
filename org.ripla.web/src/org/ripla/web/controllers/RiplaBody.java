@@ -23,6 +23,7 @@ import org.ripla.web.RiplaApplication;
 import org.ripla.web.exceptions.NoControllerFoundException;
 import org.ripla.web.interfaces.IBodyComponent;
 import org.ripla.web.interfaces.IMenuCommand;
+import org.ripla.web.interfaces.IPluggable;
 import org.ripla.web.interfaces.IToolbarAction;
 import org.ripla.web.interfaces.IToolbarActionListener;
 import org.ripla.web.interfaces.IToolbarItemCreator;
@@ -37,6 +38,7 @@ import org.ripla.web.util.ParameterObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vaadin.terminal.Resource;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
@@ -148,7 +150,7 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 	 */
 	protected void initializeLayout() {
 		if (skin.hasHeader()) {
-			final Component lHeader = skin.getHeader();
+			final Component lHeader = skin.getHeader(application.getAppName());
 			layout.addComponent(lHeader);
 			layout.setExpandRatio(lHeader, 0);
 		}
@@ -161,7 +163,8 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 
 		if (skin.hasMenuBar()) {
 			final Component lMenubar = createMenubar(
-					skin.getMenuBarComponent(), skin.getMenuBarLayout());
+					skin.getMenuBarComponent(), skin.getMenuBarLayout(),
+					skin.getSubMenuIcon());
 			layout.addComponent(lMenubar);
 		}
 
@@ -198,14 +201,14 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 	}
 
 	private Component createMenubar(final HorizontalLayout inComponent,
-			final HorizontalLayout inMenuBarLayout) {
+			final HorizontalLayout inMenuBarLayout, final Resource inSubMenuIcon) {
 		final HorizontalLayout outComponent = inComponent == null ? getDftMenuBarLayout()
 				: inComponent;
 
 		menuBar = new MenuBar();
 		menuBar.setAutoOpen(true);
 		menuBar.setStyleName("ripla-menu"); //$NON-NLS-1$
-		createMenu(menuBar);
+		createMenu(menuBar, inSubMenuIcon);
 		if (inMenuBarLayout == null) {
 			outComponent.addComponent(menuBar);
 		} else {
@@ -231,7 +234,8 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 		return outLayout;
 	}
 
-	private void createMenu(final MenuBar inMenuBar) {
+	private void createMenu(final MenuBar inMenuBar,
+			final Resource inSubMenuIcon) {
 		final MenuBar.Command lCommand = new MenuBar.Command() {
 			@Override
 			public void menuSelected(final MenuItem inSelected) {
@@ -254,8 +258,8 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 				.getAuthorization(ApplicationData.getUser());
 		final Map<String, MenuItem> lMenuMap = new HashMap<String, MenuBar.MenuItem>();
 		for (final MenuFactory lFactory : useCaseManager.getMenus()) {
-			final MenuItem lItem = lFactory.createMenu(inMenuBar, getMenuMap(),
-					lCommand, lAuthorization);
+			final MenuItem lItem = lFactory.createMenu(inMenuBar,
+					inSubMenuIcon, getMenuMap(), lCommand, lAuthorization);
 			lMenuMap.put(lFactory.getProviderSymbolicName(), lItem);
 		}
 		ApplicationData.setMenuMap(lMenuMap);
@@ -392,14 +396,15 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 	 * </p>
 	 */
 	@Override
-	public void setContextMenu(final String inMenuSetName) {
+	public void setContextMenu(final String inMenuSetName,
+			final Class<? extends IPluggable> inControllerClass) {
 		getSidebar().removeAllComponents();
 		final User lUser = ApplicationData.getUser();
 		getSidebar().addComponent(
 				getUseCaseManager().getContextMenuManager().renderContextMenu(
 						inMenuSetName, lUser,
 						getUserAdmin().getAuthorization(lUser),
-						createParametersForContextMenu()));
+						createParametersForContextMenu(), inControllerClass));
 	}
 
 	/**

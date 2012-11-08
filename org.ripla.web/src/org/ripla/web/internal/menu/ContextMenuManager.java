@@ -133,12 +133,15 @@ public final class ContextMenuManager {
 	 * @param inParameters
 	 *            {@link ParameterObject} the generic parameter object with
 	 *            parameters that could be evaluated to check the conditions
+	 * @param inControllerClass
+	 *            Class&lt;? extends IPluggable> the active controller class
 	 * @return {@link Component} the component that displays the rendered
 	 *         context menu
 	 */
 	public Component renderContextMenu(final String inMenuSetName,
 			final User inUser, final Authorization inAuthorization,
-			final ParameterObject inParameters) {
+			final ParameterObject inParameters,
+			final Class<? extends IPluggable> inControllerClass) {
 		final VerticalLayout outContextMenu = new VerticalLayout();
 		outContextMenu.setMargin(true);
 		outContextMenu.setStyleName("ripla-contextmenu"); //$NON-NLS-1$
@@ -154,8 +157,14 @@ public final class ContextMenuManager {
 				final Button lContextMenuLink = new Button(lItem.getCaption()); // NOPMD
 				lContextMenuLink.setStyleName(BaseTheme.BUTTON_LINK);
 				lContextMenuLink.addStyleName("ripla-contextmenu-item");
-				lContextMenuLink.addListener(new ContextMenuListener(lItem // NOPMD
-						.getControllerClass(), eventAdmin));
+				lContextMenuLink.setSizeUndefined();
+				final Class<? extends IPluggable> lControllerClass = lItem
+						.getControllerClass();
+				if (lControllerClass.equals(inControllerClass)) {
+					lContextMenuLink.addStyleName("active");
+				}
+				lContextMenuLink.addListener(new ContextMenuListener( // NOPMD
+						lControllerClass, eventAdmin));
 				outContextMenu.addComponent(lContextMenuLink);
 			}
 		}

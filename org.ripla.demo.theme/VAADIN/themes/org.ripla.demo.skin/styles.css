@@ -78,6 +78,9 @@
 .ripla-sidebar .ripla-contextmenu .ripla-contextmenu-item {
     margin:0 0 10px 0;
 }
+.ripla-sidebar .ripla-contextmenu div.active .v-button-caption {
+	font-weight: bold;
+}
 .ripla-sidebar .ripla-contextmenu .ripla-contextmenu-item .v-button-caption {
     color:#1F4E8C;
     background-color:inherit;

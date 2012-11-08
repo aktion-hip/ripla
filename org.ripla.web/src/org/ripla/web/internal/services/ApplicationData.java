@@ -188,7 +188,12 @@ public final class ApplicationData implements TransactionListener, Serializable 
 	}
 
 	/**
-	 * @param inSymbolicName
+	 * Marks the main menu entry a active (i.e.
+	 * <code>class="ripla-menu-active"</code>).
+	 * 
+	 * @param inBundleName
+	 *            String the name of the use case bundle whose main menu entry
+	 *            is clicked
 	 */
 	public static void setActiveMenuItem(final String inBundleName) {
 		final MenuItem lOldItem = instance.get().activeMenuItem;

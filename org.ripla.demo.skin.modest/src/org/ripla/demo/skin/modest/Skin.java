@@ -4,6 +4,7 @@ import org.ripla.web.services.ISkin;
 import org.ripla.web.util.FooterHelper;
 import org.ripla.web.util.LabelHelper;
 
+import com.vaadin.terminal.Resource;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
@@ -71,7 +72,7 @@ public class Skin implements ISkin {
 	 * @see org.ripla.web.services.ISkin#getHeader()
 	 */
 	@Override
-	public Component getHeader() {
+	public Component getHeader(final String inAppName) {
 		final HorizontalLayout out = new HorizontalLayout();
 		out.setStyleName("demo-header"); //$NON-NLS-1$
 		out.setWidth("100%"); //$NON-NLS-1$
@@ -159,6 +160,16 @@ public class Skin implements ISkin {
 	@Override
 	public HorizontalLayout getMenuBarComponent() {
 		return menuBarComponent;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ripla.web.services.ISkin#getSubMenuIcon()
+	 */
+	@Override
+	public Resource getSubMenuIcon() {
+		return null;
 	}
 
 }

@@ -49,8 +49,11 @@ public interface IBodyComponent {
 	 * 
 	 * @param inMenuSetName
 	 *            String the name of the context menu set
+	 * @param inControllerClass
+	 *            Class&lt;? extends IPluggable> the active controller class
 	 */
-	void setContextMenu(String inMenuSetName);
+	void setContextMenu(String inMenuSetName,
+			Class<? extends IPluggable> inControllerClass);
 
 	/**
 	 * Displays a notification in the main window.

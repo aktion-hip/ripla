@@ -19,6 +19,7 @@ import org.ripla.web.services.ISkin;
 import org.ripla.web.util.LabelHelper;
 import org.ripla.web.util.PreferencesHelper;
 
+import com.vaadin.terminal.Resource;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
@@ -146,7 +147,7 @@ public final class SkinRegistry {
 		}
 
 		@Override
-		public Component getHeader() {
+		public Component getHeader(final String inAppName) {
 			final Layout outHeader = new HorizontalLayout();
 			outHeader.setStyleName("ripla-header"); //$NON-NLS-1$
 			outHeader.setWidth("100%"); //$NON-NLS-1$
@@ -206,6 +207,16 @@ public final class SkinRegistry {
 		 */
 		@Override
 		public HorizontalLayout getMenuBarComponent() {
+			return null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.ripla.web.services.ISkin#getSubMenuIcon()
+		 */
+		@Override
+		public Resource getSubMenuIcon() {
 			return null;
 		}
 	}

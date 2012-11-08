@@ -31,6 +31,7 @@ import com.vaadin.ui.Window;
  */
 @SuppressWarnings("serial")
 public class DemoApplication extends RiplaApplication {
+	private static final String APP_NAME = "Ripla Demo Application";
 
 	/*
 	 * (non-Javadoc)
@@ -39,7 +40,7 @@ public class DemoApplication extends RiplaApplication {
 	 */
 	@Override
 	protected Window createWindow() {
-		final Window outWindow = new Window("Ripla Demo Application");
+		final Window outWindow = new Window(APP_NAME);
 		setMainWindow(outWindow);
 		return outWindow;
 	}
@@ -90,6 +91,11 @@ public class DemoApplication extends RiplaApplication {
 					};
 				}
 				return null;
+			}
+
+			@Override
+			public String getAppName() {
+				return APP_NAME;
 			}
 		};
 	}
