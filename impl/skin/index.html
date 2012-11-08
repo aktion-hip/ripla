@@ -5,6 +5,7 @@
 
     <title>Ripla</title>
     <meta name="generator" content="Silva" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
     <meta name="description"
           content="Rich Platform project for Java web applications." />
     
@@ -146,6 +147,7 @@ and images for the layout you want to use for your application. The <em>second</
     boolean hasMenuBar();
     HorizontalLayout getMenuBarComponent();    
     HorizontalLayout getMenuBarLayout();
+    Resource getSubMenuIcon();
 }
 </pre><p class="p">The most important method is <span class="underline">ISkin.getSkinID()</span>. This method has to return the name of the folder containing the skin resources in the fragment bundle. In our example, this method has to return <span class="underline">org.ripla.web.skin</span>.</p><p class="p">The other methods configure other aspects of the skin, e.g. whether a header should be displayed or not. If yes, <span class="underline">ISkin.getHeader()</span> has to return the Vaadin component that renders the header view.<br /></p></section>
 

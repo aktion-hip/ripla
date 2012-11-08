@@ -5,6 +5,7 @@
 
     <title>Ripla</title>
     <meta name="generator" content="Silva" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
     <meta name="description"
           content="Rich Platform project for Java web applications." />
     
@@ -162,9 +163,10 @@
   <section><h2 class="heading">Application Configuration</h2><p class="p">You can configure your application by overwriting <span class="underline">RiplaApplication.getAppConfiguration()</span>. This method returns a <span class="underline">org.ripla.web.interfaces.IAppConfiguration</span> object with the following interface:</p><pre class="pre">public interface IAppConfiguration {
     IAuthenticator getLoginAuthenticator();
     String getWelcome();
-    String getDftSkinID();    
+    String getDftSkinID();
+    String getAppName();    
 }
-</pre><p class="p"><span class="underline">IAppConfiguration.getLoginAuthenticator()</span> returns the application's login authenticator (i.e. an instance of <span class="underline">org.ripla.web.interfaces.IAuthenticator</span>). This return value is only relevant if the application needs login.<br /></p><p class="p"><span class="underline">IAppConfiguration.getWelcome()</span> returns the welcome title displayed on the application's login page. This return value is only relevant if the application has a login page.<br /></p><p class="p"><span class="underline">IAppConfiguration.getDftSkinID()</span> returns the ID of the skin intended to be used by the application.<br /></p></section>
+</pre><p class="p"><span class="underline">IAppConfiguration.getLoginAuthenticator()</span> returns the application's login authenticator (i.e. an instance of <span class="underline">org.ripla.web.interfaces.IAuthenticator</span>). This return value is only relevant if the application needs login.<br /></p><p class="p"><span class="underline">IAppConfiguration.getWelcome()</span> returns the welcome title displayed on the application's login page. This return value is only relevant if the application has a login page.<br /></p><p class="p"><span class="underline">IAppConfiguration.getDftSkinID()</span> returns the ID of the skin intended to be used by the application.<br /></p><p class="p"> <span class="underline">IAppConfiguration.getAppName()</span> returns the name of the application.<span class="underline"><br /></span></p></section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
