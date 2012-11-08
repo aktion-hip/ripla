@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Modest Demo Skin
 Bundle-SymbolicName: org.ripla.demo.skin.modest
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.1.qualifier
 Bundle-Vendor: RelationWare
 Import-Package: com.vaadin.terminal,
  com.vaadin.ui,
