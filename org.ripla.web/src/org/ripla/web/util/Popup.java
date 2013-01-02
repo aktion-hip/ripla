@@ -107,7 +107,7 @@ public final class Popup {
 
 		protected void setPosition(final int inPositionX, final int inPositionY) {
 			popupWindow.setPositionX(inPositionX);
-			popupWindow.setPositionX(inPositionY);
+			popupWindow.setPositionY(inPositionY);
 		}
 
 		/**

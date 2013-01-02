@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.ripla.web.Constants;
 import org.ripla.web.services.ISkin;
 import org.ripla.web.util.LabelHelper;
 import org.ripla.web.util.PreferencesHelper;
@@ -33,14 +34,12 @@ import com.vaadin.ui.Layout;
  * @author Luthiger
  */
 public final class SkinRegistry {
-	public static final String DFT_SKIN_ID = "org.ripla.web.skin";
-
 	private final transient Collection<ISkin> skins = Collections
 			.synchronizedList(new ArrayList<ISkin>());
 	private transient ISkin activeSkin = null;
 
 	private final transient PreferencesHelper preferences;
-	private transient String dftSkinID = DFT_SKIN_ID;
+	private transient String dftSkinID = Constants.DFT_SKIN_ID;
 
 	/**
 	 * SkinRegistry constructor.
@@ -133,7 +132,7 @@ public final class SkinRegistry {
 
 		@Override
 		public String getSkinID() {
-			return DFT_SKIN_ID;
+			return Constants.DFT_SKIN_ID;
 		}
 
 		@Override

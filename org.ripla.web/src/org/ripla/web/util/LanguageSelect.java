@@ -16,12 +16,14 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.osgi.service.event.EventAdmin;
+import org.osgi.service.useradmin.User;
 import org.ripla.web.Activator;
 import org.ripla.web.Constants;
 import org.ripla.web.RiplaApplication;
 import org.ripla.web.interfaces.IToolbarAction;
 import org.ripla.web.interfaces.IToolbarActionListener;
 import org.ripla.web.internal.services.ApplicationData;
+import org.ripla.web.internal.services.ConfigManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,14 +50,21 @@ public final class LanguageSelect extends CustomComponent {
 	private IToolbarActionListener listener;
 
 	/**
-	 * Private LanguageSelect constructor.
+	 * LanguageSelect constructor.
 	 * 
-	 * @param inLanguages
-	 * @param inActiveLanguage
+	 * @param inPreferences
+	 *            {@link PreferencesHelper}
+	 * @param inConfigManager
+	 *            {@link ConfigManager}
+	 * @param inUser
+	 *            {@link User}
 	 */
-	private LanguageSelect(final Locale[] inLanguages,
-			final String inActiveLanguage) {
+	public LanguageSelect(final PreferencesHelper inPreferences,
+			final ConfigManager inConfigManager, final User inUser) {
 		super();
+		// initialize language form prefs (1) or config admin (2)
+		final String lActiveLanguage = inPreferences.getLocale(inUser,
+				new Locale(inConfigManager.getLanguage())).getLanguage();
 
 		setStyleName("ripla-language-select"); //$NON-NLS-1$
 		setSizeUndefined();
@@ -73,7 +82,8 @@ public final class LanguageSelect extends CustomComponent {
 		layout.setComponentAlignment(lLabel, Alignment.MIDDLE_LEFT);
 		layout.setExpandRatio(lLabel, 1);
 
-		final Select lSelect = createSelect(inLanguages, inActiveLanguage);
+		final Select lSelect = createSelect(Constants.LANGUAGES,
+				lActiveLanguage);
 		lSelect.addListener(new Property.ValueChangeListener() {
 			@Override
 			public void valueChange(final ValueChangeEvent inEvent) {
@@ -90,9 +100,7 @@ public final class LanguageSelect extends CustomComponent {
 									final EventAdmin inEventAdmin) {
 								LOG.trace("Setting language preference to {}.",
 										lNew.getLanguage());
-								inApplication.getPreferences().set(
-										PreferencesHelper.KEY_LANGUAGE,
-										lNew.getLanguage());
+								inApplication.setLocale(lNew);
 								final Map<String, Object> lProperties = new HashMap<String, Object>();
 								lProperties.put(
 										Constants.EVENT_PROPERTY_REFRESH, "");
@@ -126,7 +134,7 @@ public final class LanguageSelect extends CustomComponent {
 		listener = inListener;
 	}
 
-	private static Select createSelect(final Locale[] inLanguages,
+	private Select createSelect(final Locale[] inLanguages,
 			final String inActiveLanguage) {
 		final LanguagesContainer lLanguages = LanguagesContainer.getLanguages(
 				inLanguages, inActiveLanguage);
@@ -137,48 +145,6 @@ public final class LanguageSelect extends CustomComponent {
 		outSelect.setNullSelectionAllowed(false);
 		outSelect.setImmediate(true);
 		return outSelect;
-	}
-
-	/**
-	 * Factory method, creates a language select component for the application's
-	 * toolbar.
-	 * 
-	 * @param inLanguages
-	 *            String[] the languages available to be selected
-	 * @param inActiveLanguage
-	 *            String the active, i.e. selected language
-	 * @return {@link LanguageSelect}
-	 */
-	public static LanguageSelect getLanguageSelect(final Locale[] inLanguages,
-			final String inActiveLanguage) {
-		return new LanguageSelect(inLanguages, inActiveLanguage);
-	}
-
-	/**
-	 * Factory method, creates a language select component for the application's
-	 * toolbar.<br />
-	 * The active language is retrieved from the application data.
-	 * 
-	 * @param inLanguages
-	 *            String[] the languages available to be selected
-	 * @return {@link LanguageSelect}
-	 */
-	public static LanguageSelect getLanguageSelect(final Locale[] inLanguages) {
-		return new LanguageSelect(inLanguages, ApplicationData.getLocale()
-				.getLanguage());
-	}
-
-	/**
-	 * Factory method, creates a language select component for the application's
-	 * toolbar.<br />
-	 * The available languages are taken from Ripla.Constants.
-	 * 
-	 * @param inActiveLanguage
-	 *            String the active, i.e. selected language
-	 * @return {@link LanguageSelect}
-	 */
-	public static LanguageSelect getLanguageSelect(final String inActiveLanguage) {
-		return new LanguageSelect(Constants.LANGUAGES, inActiveLanguage);
 	}
 
 	// ---

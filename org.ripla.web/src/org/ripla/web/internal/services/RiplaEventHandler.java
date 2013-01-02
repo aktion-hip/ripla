@@ -47,6 +47,10 @@ public final class RiplaEventHandler {
 	 */
 	@SuppressWarnings("unchecked")
 	public void handleEvent(final Event inEvent) {
+		if (bodyComponent == null) {
+			return;
+		}
+
 		// handle main view
 		final Object lNext = inEvent
 				.getProperty(Constants.EVENT_PROPERTY_NEXT_CONTROLLER);

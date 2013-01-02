@@ -11,6 +11,7 @@
    <reference bind="registerPermission" unbind="unregisterPermission" cardinality="0..n" interface="org.ripla.web.services.IPermissionEntry" name="permissions" policy="dynamic"/>   
    <service>
       <provide interface="org.osgi.service.event.EventHandler"/>
+      <provide interface="org.osgi.service.cm.ManagedService"/>
    </service>
    <property name="event.topics" type="String" value="org/ripla/web/ControllerEvent/*"/>
 </scr:component>

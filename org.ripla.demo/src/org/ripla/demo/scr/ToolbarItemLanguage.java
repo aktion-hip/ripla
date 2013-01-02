@@ -11,8 +11,6 @@
 
 package org.ripla.demo.scr;
 
-import java.util.Locale;
-
 import org.osgi.service.useradmin.User;
 import org.ripla.web.RiplaApplication;
 import org.ripla.web.interfaces.IToolbarActionListener;
@@ -62,9 +60,8 @@ public class ToolbarItemLanguage implements IToolbarItem {
 			@Override
 			public Component createToolbarItem(
 					final RiplaApplication inApplication, final User inUser) {
-				languageSelect = LanguageSelect.getLanguageSelect(inApplication
-						.getPreferences().getLocale(Locale.ENGLISH)
-						.getLanguage());
+				languageSelect = inApplication
+						.createToolbarItem(LanguageSelect.class);
 				return languageSelect;
 			}
 		};

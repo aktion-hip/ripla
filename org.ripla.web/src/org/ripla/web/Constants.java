@@ -49,4 +49,6 @@ public final class Constants {
 
 	public static final String PERMISSION_DESCRIPTION_KEY = "ripla.description"; //$NON-NLS-1$
 
+	public static final String DFT_SKIN_ID = "org.ripla.web.skin";
+	public static final String DFT_LANGUAGE = Locale.ENGLISH.getLanguage();
 }

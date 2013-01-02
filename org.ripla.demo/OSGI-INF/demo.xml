@@ -8,9 +8,12 @@
    <reference bind="registerToolbarItem" unbind="unregisterToolbarItem" cardinality="0..n" interface="org.ripla.web.services.IToolbarItem" name="toolbar" policy="dynamic"/>   
    <reference bind="addUseCase" unbind="removeUseCase" cardinality="0..n" interface="org.ripla.web.services.IUseCase" name="usecase" policy="dynamic"/>   
    <reference bind="registerMenuContribution" unbind="unregisterMenuContribution" cardinality="0..n" interface="org.ripla.web.services.IExtendibleMenuContribution" name="extendibleContributions" policy="dynamic"/>   
-   <reference bind="registerPermission" unbind="unregisterPermission" cardinality="0..n" interface="org.ripla.web.services.IPermissionEntry" name="permissions" policy="dynamic"/>   
+   <reference bind="registerPermission" unbind="unregisterPermission" cardinality="0..n" interface="org.ripla.web.services.IPermissionEntry" name="permissions" policy="dynamic"/>
+   <reference bind="setConfiAdmin" unbind="unsetConfiAdmin" cardinality="1..1" interface="org.osgi.service.cm.ConfigurationAdmin" name="configAdmin" policy="static"/>
    <service>
       <provide interface="org.osgi.service.event.EventHandler"/>
+      <provide interface="org.osgi.service.cm.ManagedService"/>
    </service>
    <property name="event.topics" type="String" value="org/ripla/web/ControllerEvent/*"/>
+   <property name="service.pid" type="String" value="org.ripla.web.configuration"/>
 </scr:component>

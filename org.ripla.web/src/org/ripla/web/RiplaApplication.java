@@ -11,9 +11,15 @@
 
 package org.ripla.web; // NOPMD by Luthiger on 09.09.12 00:42
 
+import java.util.Dictionary;
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.osgi.service.cm.ConfigurationAdmin;
+import org.osgi.service.cm.ConfigurationException;
+import org.osgi.service.cm.ManagedService;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 import org.osgi.service.event.EventHandler;
@@ -25,6 +31,7 @@ import org.ripla.web.interfaces.IAppConfiguration;
 import org.ripla.web.interfaces.IAuthenticator;
 import org.ripla.web.interfaces.IWorkflowListener;
 import org.ripla.web.internal.services.ApplicationData;
+import org.ripla.web.internal.services.ConfigManager;
 import org.ripla.web.internal.services.PermissionHelper;
 import org.ripla.web.internal.services.RiplaEventHandler;
 import org.ripla.web.internal.services.SkinRegistry;
@@ -38,6 +45,7 @@ import org.ripla.web.services.IToolbarItem;
 import org.ripla.web.services.IUseCase;
 import org.ripla.web.util.PreferencesHelper;
 import org.ripla.web.util.RequestHandler;
+import org.ripla.web.util.ToolbarItemFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,22 +81,25 @@ import com.vaadin.ui.Window.CloseEvent;
  */
 @SuppressWarnings("serial")
 public class RiplaApplication extends Application implements EventHandler,
-		HttpServletRequestListener, IWorkflowListener { // NOPMD by Luthiger
+		ManagedService, HttpServletRequestListener, IWorkflowListener { // NOPMD
 	private static final Logger LOG = LoggerFactory
 			.getLogger(RiplaApplication.class);
 
 	private static final String APP_NAME = "Ripla";
 
 	private final PreferencesHelper preferences = createPreferencesHelper();
+	private final ConfigManager configManager = new ConfigManager();
 	private final SkinRegistry skinRegistry = new SkinRegistry(preferences);
 	private final ToolbarItemRegistry toolbarRegistry = new ToolbarItemRegistry();
 	private final UseCaseManager useCaseHelper = new UseCaseManager();
 	private final RiplaEventHandler eventHandler = new RiplaEventHandler();
 	private final PermissionHelper permissionHelper = new PermissionHelper();
+	private ToolbarItemFactory toolbarItemFactory;
 
 	private String requestURL;
 	private RequestHandler requestHandler;
 	private Layout bodyView;
+	private boolean initialized = false;
 
 	/*
 	 * (non-Javadoc)
@@ -97,7 +108,10 @@ public class RiplaApplication extends Application implements EventHandler,
 	 */
 	@Override
 	public final void init() {
+		initialized = true;
 		ApplicationData.create(this);
+		toolbarItemFactory = new ToolbarItemFactory(preferences, configManager,
+				null);
 
 		// synchronize language settings
 		ApplicationData.initLocale(preferences.getLocale(getLocale()));
@@ -137,7 +151,7 @@ public class RiplaApplication extends Application implements EventHandler,
 
 			@Override
 			public String getDftSkinID() {
-				return SkinRegistry.DFT_SKIN_ID;
+				return Constants.DFT_SKIN_ID;
 			}
 
 			@Override
@@ -212,7 +226,9 @@ public class RiplaApplication extends Application implements EventHandler,
 	 *            {@link User} the user instance
 	 */
 	public void showAfterLogin(final User inUser) {
+		toolbarItemFactory.setUser(inUser);
 		ApplicationData.setUser(inUser);
+		ApplicationData.initLocale(preferences.getLocale(inUser, getLocale()));
 		refreshBody();
 	}
 
@@ -338,6 +354,60 @@ public class RiplaApplication extends Application implements EventHandler,
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.osgi.service.cm.ManagedService#updated(java.util.Dictionary)
+	 */
+	@SuppressWarnings("rawtypes")
+	@Override
+	public void updated(final Dictionary inProperties)
+			throws ConfigurationException {
+		if (inProperties == null) {
+			return;
+		}
+
+		synchronized (skinRegistry) {
+			final String lLanguage = (String) inProperties
+					.get(ConfigManager.KEY_LANGUAGE);
+			getPreferences().set(PreferencesHelper.KEY_LANGUAGE, lLanguage);
+
+			final String lSkinID = (String) inProperties
+					.get(ConfigManager.KEY_SKIN);
+			skinRegistry.changeSkin(lSkinID);
+		}
+	}
+
+	/**
+	 * We want to synchronize the metadata value if the skin id is change by the
+	 * application.
+	 * 
+	 * @see com.vaadin.Application#setTheme(java.lang.String)
+	 */
+	@Override
+	public void setTheme(final String inTheme) {
+		configManager.setSkinID(inTheme);
+		super.setTheme(inTheme);
+	}
+
+	/**
+	 * We want to save the locale to the preferences store.
+	 * 
+	 * @see com.vaadin.Application#setLocale(java.util.Locale)
+	 */
+	@Override
+	public void setLocale(final Locale inLocale) {
+		if (initialized) {
+			final User lUser = ApplicationData.getUser();
+			if (lUser == null) {
+				preferences.setLocale(inLocale);
+			} else {
+				preferences.setLocale(inLocale, lUser);
+			}
+		}
+		super.setLocale(inLocale);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * com.vaadin.terminal.gwt.server.HttpServletRequestListener#onRequestStart
 	 * (javax.servlet.http.HttpServletRequest,
@@ -418,6 +488,31 @@ public class RiplaApplication extends Application implements EventHandler,
 	 */
 	protected void initializePermissions() {
 		permissionHelper.initializePermissions();
+	}
+
+	/**
+	 * The factory method to create a toolbar component instance. <br />
+	 * Toolbar items created with this factory must have a constructor with the
+	 * following parameters:
+	 * <ul>
+	 * <li>org.ripla.web.util.PreferencesHelper</li>
+	 * <li>org.ripla.web.internal.services.ConfigManager</li>
+	 * <li>org.osgi.service.useradmin.User</li>
+	 * </ul>
+	 * 
+	 * @param inClass
+	 *            Class the toolbar component class
+	 * @return {@link Component} the created toolbar component instance or
+	 *         <code>null</code> in case of an error
+	 */
+	public <T extends Component> T createToolbarItem(final Class<T> inClass) {
+		try {
+			return toolbarItemFactory.createToolbarComponent(inClass);
+		}
+		catch (final Exception exc) {
+			LOG.error("Error encountered while creating the toolbar item!", exc);
+		}
+		return null;
 	}
 
 	// --- OSGi DS bind and unbind methods ---
@@ -508,6 +603,14 @@ public class RiplaApplication extends Application implements EventHandler,
 		LOG.debug("Unregistered permission '{}'.",
 				inPermission.getPermissionName());
 		permissionHelper.removePermission(inPermission);
+	}
+
+	public void setConfiAdmin(final ConfigurationAdmin inConfigAdmin) {
+		configManager.setConfigAdmin(inConfigAdmin);
+	}
+
+	public void unsetConfiAdmin(final ConfigurationAdmin inConfigAdmin) {
+		configManager.clearConfigAdmin();
 	}
 
 }

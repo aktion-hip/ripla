@@ -16,6 +16,7 @@ import java.util.Locale;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 import org.osgi.service.prefs.PreferencesService;
+import org.osgi.service.useradmin.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,6 +85,11 @@ public class PreferencesHelper {
 		}
 
 		final Preferences lPreferences = preferences.getSystemPreferences();
+		set(inKey, inValue, lPreferences);
+	}
+
+	private void set(final String inKey, final String inValue,
+			final Preferences lPreferences) {
 		lPreferences.remove(inKey);
 		lPreferences.put(inKey, inValue);
 		savePreferences(lPreferences);
@@ -107,7 +113,7 @@ public class PreferencesHelper {
 	}
 
 	/**
-	 * Retrieves the configured locale.
+	 * Retrieves the configured locale (for the system user).
 	 * 
 	 * @param inDft
 	 *            {@link Locale} the system's locale
@@ -116,6 +122,55 @@ public class PreferencesHelper {
 	public Locale getLocale(final Locale inDft) {
 		final String lLanguage = get(KEY_LANGUAGE, inDft.getLanguage());
 		return new Locale(lLanguage);
+	}
+
+	/**
+	 * Retrieves the configured locale for the specified user.
+	 * 
+	 * @param inUser
+	 *            {@link User}
+	 * @param inDft
+	 *            {@link Locale} the system's locale
+	 * @return {@link Locale}
+	 */
+	public Locale getLocale(final User inUser, final Locale inDft) {
+		if (preferences == null) {
+			return inDft;
+		}
+		if (inUser == null) {
+			return getLocale(inDft);
+		}
+		final Preferences lPreferences = preferences.getUserPreferences(inUser
+				.getName());
+		return new Locale(lPreferences.get(KEY_LANGUAGE, inDft.getLanguage()));
+	}
+
+	/**
+	 * Sets the locale for the system user.
+	 * 
+	 * @param inLocale
+	 *            {@link Locale}
+	 */
+	public void setLocale(final Locale inLocale) {
+		if (preferences != null) {
+			set(KEY_LANGUAGE, inLocale.getLanguage(),
+					preferences.getSystemPreferences());
+		}
+	}
+
+	/**
+	 * Sets the locale for the specified user.
+	 * 
+	 * @param inLocale
+	 *            {@link Locale}
+	 * @param inUser
+	 *            {@link User}
+	 */
+	public void setLocale(final Locale inLocale, final User inUser) {
+		if (preferences != null) {
+			set(KEY_LANGUAGE, inLocale.getLanguage(),
+					preferences.getUserPreferences(inUser.getName()));
+		}
 	}
 
 }
