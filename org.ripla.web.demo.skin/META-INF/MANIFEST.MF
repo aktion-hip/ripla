@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Skin for the Ripla Demo application
+Bundle-SymbolicName: org.ripla.web.demo.skin
+Bundle-Version: 1.0.1.qualifier
+Bundle-Activator: org.ripla.web.demo.skin.Activator
+Bundle-Vendor: RelationWare
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: com.vaadin.server;version="7.1.0",
+ com.vaadin.shared.ui.label;version="7.1.0",
+ com.vaadin.ui;version="7.1.0",
+ org.osgi.framework;version="1.3.0",
+ org.ripla.interfaces,
+ org.ripla.services,
+ org.ripla.util,
+ org.ripla.web.interfaces,
+ org.ripla.web.services,
+ org.ripla.web.util,
+ org.slf4j;version="1.7.0"
+Bundle-ActivationPolicy: lazy
+Service-Component: OSGI-INF/skin.xml

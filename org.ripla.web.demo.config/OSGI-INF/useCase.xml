@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.web.demo.config.usecase">
+   <implementation class="org.ripla.web.demo.config.scr.UseCaseComponent"/>
+   <service>
+      <provide interface="org.ripla.web.services.IUseCase"/>
+   </service>
+</scr:component>
