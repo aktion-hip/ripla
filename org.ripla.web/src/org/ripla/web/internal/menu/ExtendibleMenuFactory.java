@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,16 +18,15 @@ import java.util.Map;
 
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.useradmin.Authorization;
-import org.ripla.web.interfaces.IMenuCommand;
-import org.ripla.web.interfaces.IMenuExtendible;
-import org.ripla.web.interfaces.IMenuItem;
-import org.ripla.web.menu.ExtendibleMenuMarker;
-import org.ripla.web.menu.ExtendibleMenuMarker.Position;
-import org.ripla.web.services.IExtendibleMenuContribution;
+import org.ripla.interfaces.IMenuCommand;
+import org.ripla.interfaces.IMenuExtendible;
+import org.ripla.interfaces.IMenuItem;
+import org.ripla.services.IExtendibleMenuContribution;
+import org.ripla.util.ExtendibleMenuMarker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vaadin.terminal.Resource;
+import com.vaadin.server.Resource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -66,7 +65,8 @@ public final class ExtendibleMenuFactory extends MenuFactory {
 			contributions.add(new MarkerItem(lMarker.getMarkerID())); // NOPMD
 		}
 		for (final IExtendibleMenuContribution lContribution : inContributions) {
-			final Position lPosition = lContribution.getPosition();
+			final ExtendibleMenuMarker.Position lPosition = lContribution
+					.getPosition();
 			switch (lPosition.getType()) {
 			case APPEND:
 				appendTo(lPosition.getMarkerID(), lContribution);

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,17 +16,18 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.osgi.framework.Bundle;
-import org.osgi.service.event.EventAdmin;
 import org.osgi.service.useradmin.UserAdmin;
-import org.ripla.web.exceptions.NoControllerFoundException;
-import org.ripla.web.interfaces.IControllerConfiguration;
-import org.ripla.web.interfaces.IControllerSet;
+import org.ripla.exceptions.NoControllerFoundException;
+import org.ripla.interfaces.IControllerConfiguration;
+import org.ripla.interfaces.IControllerSet;
+import org.ripla.web.Constants;
 import org.ripla.web.interfaces.IPluggable;
 import org.ripla.web.internal.views.DefaultRiplaView;
 import org.ripla.web.util.UseCaseHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Component;
 
 /**
@@ -44,7 +45,6 @@ public final class ControllerManager {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(ControllerManager.class);
 
-	private EventAdmin eventAdmin;
 	private final transient Map<String, BundleClassLoader> controllerMappingTable = Collections
 			.synchronizedMap(new Hashtable<String, BundleClassLoader>());
 
@@ -74,9 +74,9 @@ public final class ControllerManager {
 	private Component runController(final BundleClassLoader inLoader) {
 		try {
 			final IPluggable lController = inLoader.createLoader();
-			lController.setEventAdmin(eventAdmin);
 			lController.setUserAdmin(userAdmin);
-			ApplicationData.setActiveMenuItem(inLoader.getSymbolicName());
+			VaadinSession.getCurrent().setAttribute(Constants.SA_ACTIVE_MENU,
+					inLoader.getSymbolicName());
 			return lController.run();
 		}
 		catch (final Exception exc) {
@@ -128,24 +128,6 @@ public final class ControllerManager {
 				controllerMappingTable.remove(lLoader);
 			}
 		}
-	}
-
-	/**
-	 * Sets the OSGi event admin.
-	 * 
-	 * @param inEventAdmin
-	 *            {@link EventAdmin}
-	 */
-	public void setEventAdmin(final EventAdmin inEventAdmin) {
-		eventAdmin = inEventAdmin;
-		LOG.trace("Set OSGi event admin to Ripla controller manager."); //$NON-NLS-1$
-	}
-
-	/**
-	 * @return {@link EventAdmin}
-	 */
-	public EventAdmin getEventAdmin() {
-		return eventAdmin;
 	}
 
 	/**

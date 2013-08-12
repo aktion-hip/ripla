@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,12 +23,14 @@ import org.ripla.web.Activator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.BaseTheme;
@@ -75,9 +77,9 @@ public final class HelpButton extends CustomComponent {
 		final HorizontalLayout lLayout = new HorizontalLayout();
 		lLayout.setStyleName("ripla-help"); //$NON-NLS-1$
 		setCompositionRoot(lLayout);
-		setWidth(SIZE_UNDEFINED, 0);
+		setWidth(SIZE_UNDEFINED, Unit.PIXELS);
 
-		lLayout.setWidth(SIZE_UNDEFINED, 0);
+		lLayout.setWidth(SIZE_UNDEFINED, Unit.PIXELS);
 		Label lLabel = new Label("["); //$NON-NLS-1$
 		RiplaViewHelper.makeUndefinedWidth(lLabel);
 		lLayout.addComponent(lLabel);
@@ -92,14 +94,14 @@ public final class HelpButton extends CustomComponent {
 			final URL inHelpContent, final int inWidth, final int inHeight) {
 		final Button outLink = new Button(inCaption);
 		outLink.setStyleName(BaseTheme.BUTTON_LINK);
-		outLink.addListener(new Button.ClickListener() {
+		outLink.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(final ClickEvent inEvent) {
 				final HelpWindow lHelpWindow = new HelpWindow(Activator
 						.getMessages().getMessage("help.window.title"), //$NON-NLS-1$
 						getHelpText(inHelpContent), inWidth, inHeight);
 				if (lHelpWindow.getParent() == null) {
-					getWindow().addWindow(lHelpWindow.getHelpWindow());
+					UI.getCurrent().addWindow(lHelpWindow);
 				}
 				lHelpWindow.setPosition(50, 50);
 			}
@@ -170,46 +172,41 @@ public final class HelpButton extends CustomComponent {
 
 	// ---
 
-	private static class HelpWindow extends VerticalLayout {
-		private final transient Window helpWindow; // NOPMD by Luthiger on
+	private static class HelpWindow extends Window {
+		// private final transient Window helpWindow; // NOPMD by Luthiger on
 
 		HelpWindow(final String inCaption, final String inHelpText,
 				final int inWidth, final int inHeight) {
-			super();
+			super(inCaption);
 
-			setSpacing(true);
-			helpWindow = new Window(inCaption);
-			helpWindow.addStyleName("ripla-lookup"); //$NON-NLS-1$
-			helpWindow.setWidth(inWidth, UNITS_PIXELS);
-			helpWindow.setHeight(inHeight, UNITS_PIXELS);
+			addStyleName("ripla-lookup"); //$NON-NLS-1$
+			setWidth(inWidth, Unit.PIXELS);
+			setHeight(inHeight, Unit.PIXELS);
 
-			final VerticalLayout lLayout = (VerticalLayout) helpWindow
-					.getContent();
+			final VerticalLayout lLayout = new VerticalLayout();
+			setContent(lLayout);
+			lLayout.setSpacing(true);
 			lLayout.setMargin(true);
 			lLayout.setSpacing(true);
 			lLayout.setSizeFull();
 			lLayout.setStyleName("ripla-view"); //$NON-NLS-1$
-			lLayout.addComponent(new Label(inHelpText, Label.CONTENT_XHTML));
+			lLayout.addComponent(new Label(inHelpText, ContentMode.HTML));
 
 			final Button lClose = new Button(Activator.getMessages()
 					.getMessage("lookup.window.button.close"), //$NON-NLS-1$
 					new Button.ClickListener() {
 						@Override
 						public void buttonClick(final ClickEvent inEvent) {
-							(helpWindow.getParent()).removeWindow(helpWindow);
+							UI.getCurrent().removeWindow(HelpWindow.this);
 						}
 					});
 			lLayout.addComponent(lClose);
 			lLayout.setComponentAlignment(lClose, Alignment.BOTTOM_RIGHT);
 		}
 
-		protected Window getHelpWindow() {
-			return helpWindow;
-		}
-
 		protected void setPosition(final int inPositionX, final int inPositionY) {
-			helpWindow.setPositionX(inPositionX);
-			helpWindow.setPositionX(inPositionY);
+			setPositionX(inPositionX);
+			setPositionX(inPositionY);
 		}
 	}
 

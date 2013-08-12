@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,10 +13,10 @@ package org.ripla.web.menu;
 
 import org.osgi.service.useradmin.Authorization;
 import org.osgi.service.useradmin.User;
+import org.ripla.interfaces.IMessages;
+import org.ripla.util.ParameterObject;
 import org.ripla.web.interfaces.IContextMenuItem;
-import org.ripla.web.interfaces.IMessages;
 import org.ripla.web.interfaces.IPluggable;
-import org.ripla.web.util.ParameterObject;
 
 /**
  * Default implementation of <code>IContextMenuItem</code>.<br />
@@ -53,31 +53,16 @@ public final class ContextMenuItem implements IContextMenuItem {
 		messages = inMessages;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.ripla.web.interfaces.IContextMenuItem#getControllerClass()
-	 */
 	@Override
 	public Class<? extends IPluggable> getControllerClass() {
 		return controllerClass;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.ripla.web.interfaces.IContextMenuItem#getTitleMsg()
-	 */
 	@Override
 	public String getTitleMsg() {
 		return messages.getMessage(msgKey);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.ripla.web.interfaces.IContextMenuItem#getMenuPermission()
-	 */
 	@Override
 	public String getMenuPermission() {
 		return menuPermission;

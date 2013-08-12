@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,8 +14,8 @@ package org.ripla.web.menu;
 import java.util.Collections;
 import java.util.List;
 
-import org.ripla.web.interfaces.IMenuExtendible;
-import org.ripla.web.interfaces.IMenuItem;
+import org.ripla.interfaces.IMenuExtendible;
+import org.ripla.interfaces.IMenuItem;
 
 /**
  * Base class for the implementations of <code>IMenuExtendible</code> provided

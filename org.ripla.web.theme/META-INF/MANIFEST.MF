@@ -4,5 +4,5 @@ Bundle-Name: Theme for Ripla
 Bundle-SymbolicName: org.ripla.web.theme
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: RelationWare
-Fragment-Host: com.vaadin;bundle-version="6.7.6"
+Fragment-Host: com.vaadin.server;bundle-version="7.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

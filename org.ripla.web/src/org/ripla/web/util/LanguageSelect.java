@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,16 +13,14 @@ package org.ripla.web.util;
 
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
-import org.osgi.service.event.EventAdmin;
 import org.osgi.service.useradmin.User;
+import org.ripla.interfaces.IRiplaEventDispatcher;
+import org.ripla.util.PreferencesHelper;
 import org.ripla.web.Activator;
 import org.ripla.web.Constants;
-import org.ripla.web.RiplaApplication;
 import org.ripla.web.interfaces.IToolbarAction;
 import org.ripla.web.interfaces.IToolbarActionListener;
-import org.ripla.web.internal.services.ApplicationData;
 import org.ripla.web.internal.services.ConfigManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,11 +28,13 @@ import org.slf4j.LoggerFactory;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Select;
 
 /**
  * Language selection component.
@@ -48,6 +48,8 @@ public final class LanguageSelect extends CustomComponent {
 
 	private final HorizontalLayout layout;
 	private IToolbarActionListener listener;
+
+	private final ComboBox select;
 
 	/**
 	 * LanguageSelect constructor.
@@ -63,58 +65,54 @@ public final class LanguageSelect extends CustomComponent {
 			final ConfigManager inConfigManager, final User inUser) {
 		super();
 		// initialize language form prefs (1) or config admin (2)
-		final String lActiveLanguage = inPreferences.getLocale(inUser,
-				new Locale(inConfigManager.getLanguage())).getLanguage();
+		// final String lActiveLanguage = inPreferences.getLocale(inUser,
+		// new Locale(inConfigManager.getLanguage())).getLanguage();
 
 		setStyleName("ripla-language-select"); //$NON-NLS-1$
 		setSizeUndefined();
 
 		layout = new HorizontalLayout();
 		setCompositionRoot(layout);
-		layout.setHeight(22, UNITS_PIXELS);
+		layout.setHeight(22, Unit.PIXELS);
 		layout.setSpacing(true);
 
 		final Label lLabel = new Label(Activator.getMessages().getMessage(
-				"toolbar.label.language"), Label.CONTENT_XHTML); //$NON-NLS-1$
+				"toolbar.label.language"), ContentMode.HTML); //$NON-NLS-1$
 		lLabel.setStyleName("ripla-toolbar-label"); //$NON-NLS-1$
 		lLabel.setSizeUndefined();
 		layout.addComponent(lLabel);
 		layout.setComponentAlignment(lLabel, Alignment.MIDDLE_LEFT);
 		layout.setExpandRatio(lLabel, 1);
 
-		final Select lSelect = createSelect(Constants.LANGUAGES,
-				lActiveLanguage);
-		lSelect.addListener(new Property.ValueChangeListener() {
+		select = createSelect();
+		select.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
 			public void valueChange(final ValueChangeEvent inEvent) {
-				final Locale lNew = ((LocaleAdapter) lSelect.getValue())
+				final Locale lNew = ((LocaleAdapter) select.getValue())
 						.getLocale();
-				final Locale lOld = ApplicationData.getLocale();
+				final Locale lOld = VaadinSession.getCurrent().getLocale();
 				if (!lOld.equals(lNew)) {
-					ApplicationData.initLocale(lNew);
+					VaadinSession.getCurrent().setLocale(lNew);
 					if (listener != null) {
 						listener.processAction(new IToolbarAction() {
 							@Override
-							public void run(
-									final RiplaApplication inApplication,
-									final EventAdmin inEventAdmin) {
+							public void run() {
 								LOG.trace("Setting language preference to {}.",
 										lNew.getLanguage());
-								inApplication.setLocale(lNew);
-								final Map<String, Object> lProperties = new HashMap<String, Object>();
-								lProperties.put(
-										Constants.EVENT_PROPERTY_REFRESH, "");
-								final org.osgi.service.event.Event lEvent = new org.osgi.service.event.Event(
-										Constants.EVENT_TOPIC_APPLICATION,
-										lProperties);
-								inEventAdmin.sendEvent(lEvent);
+								VaadinSession
+										.getCurrent()
+										.getAttribute(
+												IRiplaEventDispatcher.class)
+										.dispatch(
+												org.ripla.interfaces.IRiplaEventDispatcher.Event.REFRESH,
+												new HashMap<String, Object>());
 							}
 						});
 					}
 				}
 			}
 		});
-		layout.addComponent(lSelect);
+		layout.addComponent(select);
 	}
 
 	/**
@@ -122,7 +120,7 @@ public final class LanguageSelect extends CustomComponent {
 	 *            int the component's height in pixels
 	 */
 	public void setHeight(final int inHeight) {
-		layout.setHeight(inHeight, UNITS_PIXELS);
+		layout.setHeight(inHeight, Unit.PIXELS);
 	}
 
 	/**
@@ -134,17 +132,23 @@ public final class LanguageSelect extends CustomComponent {
 		listener = inListener;
 	}
 
-	private Select createSelect(final Locale[] inLanguages,
-			final String inActiveLanguage) {
-		final LanguagesContainer lLanguages = LanguagesContainer.getLanguages(
-				inLanguages, inActiveLanguage);
-		final Select outSelect = new Select(null, lLanguages);
-		outSelect.select(lLanguages.getActiveLanguage());
+	private ComboBox createSelect() {
+		final ComboBox outSelect = new ComboBox(null);
 		outSelect.setStyleName("ripla-select"); //$NON-NLS-1$
-		outSelect.setWidth(55, UNITS_PIXELS);
+		outSelect.setWidth(55, Unit.PIXELS);
 		outSelect.setNullSelectionAllowed(false);
 		outSelect.setImmediate(true);
 		return outSelect;
+	}
+
+	@Override
+	public void attach() {
+		super.attach();
+
+		final LanguagesContainer lLanguages = LanguagesContainer.getLanguages(
+				Constants.LANGUAGES, getSession().getLocale().getLanguage());
+		select.setContainerDataSource(lLanguages);
+		select.select(lLanguages.getActiveLanguage());
 	}
 
 	// ---

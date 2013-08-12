@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,9 @@
 package org.ripla.web.util;
 
 import com.vaadin.data.Validator;
-import com.vaadin.terminal.Sizeable;
+import com.vaadin.server.Sizeable;
+import com.vaadin.server.Sizeable.Unit;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -48,7 +50,7 @@ public final class RiplaViewHelper {
 	 * @return Component
 	 */
 	public static Component createSpacer() {
-		return new Label("<div class=\"spacer\"></div>", Label.CONTENT_XHTML); //$NON-NLS-1$
+		return new Label("<div class=\"spacer\"></div>", ContentMode.HTML); //$NON-NLS-1$
 	}
 
 	/**
@@ -91,7 +93,7 @@ public final class RiplaViewHelper {
 		if (inValidator != null) {
 			out.addValidator(inValidator);
 		}
-		out.setWidth(inWidth, Sizeable.UNITS_PIXELS);
+		out.setWidth(inWidth, Unit.PIXELS);
 		out.setStyleName("ripla-input"); //$NON-NLS-1$
 		return out;
 	}
@@ -104,7 +106,7 @@ public final class RiplaViewHelper {
 	 * @return Label with width <code>SIZE_UNDEFINED</code>
 	 */
 	public static Label makeUndefinedWidth(final Label inLabel) {
-		inLabel.setWidth(Sizeable.SIZE_UNDEFINED, 0);
+		inLabel.setWidth(Sizeable.SIZE_UNDEFINED, Unit.PIXELS);
 		return inLabel;
 	}
 

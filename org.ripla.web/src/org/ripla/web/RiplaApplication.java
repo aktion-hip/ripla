@@ -14,56 +14,47 @@ package org.ripla.web; // NOPMD by Luthiger on 09.09.12 00:42
 import java.util.Dictionary;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import org.lunifera.runtime.web.vaadin.osgi.common.OSGiUI;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
-import org.osgi.service.event.Event;
-import org.osgi.service.event.EventAdmin;
-import org.osgi.service.event.EventHandler;
 import org.osgi.service.prefs.PreferencesService;
 import org.osgi.service.useradmin.User;
 import org.osgi.service.useradmin.UserAdmin;
+import org.ripla.interfaces.IAppConfiguration;
+import org.ripla.interfaces.IAuthenticator;
+import org.ripla.interfaces.IRiplaEventDispatcher;
+import org.ripla.interfaces.IWorkflowListener;
+import org.ripla.services.IExtendibleMenuContribution;
+import org.ripla.services.IPermissionEntry;
+import org.ripla.services.ISkinService;
+import org.ripla.util.PreferencesHelper;
 import org.ripla.web.controllers.RiplaBody;
-import org.ripla.web.interfaces.IAppConfiguration;
-import org.ripla.web.interfaces.IAuthenticator;
-import org.ripla.web.interfaces.IWorkflowListener;
-import org.ripla.web.internal.services.ApplicationData;
 import org.ripla.web.internal.services.ConfigManager;
 import org.ripla.web.internal.services.PermissionHelper;
-import org.ripla.web.internal.services.RiplaEventHandler;
+import org.ripla.web.internal.services.RiplaEventDispatcher;
 import org.ripla.web.internal.services.SkinRegistry;
 import org.ripla.web.internal.services.ToolbarItemRegistry;
 import org.ripla.web.internal.services.UseCaseManager;
 import org.ripla.web.internal.views.RiplaLogin;
-import org.ripla.web.services.IExtendibleMenuContribution;
-import org.ripla.web.services.IPermissionEntry;
 import org.ripla.web.services.ISkin;
 import org.ripla.web.services.IToolbarItem;
 import org.ripla.web.services.IUseCase;
-import org.ripla.web.util.PreferencesHelper;
-import org.ripla.web.util.RequestHandler;
+import org.ripla.web.util.RiplaRequestHandler;
 import org.ripla.web.util.ToolbarItemFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vaadin.Application;
-import com.vaadin.terminal.gwt.server.HttpServletRequestListener;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.Window.CloseEvent;
 
 /**
  * <p>
  * The base class of all web applications using the Ripla platform.
- * </p>
- * <p>
- * Subclasses should override the method
- * {@link #RiplaApplication.createWindow()}.
  * </p>
  * <p>
  * Subclasses may override the following methods:<br />
@@ -80,8 +71,8 @@ import com.vaadin.ui.Window.CloseEvent;
  * @author Luthiger
  */
 @SuppressWarnings("serial")
-public class RiplaApplication extends Application implements EventHandler,
-		ManagedService, HttpServletRequestListener, IWorkflowListener { // NOPMD
+public class RiplaApplication extends OSGiUI implements ManagedService,
+		IWorkflowListener { // NOPMD
 	private static final Logger LOG = LoggerFactory
 			.getLogger(RiplaApplication.class);
 
@@ -92,38 +83,47 @@ public class RiplaApplication extends Application implements EventHandler,
 	private final SkinRegistry skinRegistry = new SkinRegistry(preferences);
 	private final ToolbarItemRegistry toolbarRegistry = new ToolbarItemRegistry();
 	private final UseCaseManager useCaseHelper = new UseCaseManager();
-	private final RiplaEventHandler eventHandler = new RiplaEventHandler();
+	private RiplaEventDispatcher eventDispatcher;
 	private final PermissionHelper permissionHelper = new PermissionHelper();
 	private ToolbarItemFactory toolbarItemFactory;
 
-	private String requestURL;
-	private RequestHandler requestHandler;
+	// private String requestURL; // old vaadin HttpServletRequestListener
+	private RiplaRequestHandler requestHandler;
 	private Layout bodyView;
 	private boolean initialized = false;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.vaadin.Application#init()
-	 */
 	@Override
-	public final void init() {
+	public final void init(final VaadinRequest inRequest) {
 		initialized = true;
-		ApplicationData.create(this);
+
 		toolbarItemFactory = new ToolbarItemFactory(preferences, configManager,
 				null);
 
 		// synchronize language settings
-		ApplicationData.initLocale(preferences.getLocale(getLocale()));
+		setSessionLocale(preferences.getLocale(getLocale()));
 
-		final Window lWindow = createWindow();
-		ApplicationData.setWindow(lWindow);
-		ApplicationData.setPreferences(preferences);
+		setSessionPreferences(preferences);
 
+		eventDispatcher = new RiplaEventDispatcher();
+		VaadinSession.getCurrent().setAttribute(IRiplaEventDispatcher.class,
+				eventDispatcher);
 		useCaseHelper.registerContextMenus();
-		if (!initializeLayout(lWindow, getAppConfiguration())) {
+		if (!initializeLayout(getAppConfiguration())) {
 			return;
 		}
+	}
+
+	private void setSessionPreferences(final PreferencesHelper inPreferences) {
+		VaadinSession.getCurrent().setAttribute(PreferencesHelper.class,
+				inPreferences);
+	}
+
+	private void setSessionLocale(final Locale inLocale) {
+		VaadinSession.getCurrent().setLocale(inLocale);
+	}
+
+	private void setSessionUser(final User inUser) {
+		VaadinSession.getCurrent().setAttribute(User.class, inUser);
 	}
 
 	/**
@@ -174,33 +174,29 @@ public class RiplaApplication extends Application implements EventHandler,
 		return getAppConfiguration().getAppName();
 	}
 
-	private boolean initializeLayout(final Window inMain,
-			final IAppConfiguration inConfiguration) {
-		inMain.setStyleName("ripla-window"); //$NON-NLS-1$
-		inMain.addListener(new Window.CloseListener() {
-			@Override
-			public void windowClose(final CloseEvent inEvent) {
-				close();
-			}
-		});
+	private boolean initializeLayout(final IAppConfiguration inConfiguration) {
+		setStyleName("ripla-window"); //$NON-NLS-1$
+		// inMain.addListener(new Window.CloseListener() {
+		// @Override
+		// public void windowClose(final CloseEvent inEvent) {
+		// close();
+		// }
+		// });
 
-		requestHandler = setRequestHandler(inMain);
+		requestHandler = setRequestHandler();
 		skinRegistry.setDefaultSkin(inConfiguration.getDftSkinID());
 		final ISkin lSkin = skinRegistry.getActiveSkin();
-
-		setTheme(lSkin.getSkinID());
-		inMain.getContent().setSizeFull();
 
 		final VerticalLayout lLayout = new VerticalLayout();
 		lLayout.setSizeFull();
 		lLayout.setStyleName("ripla-main");
-		getMainWindow().setContent(lLayout);
+		setContent(lLayout);
 
 		bodyView = createBody();
 		lLayout.addComponent(bodyView);
 		lLayout.setExpandRatio(bodyView, 1);
 
-		if (!beforeLogin(inMain, this)) {
+		if (!beforeLogin(this)) {
 			return false;
 		}
 
@@ -227,8 +223,8 @@ public class RiplaApplication extends Application implements EventHandler,
 	 */
 	public void showAfterLogin(final User inUser) {
 		toolbarItemFactory.setUser(inUser);
-		ApplicationData.setUser(inUser);
-		ApplicationData.initLocale(preferences.getLocale(inUser, getLocale()));
+		setSessionUser(inUser);
+		setSessionLocale(preferences.getLocale(inUser, getLocale()));
 		refreshBody();
 	}
 
@@ -246,14 +242,14 @@ public class RiplaApplication extends Application implements EventHandler,
 	 *         <code>false</code> if the startup is handed over to the
 	 *         application configuration workflow.
 	 */
-	protected boolean beforeLogin(final Window inMain,
-			final IWorkflowListener inWorkflowListener) {
+	protected boolean beforeLogin(final IWorkflowListener inWorkflowListener) {
 		return true;
 	}
 
-	private RequestHandler setRequestHandler(final Window inMain) {
-		final RequestHandler out = new RequestHandler(requestURL, useCaseHelper);
-		inMain.addParameterHandler(out);
+	private RiplaRequestHandler setRequestHandler() {
+		final RiplaRequestHandler out = new RiplaRequestHandler("requestURL",
+				useCaseHelper);
+		// inMain.addParameterHandler(out);
 		return out;
 	}
 
@@ -289,11 +285,12 @@ public class RiplaApplication extends Application implements EventHandler,
 	protected Component createBodyView(final ISkin inSkin) {
 		final RiplaBody out = RiplaBody.createInstance(inSkin, toolbarRegistry,
 				useCaseHelper, this);
-		eventHandler.setBodyComponent(out);
 
-		if (!requestHandler.process(out)) {
-			out.showDefault();
-		}
+		eventDispatcher.setBodyComponent(out);
+
+		// if (!requestHandler.process(out)) {
+		// out.showDefault();
+		// }
 		return out;
 	}
 
@@ -327,35 +324,12 @@ public class RiplaApplication extends Application implements EventHandler,
 		return out;
 	}
 
-	/**
-	 * Creates the application's main window.<br />
-	 * Subclasses should override.
-	 * 
-	 * @return {@link Window} the application's main window
-	 */
-	protected Window createWindow() {
-		final Window outWindow = new Window(APP_NAME);
-		setMainWindow(outWindow);
-		return outWindow;
-	}
+	// @Override
+	// public final void handleEvent(final org.osgi.service.event.Event inEvent)
+	// {
+	// eventHandler.handleEvent(inEvent);
+	// }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.osgi.service.event.EventHandler#handleEvent(org.osgi.service.event
-	 * .Event)
-	 */
-	@Override
-	public final void handleEvent(final Event inEvent) {
-		eventHandler.handleEvent(inEvent);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.osgi.service.cm.ManagedService#updated(java.util.Dictionary)
-	 */
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void updated(final Dictionary inProperties)
@@ -376,16 +350,16 @@ public class RiplaApplication extends Application implements EventHandler,
 	}
 
 	/**
-	 * We want to synchronize the metadata value if the skin id is change by the
-	 * application.
+	 * We want to synchronize the metadata value if the skin id is changed by
+	 * the application.
 	 * 
 	 * @see com.vaadin.Application#setTheme(java.lang.String)
 	 */
-	@Override
-	public void setTheme(final String inTheme) {
-		configManager.setSkinID(inTheme);
-		super.setTheme(inTheme);
-	}
+	// @Override
+	// public void setTheme(final String inTheme) {
+	// configManager.setSkinID(inTheme);
+	// super.setTheme(inTheme);
+	// }
 
 	/**
 	 * We want to save the locale to the preferences store.
@@ -395,7 +369,8 @@ public class RiplaApplication extends Application implements EventHandler,
 	@Override
 	public void setLocale(final Locale inLocale) {
 		if (initialized) {
-			final User lUser = ApplicationData.getUser();
+			final User lUser = VaadinSession.getCurrent().getAttribute(
+					User.class);
 			if (lUser == null) {
 				preferences.setLocale(inLocale);
 			} else {
@@ -403,34 +378,6 @@ public class RiplaApplication extends Application implements EventHandler,
 			}
 		}
 		super.setLocale(inLocale);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.vaadin.terminal.gwt.server.HttpServletRequestListener#onRequestStart
-	 * (javax.servlet.http.HttpServletRequest,
-	 * javax.servlet.http.HttpServletResponse)
-	 */
-	@Override
-	public void onRequestStart(final HttpServletRequest inRequest,
-			final HttpServletResponse inResponse) {
-		requestURL = new String(inRequest.getRequestURL());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.vaadin.terminal.gwt.server.HttpServletRequestListener#onRequestEnd
-	 * (javax.servlet.http.HttpServletRequest,
-	 * javax.servlet.http.HttpServletResponse)
-	 */
-	@Override
-	public void onRequestEnd(final HttpServletRequest inRequest,
-			final HttpServletResponse inResponse) {
-		// intentionally left empty
 	}
 
 	/**
@@ -451,6 +398,15 @@ public class RiplaApplication extends Application implements EventHandler,
 	 */
 	public PreferencesHelper getPreferences() {
 		return preferences;
+	}
+
+	/**
+	 * Allows access to the application's skin registry.
+	 * 
+	 * @return {@link SkinRegistry}
+	 */
+	public SkinRegistry getSkinRegistry() {
+		return skinRegistry;
 	}
 
 	/**
@@ -527,16 +483,6 @@ public class RiplaApplication extends Application implements EventHandler,
 		LOG.debug("Removed the OSGi preferences service.");
 	}
 
-	public void setEventAdmin(final EventAdmin inEventAdmin) {
-		useCaseHelper.setEventAdmin(inEventAdmin);
-		LOG.debug("The OSGi event admin service is made available.");
-	}
-
-	public void unsetEventAdmin(final EventAdmin inEventAdmin) {
-		useCaseHelper.setEventAdmin(null);
-		LOG.debug("Removed the OSGi event admin service.");
-	}
-
 	public void setUserAdmin(final UserAdmin inUserAdmin) {
 		useCaseHelper.setUserAdmin(inUserAdmin);
 		permissionHelper.setUserAdmin(inUserAdmin);
@@ -549,12 +495,12 @@ public class RiplaApplication extends Application implements EventHandler,
 		LOG.debug("Removed the OSGi user admin service is made available.");
 	}
 
-	public void registerSkin(final ISkin inSkin) {
+	public void registerSkin(final ISkinService inSkin) {
 		LOG.debug("Registered skin '{}'.", inSkin.getSkinID());
 		skinRegistry.registerSkin(inSkin);
 	}
 
-	public void unregisterSkin(final ISkin inSkin) {
+	public void unregisterSkin(final ISkinService inSkin) {
 		LOG.debug("Unregistered skin '{}'.", inSkin.getSkinID());
 		skinRegistry.unregisterSkin(inSkin);
 	}

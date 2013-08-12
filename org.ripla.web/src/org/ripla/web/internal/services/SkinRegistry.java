@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,20 +8,21 @@
  * Contributors:
  * RelationWare, Benno Luthiger
  ******************************************************************************/
-
 package org.ripla.web.internal.services;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.ripla.services.ISkinService;
+import org.ripla.util.PreferencesHelper;
 import org.ripla.web.Constants;
 import org.ripla.web.services.ISkin;
 import org.ripla.web.util.LabelHelper;
-import org.ripla.web.util.PreferencesHelper;
 
-import com.vaadin.terminal.Resource;
-import com.vaadin.terminal.Sizeable;
+import com.vaadin.server.Resource;
+import com.vaadin.server.Sizeable.Unit;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -34,9 +35,9 @@ import com.vaadin.ui.Layout;
  * @author Luthiger
  */
 public final class SkinRegistry {
-	private final transient Collection<ISkin> skins = Collections
-			.synchronizedList(new ArrayList<ISkin>());
-	private transient ISkin activeSkin = null;
+	private final transient Collection<ISkinService> skins = Collections
+			.synchronizedList(new ArrayList<ISkinService>());
+	private transient ISkinService activeSkin = null;
 
 	private final transient PreferencesHelper preferences;
 	private transient String dftSkinID = Constants.DFT_SKIN_ID;
@@ -49,16 +50,16 @@ public final class SkinRegistry {
 	 */
 	public SkinRegistry(final PreferencesHelper inPreferences) {
 		preferences = inPreferences;
-		skins.add(new RiplaSkin());
+		skins.add(new RiplaSkinService());
 	}
 
 	/**
 	 * Registering a new skin. Called by the component's bind method.
 	 * 
 	 * @param inSkin
-	 *            {@link ISkin}
+	 *            {@link ISkinService}
 	 */
-	public void registerSkin(final ISkin inSkin) {
+	public void registerSkin(final ISkinService inSkin) {
 		skins.add(inSkin);
 	}
 
@@ -66,9 +67,9 @@ public final class SkinRegistry {
 	 * Unregistering a skin. Called by the component's unbind method.
 	 * 
 	 * @param inSkin
-	 *            {@link ISkin}
+	 *            {@link ISkinService}
 	 */
-	public void unregisterSkin(final ISkin inSkin) {
+	public void unregisterSkin(final ISkinService inSkin) {
 		skins.remove(inSkin);
 	}
 
@@ -80,6 +81,17 @@ public final class SkinRegistry {
 	 *         skins are registered
 	 */
 	public ISkin getActiveSkin() {
+		return (ISkin) getActiveSkinService().createSkin();
+	}
+
+	/**
+	 * Returns the active skin service, i.e. the service in operation that can
+	 * create skin instances (according to the settings in the application
+	 * preferences).
+	 * 
+	 * @return
+	 */
+	public ISkinService getActiveSkinService() {
 		if (activeSkin == null) {
 			final String lSkinID = preferences.getActiveSkinID();
 			if (lSkinID == null) {
@@ -91,8 +103,8 @@ public final class SkinRegistry {
 		return activeSkin;
 	}
 
-	private ISkin calculateSkin(final String inSkinID) {
-		for (final ISkin lSkin : skins) {
+	private ISkinService calculateSkin(final String inSkinID) {
+		for (final ISkinService lSkin : skins) {
 			if (lSkin.getSkinID().equals(inSkinID)) {
 				return lSkin;
 			}
@@ -123,13 +135,7 @@ public final class SkinRegistry {
 
 	// ---
 
-	/**
-	 * The Ripla default skin.
-	 * 
-	 * @author Luthiger
-	 */
-	private static class RiplaSkin implements ISkin {
-
+	private static class RiplaSkinService implements ISkinService {
 		@Override
 		public String getSkinID() {
 			return Constants.DFT_SKIN_ID;
@@ -141,6 +147,19 @@ public final class SkinRegistry {
 		}
 
 		@Override
+		public org.ripla.services.ISkin createSkin() {
+			return new RiplaSkin();
+		}
+	}
+
+	/**
+	 * The Ripla default skin.
+	 * 
+	 * @author Luthiger
+	 */
+	private static class RiplaSkin implements ISkin {
+
+		@Override
 		public boolean hasHeader() {
 			return true;
 		}
@@ -150,7 +169,7 @@ public final class SkinRegistry {
 			final Layout outHeader = new HorizontalLayout();
 			outHeader.setStyleName("ripla-header"); //$NON-NLS-1$
 			outHeader.setWidth("100%"); //$NON-NLS-1$
-			outHeader.setHeight(70, Sizeable.UNITS_PIXELS);
+			outHeader.setHeight(70, Unit.PIXELS);
 			outHeader.addComponent(LabelHelper.createLabel("header",
 					"ripla-header-text"));
 			return outHeader;
@@ -166,7 +185,7 @@ public final class SkinRegistry {
 			final Layout outFooter = new HorizontalLayout();
 			outFooter.setStyleName("ripla-footer"); //$NON-NLS-1$
 			outFooter.setWidth("100%"); //$NON-NLS-1$
-			outFooter.setHeight(18, Sizeable.UNITS_PIXELS);
+			outFooter.setHeight(18, Unit.PIXELS);
 			outFooter.addComponent(LabelHelper.createLabel("footer",
 					"ripla-footer-text"));
 			return outFooter;
@@ -179,7 +198,7 @@ public final class SkinRegistry {
 
 		@Override
 		public Label getToolbarSeparator() {
-			final Label outSeparator = new Label("&bull;", Label.CONTENT_XHTML); //$NON-NLS-1$
+			final Label outSeparator = new Label("&bull;", ContentMode.HTML); //$NON-NLS-1$
 			outSeparator.setSizeUndefined();
 			return outSeparator;
 		}
@@ -189,31 +208,16 @@ public final class SkinRegistry {
 			return true;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.ripla.web.services.ISkin#getMenuBarLayout()
-		 */
 		@Override
-		public HorizontalLayout getMenuBarLayout() {
+		public HorizontalLayout getMenuBar() {
 			return null;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.ripla.web.services.ISkin#getMenuBarComponent()
-		 */
 		@Override
-		public HorizontalLayout getMenuBarComponent() {
+		public HorizontalLayout getMenuBarMedium() {
 			return null;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.ripla.web.services.ISkin#getSubMenuIcon()
-		 */
 		@Override
 		public Resource getSubMenuIcon() {
 			return null;

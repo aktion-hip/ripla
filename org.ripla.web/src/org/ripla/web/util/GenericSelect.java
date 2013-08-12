@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,8 +17,8 @@ import java.util.Collections;
 
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.terminal.Sizeable;
-import com.vaadin.ui.Select;
+import com.vaadin.server.Sizeable.Unit;
+import com.vaadin.ui.ComboBox;
 
 /**
  * <p>
@@ -42,7 +42,7 @@ public final class GenericSelect {
 	 * Creates a <code>Selection</code> widget with the provided options.
 	 * 
 	 * @param inProperty
-	 *            {@link Property}
+	 *            {@link Property&lt;String>}
 	 * @param inOptions
 	 *            {@link Collection}
 	 * @param inWidth
@@ -52,19 +52,19 @@ public final class GenericSelect {
 	 * @param inProcessor
 	 *            {@link IProcessor} for post processing, may be
 	 *            <code>null</code>
-	 * @return {@link Select}
+	 * @return {@link ComboBox}
 	 */
 	@SuppressWarnings("serial")
-	public static Select getSelection(final Property inProperty,
+	public static ComboBox getSelection(final Property<String> inProperty,
 			final Collection<String> inOptions, final int inWidth,
 			final boolean inAllowNull, final IProcessor inProcessor) {
-		final Select outSelect = new Select(null, inOptions);
-		outSelect.select(inProperty.getValue().toString());
+		final ComboBox outSelect = new ComboBox(null, inOptions);
+		outSelect.select(inProperty.getValue());
 		outSelect.setStyleName("ripla-select"); //$NON-NLS-1$
-		outSelect.setWidth(inWidth, Sizeable.UNITS_PIXELS);
+		outSelect.setWidth(inWidth, Unit.PIXELS);
 		outSelect.setNullSelectionAllowed(inAllowNull);
 		outSelect.setImmediate(true);
-		outSelect.addListener(new Property.ValueChangeListener() {
+		outSelect.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
 			public void valueChange(final ValueChangeEvent inEvent) {
 				final String lItemID = (String) inEvent.getProperty()

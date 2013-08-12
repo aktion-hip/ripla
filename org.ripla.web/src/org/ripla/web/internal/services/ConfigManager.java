@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -65,7 +65,6 @@ public class ConfigManager {
 	 *            String a suitable default value if something goes wrong
 	 * @return String
 	 */
-	@SuppressWarnings("unchecked")
 	public String getValue(final String inMetaPID, final String inKey,
 			final String inDftValue) {
 		if (configAdmin == null) {
@@ -74,13 +73,13 @@ public class ConfigManager {
 		try {
 			final Configuration lConfiguration = configAdmin
 					.getConfiguration(inMetaPID);
-			final Dictionary<String, String> lProperties = lConfiguration
+			final Dictionary<String, Object> lProperties = lConfiguration
 					.getProperties();
 			if (lProperties == null) {
 				return inDftValue;
 			}
-			final String out = lProperties.get(inKey);
-			return out == null ? inDftValue : out;
+			final Object out = lProperties.get(inKey);
+			return (String) (out == null ? inDftValue : out);
 		}
 		catch (final IOException exc) {
 			LOG.error(
@@ -142,7 +141,6 @@ public class ConfigManager {
 		setValue(PID, KEY_LANGUAGE, inLanguage);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void setValue(final String inMetaPID, final String inKey,
 			final String inValue) {
 		if (configAdmin == null) {
@@ -151,7 +149,7 @@ public class ConfigManager {
 		try {
 			final Configuration lConfiguration = configAdmin
 					.getConfiguration(inMetaPID);
-			final Dictionary<String, String> lProperties = lConfiguration
+			final Dictionary<String, Object> lProperties = lConfiguration
 					.getProperties();
 			if (lProperties != null) {
 				lProperties.put(inKey, inValue);

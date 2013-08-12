@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,17 +17,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.osgi.service.event.Event;
-import org.osgi.service.event.EventAdmin;
 import org.osgi.service.useradmin.Authorization;
 import org.osgi.service.useradmin.User;
+import org.ripla.interfaces.IRiplaEventDispatcher;
+import org.ripla.interfaces.IRiplaEventDispatcher.Event;
+import org.ripla.util.ParameterObject;
 import org.ripla.web.Constants;
 import org.ripla.web.interfaces.IContextMenuItem;
 import org.ripla.web.interfaces.IMenuSet;
 import org.ripla.web.interfaces.IPluggable;
-import org.ripla.web.util.ParameterObject;
 import org.ripla.web.util.UseCaseHelper;
 
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -45,8 +46,6 @@ import com.vaadin.ui.themes.BaseTheme;
  * @author Luthiger
  */
 public final class ContextMenuManager {
-
-	private transient EventAdmin eventAdmin;
 	private final transient Map<String, ContextMenuSet> contextMenus = Collections
 			.synchronizedMap(new HashMap<String, ContextMenuManager.ContextMenuSet>());
 
@@ -77,17 +76,6 @@ public final class ContextMenuManager {
 			}
 		});
 		return out;
-	}
-
-	/**
-	 * Sets the <code>EventAdmin</code> to the menu manager for that it can send
-	 * events.
-	 * 
-	 * @param inEventAdmin
-	 *            {@link EventAdmin}
-	 */
-	public void setEventAdmin(final EventAdmin inEventAdmin) {
-		eventAdmin = inEventAdmin;
 	}
 
 	/**
@@ -163,8 +151,8 @@ public final class ContextMenuManager {
 				if (lControllerClass.equals(inControllerClass)) {
 					lContextMenuLink.addStyleName("active");
 				}
-				lContextMenuLink.addListener(new ContextMenuListener( // NOPMD
-						lControllerClass, eventAdmin));
+				lContextMenuLink.addClickListener(new ContextMenuListener( // NOPMD
+						lControllerClass));
 				outContextMenu.addComponent(lContextMenuLink);
 			}
 		}
@@ -177,13 +165,9 @@ public final class ContextMenuManager {
 	@SuppressWarnings("serial")
 	private static class ContextMenuListener implements ClickListener {
 		private final Class<? extends IPluggable> controllerClass;
-		private final EventAdmin eventAdmin;
 
-		ContextMenuListener(
-				final Class<? extends IPluggable> inControllerClass,
-				final EventAdmin inEventAdmin) {
+		ContextMenuListener(final Class<? extends IPluggable> inControllerClass) {
 			controllerClass = inControllerClass;
-			eventAdmin = inEventAdmin;
 		}
 
 		@Override
@@ -194,9 +178,9 @@ public final class ContextMenuManager {
 							UseCaseHelper
 									.createFullyQualifiedControllerName(controllerClass));
 
-			final Event lEvent = new Event(Constants.EVENT_TOPIC_CONTROLLERS,
-					lProperties);
-			eventAdmin.sendEvent(lEvent);
+			VaadinSession.getCurrent()
+					.getAttribute(IRiplaEventDispatcher.class)
+					.dispatch(Event.LOAD_CONTROLLER, lProperties);
 		}
 	}
 

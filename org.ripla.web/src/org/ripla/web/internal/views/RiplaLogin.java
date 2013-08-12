@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,52 +11,54 @@
 
 package org.ripla.web.internal.views;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.osgi.service.useradmin.User;
 import org.osgi.service.useradmin.UserAdmin;
+import org.ripla.exceptions.LoginException;
+import org.ripla.interfaces.IAppConfiguration;
+import org.ripla.interfaces.IAuthenticator;
+import org.ripla.interfaces.IMessages;
 import org.ripla.web.Activator;
 import org.ripla.web.RiplaApplication;
-import org.ripla.web.exceptions.LoginException;
-import org.ripla.web.interfaces.IAppConfiguration;
-import org.ripla.web.interfaces.IAuthenticator;
-import org.ripla.web.interfaces.IMessages;
 
 import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.util.ObjectProperty;
+import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.event.MouseEvents.ClickListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Form;
-import com.vaadin.ui.FormFieldFactory;
+import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
-import com.vaadin.ui.Window.Notification;
 
 /**
  * The application's login view.<br />
  * Subclasses may override
- * <code>Button.ClickListener {@link #getListener(Form inForm, IAuthenticator inAuthenticator, RiplaApplication inApplication, UserAdmin inUserAdmin, Window inWindow)}</code>
- * .
+ * <code>Button.ClickListener {@link #getListener(RiplaLogin inLogin, IAuthenticator inAuthenticator, RiplaApplication inApplication, UserAdmin inUserAdmin)}</code>
  * 
  * @author Luthiger
  */
 @SuppressWarnings("serial")
 public class RiplaLogin extends CustomComponent {
-	private Button loginButton;
-	private Form form;
+	private static final String NAME_USERID = "userid"; //$NON-NLS-1$
+	private static final String NAME_PASSWORD = "password"; //$NON-NLS-1$
 
 	private final IAuthenticator authenticator;
 	private final RiplaApplication application;
 	private final UserAdmin userAdmin;
+
+	private static TextField user;
+	private static PasswordField pass;
+	private Button loginButton;
+
+	private Item loginItem;
 
 	/**
 	 * RiplaLogin constructor.
@@ -83,24 +85,32 @@ public class RiplaLogin extends CustomComponent {
 	private void createForm(final VerticalLayout inLayout,
 			final IAppConfiguration inConfiguration) {
 		final IMessages lMessages = Activator.getMessages();
-		form = new Form();
-		form.setDescription(inConfiguration.getWelcome()); //$NON-NLS-1$
-		form.setWidth(400, UNITS_PIXELS);
-		form.setStyleName("ripla-login-form"); //$NON-NLS-1$
+
+		final FormLayout lLayout = new FormLayout();
+		lLayout.setStyleName("ripla-login-form"); //$NON-NLS-1$
+		lLayout.setWidth(400, Unit.PIXELS);
+		inLayout.addComponent(lLayout);
+		inLayout.setComponentAlignment(lLayout, Alignment.TOP_CENTER);
+
+		final Label lDescription = new Label(inConfiguration.getWelcome(),
+				ContentMode.HTML);
+		lLayout.addComponent(lDescription);
+
+		user = new TextField(String.format(
+				"%s:", lMessages.getMessage("login.field.user"))); //$NON-NLS-1$ //$NON-NLS-2$
+		lLayout.addComponent(user);
+		user.focus();
+
+		pass = new PasswordField(String.format(
+				"%s:", lMessages.getMessage("login.field.pass"))); //$NON-NLS-1$ //$NON-NLS-2$
+		lLayout.addComponent(pass);
 
 		loginButton = new Button(lMessages.getMessage("login.button")); //$NON-NLS-1$
-		form.getFooter().addComponent(loginButton);
+		lLayout.addComponent(loginButton);
 
-		final Collection<String> lProperties = new ArrayList<String>();
-		lProperties.add(LoginData.NAME_USERID);
-		lProperties.add(LoginData.NAME_PASSWORD);
-		form.setFormFieldFactory(new LoginFieldFacory());
-		form.setItemDataSource(new BeanItem<LoginData>(new LoginData()));
-		form.setVisibleItemProperties(lProperties);
-		form.setImmediate(false);
-
-		inLayout.addComponent(form);
-		inLayout.setComponentAlignment(form, Alignment.TOP_CENTER);
+		loginItem = createLoginItem();
+		final FieldGroup lBinding = new FieldGroup(loginItem);
+		lBinding.bindMemberFields(this);
 	}
 
 	/**
@@ -111,24 +121,19 @@ public class RiplaLogin extends CustomComponent {
 	 * This implementation return an instance of {@link LoginButtonListener}.
 	 * </p>
 	 * 
-	 * @param inForm
-	 *            {@link Form} this login form
 	 * @param inAuthenticator
 	 *            {@link IAuthenticator}
 	 * @param inApplication
 	 *            {@link RiplaApplication}
 	 * @param inUserAdmin
 	 *            {@link UserAdmin}
-	 * @param inWindow
-	 *            {@link Window}
 	 * @return {@link ClickListener}
 	 */
-	protected Button.ClickListener getListener(final Form inForm,
+	protected Button.ClickListener getListener(
 			final IAuthenticator inAuthenticator,
-			final RiplaApplication inApplication, final UserAdmin inUserAdmin,
-			final Window inWindow) {
-		return new LoginButtonListener(inForm, inAuthenticator, inApplication,
-				inUserAdmin, inWindow);
+			final RiplaApplication inApplication, final UserAdmin inUserAdmin) {
+		return new LoginButtonListener(this, inAuthenticator, inApplication,
+				inUserAdmin);
 	}
 
 	/**
@@ -141,93 +146,59 @@ public class RiplaLogin extends CustomComponent {
 	 */
 	@Override
 	public void attach() {
-		loginButton.addListener(getListener(form, authenticator, application,
-				userAdmin, getWindow()));
+		super.attach();
+		loginButton.addClickListener(getListener(authenticator, application,
+				userAdmin));
 		loginButton.setClickShortcut(KeyCode.ENTER);
-		form.focus();
+		user.focus();
+	}
+
+	private Item createLoginItem() {
+		final PropertysetItem outProperties = new PropertysetItem();
+		outProperties.addItemProperty(NAME_USERID, new ObjectProperty<String>(
+				""));
+		outProperties.addItemProperty(NAME_PASSWORD,
+				new ObjectProperty<String>(""));
+		return outProperties;
+	}
+
+	protected Item getItem() {
+		return loginItem;
 	}
 
 	// ---
 
 	private static class LoginButtonListener implements Button.ClickListener {
-		private final Form form;
+		private final RiplaLogin login;
 		private final IAuthenticator authenticator;
 		private final RiplaApplication application;
 		private final UserAdmin userAdmin;
-		private final Window window;
 
-		protected LoginButtonListener(final Form inForm,
+		protected LoginButtonListener(final RiplaLogin inLogin,
 				final IAuthenticator inAuthenticator,
 				final RiplaApplication inApplication,
-				final UserAdmin inUserAdmin, final Window inWindow) {
-			form = inForm;
+				final UserAdmin inUserAdmin) {
+			login = inLogin;
 			authenticator = inAuthenticator;
 			application = inApplication;
 			userAdmin = inUserAdmin;
-			window = inWindow;
 		}
 
 		@Override
 		public void buttonClick(final ClickEvent inEvent) {
 			try {
-				final Item lData = form.getItemDataSource();
+				final Item lData = login.getItem();
 				final User lUser = authenticator.authenticate(lData
-						.getItemProperty(LoginData.NAME_USERID).getValue()
+						.getItemProperty(RiplaLogin.NAME_USERID).getValue()
 						.toString(),
-						lData.getItemProperty(LoginData.NAME_PASSWORD)
+						lData.getItemProperty(RiplaLogin.NAME_PASSWORD)
 								.getValue().toString(), userAdmin);
 				application.showAfterLogin(lUser);
 			}
 			catch (final LoginException exc) {
-				form.focus();
-				window.showNotification(exc.getMessage(),
-						Notification.TYPE_WARNING_MESSAGE);
+				Notification.show(exc.getMessage(),
+						Notification.Type.WARNING_MESSAGE);
 			}
-		}
-	}
-
-	// ---
-
-	public static class LoginData {
-		private static final String NAME_USERID = "userid"; //$NON-NLS-1$
-		private static final String NAME_PASSWORD = "password"; //$NON-NLS-1$
-
-		private String userid = ""; //$NON-NLS-1$
-		private String password = ""; //$NON-NLS-1$
-
-		public void setUserid(final String userid) {
-			this.userid = userid;
-		}
-
-		public String getUserid() {
-			return userid;
-		}
-
-		public void setPassword(final String password) {
-			this.password = password;
-		}
-
-		public String getPassword() {
-			return password;
-		}
-	}
-
-	private class LoginFieldFacory implements FormFieldFactory {
-
-		@Override
-		public Field createField(final Item item, final Object propertyId,
-				final Component uiContext) {
-			final IMessages lMessages = Activator.getMessages();
-			Field lField = null;
-			if (LoginData.NAME_USERID.equals(propertyId)) { //$NON-NLS-1$
-				lField = new TextField(String.format(
-						"%s:", lMessages.getMessage("login.field.user"))); //$NON-NLS-1$ //$NON-NLS-2$
-			} else if (LoginData.NAME_PASSWORD.equals(propertyId)) { //$NON-NLS-1$
-				lField = new PasswordField(String.format(
-						"%s:", lMessages.getMessage("login.field.pass"))); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			lField.setRequired(false);
-			return lField;
 		}
 	}
 

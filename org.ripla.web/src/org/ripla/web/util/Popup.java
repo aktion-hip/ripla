@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,13 +11,12 @@
 package org.ripla.web.util;
 
 import org.ripla.web.Activator;
-import org.ripla.web.internal.services.ApplicationData;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -52,31 +51,26 @@ public final class Popup {
 			final Layout inLayout, final int inWidth, final int inHeight) {
 		final PopupWindow lPopup = new PopupWindow(inTitle, inLayout, inWidth,
 				inHeight);
-		if (lPopup.getParent() == null) {
-			ApplicationData.getWindow().addWindow(lPopup.getWindow());
-		}
+		UI.getCurrent().addWindow(lPopup);
 		lPopup.setPosition(50, 50);
 	}
 
 	// ---
 
 	@SuppressWarnings("serial")
-	public static class PopupWindow extends VerticalLayout {
-		private final transient Window popupWindow; // NOPMD by Luthiger
+	public static class PopupWindow extends Window {
 
 		/**
 		 * Private PopupWindow constructor.
 		 */
 		PopupWindow(final String inTitle, final Layout inLayout,
 				final int inWidth, final int inHeight) {
-			super();
+			super(inTitle);
+			setWidth(inWidth, Unit.PIXELS);
+			setHeight(inHeight, Unit.PIXELS);
 
-			popupWindow = new Window(inTitle);
-			popupWindow.setWidth(inWidth, Sizeable.UNITS_PIXELS);
-			popupWindow.setHeight(inHeight, Sizeable.UNITS_PIXELS);
-
-			final VerticalLayout lLayout = (VerticalLayout) popupWindow
-					.getContent();
+			final VerticalLayout lLayout = new VerticalLayout();
+			setContent(lLayout);
 			lLayout.setStyleName("ripla-lookup"); //$NON-NLS-1$
 			lLayout.setMargin(true);
 			lLayout.setSpacing(true);
@@ -88,7 +82,7 @@ public final class Popup {
 					new Button.ClickListener() {
 						@Override
 						public void buttonClick(final ClickEvent inEvent) {
-							(popupWindow.getParent()).removeWindow(popupWindow);
+							UI.getCurrent().removeWindow(PopupWindow.this);
 						}
 					});
 			lClose.setClickShortcut(KeyCode.ESCAPE);
@@ -97,30 +91,9 @@ public final class Popup {
 			lLayout.addComponent(lClose);
 		};
 
-		/**
-		 * @return {@link Window}
-		 */
-		@Override
-		public Window getWindow() {
-			return popupWindow;
-		}
-
 		protected void setPosition(final int inPositionX, final int inPositionY) {
-			popupWindow.setPositionX(inPositionX);
-			popupWindow.setPositionY(inPositionY);
-		}
-
-		/**
-		 * Sets the dialog's visibility.
-		 * 
-		 * @param inVisible
-		 *            boolean <code>true</code> makes the existing dialog window
-		 *            visible, <code>false</code> makes the visible window
-		 *            invisible
-		 */
-		@Override
-		public void setVisible(final boolean inVisible) {
-			popupWindow.setVisible(inVisible);
+			setPositionX(inPositionX);
+			setPositionY(inPositionY);
 		}
 	}
 

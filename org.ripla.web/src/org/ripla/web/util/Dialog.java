@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,17 +11,19 @@
 
 package org.ripla.web.util;
 
+import org.ripla.interfaces.IMessages;
 import org.ripla.web.Activator;
-import org.ripla.web.interfaces.IMessages;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.terminal.Sizeable;
+import com.vaadin.server.Sizeable;
+import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -38,7 +40,7 @@ import com.vaadin.ui.Window;
  * 
  * @author Luthiger
  */
-public final class Dialog { // NOPMD by Luthiger on 10.09.12 00:08
+public final class Dialog {
 
 	private Dialog() {
 	}
@@ -62,7 +64,7 @@ public final class Dialog { // NOPMD by Luthiger on 10.09.12 00:08
 		final HorizontalLayout outButtons = new HorizontalLayout();
 		outButtons.setStyleName("ripla-buttons"); //$NON-NLS-1$
 		outButtons.setSpacing(true);
-		outButtons.setWidth(Sizeable.SIZE_UNDEFINED, 0);
+		outButtons.setWidth(Sizeable.SIZE_UNDEFINED, Unit.PIXELS);
 		outButtons.addComponent(inButton1);
 		outButtons.addComponent(inButton2);
 		outButtons.setExpandRatio(inButton2, 1);
@@ -126,10 +128,8 @@ public final class Dialog { // NOPMD by Luthiger on 10.09.12 00:08
 		return new Button.ClickListener() {
 			@Override
 			public void buttonClick(final ClickEvent inEvent) {
-				if (inDialog.isDisplayable()) {
-					inComponent.getWindow().addWindow(inDialog.getWindow());
-					inDialog.center();
-				}
+				UI.getCurrent().addWindow(inDialog);
+				inDialog.center();
 				inDialog.setVisible(true);
 			}
 		};
@@ -153,8 +153,8 @@ public final class Dialog { // NOPMD by Luthiger on 10.09.12 00:08
 	/**
 	 * A dialog window with title, dialog and two click buttons.
 	 */
-	public static class DialogWindow {
-		private final transient Window dialog;
+	@SuppressWarnings("serial")
+	public static class DialogWindow extends Window {
 		private final transient Button buttonYes;
 		private final transient Button buttonNo;
 
@@ -162,38 +162,30 @@ public final class Dialog { // NOPMD by Luthiger on 10.09.12 00:08
 		 * Set constructor private
 		 */
 		DialogWindow(final String inTitle, final String inQuestion) {
+			super(inTitle);
 			final IMessages lMessages = Activator.getMessages();
-			dialog = new Window(inTitle);
-			final VerticalLayout lLayout = (VerticalLayout) dialog.getContent();
+			final VerticalLayout lLayout = new VerticalLayout();
+			setContent(lLayout);
 			lLayout.setMargin(true);
 			lLayout.setSpacing(true);
 			lLayout.setSizeUndefined();
 
-			dialog.addComponent(new Label(inQuestion));
+			lLayout.addComponent(new Label(inQuestion));
 			buttonYes = new Button(
 					lMessages.getMessage("dialog.button.lbl.yes")); //$NON-NLS-1$
 			buttonYes.setClickShortcut(KeyCode.ENTER);
 			buttonNo = new Button(lMessages.getMessage("dialog.button.lbl.no")); //$NON-NLS-1$
 			buttonNo.setClickShortcut(KeyCode.ESCAPE);
 			lLayout.addComponent(createButtons(buttonYes, buttonNo));
-			dialog.setModal(true);
+			setModal(true);
 		};
-
-		/**
-		 * @return {@link Window}
-		 */
-		public Window getWindow() {
-			return dialog;
-		}
 
 		/**
 		 * Closes the window, can be called when the parent window is detached.
 		 */
+		@Override
 		public void close() {
-			final Window lParent = dialog.getParent();
-			if (lParent != null) {
-				lParent.removeWindow(dialog);
-			}
+			UI.getCurrent().removeWindow(this);
 		}
 
 		/**
@@ -204,15 +196,9 @@ public final class Dialog { // NOPMD by Luthiger on 10.09.12 00:08
 		 *            visible, <code>false</code> makes the visible window
 		 *            invisible
 		 */
+		@Override
 		public void setVisible(final boolean inVisible) {
-			dialog.setVisible(inVisible);
-		}
-
-		/**
-		 * Centers the window.
-		 */
-		public void center() {
-			dialog.center();
+			setVisible(inVisible);
 		}
 
 		/**
@@ -221,7 +207,7 @@ public final class Dialog { // NOPMD by Luthiger on 10.09.12 00:08
 		 *            click listener
 		 */
 		public void addYesListener(final Button.ClickListener inListener) {
-			buttonYes.addListener(inListener);
+			buttonYes.addClickListener(inListener);
 		}
 
 		/**
@@ -230,15 +216,7 @@ public final class Dialog { // NOPMD by Luthiger on 10.09.12 00:08
 		 *            click listener
 		 */
 		public void addNoListener(final Button.ClickListener inListener) {
-			buttonNo.addListener(inListener);
-		}
-
-		/**
-		 * @return boolean <code>true</code> if the dialog window can be
-		 *         displayed
-		 */
-		public boolean isDisplayable() {
-			return dialog.getParent() == null;
+			buttonNo.addClickListener(inListener);
 		}
 	}
 

@@ -1,0 +1,21 @@
+UIProvider kann über context-parameter in web.xml registriert werden:
+<init-param>
+    <description>Vaadin UI</description>
+    <param-name>UIProvider</param-name>
+    <param-value>com.example.myexampleproject.DifferentFeaturesForDifferentClients</param-value>
+</init-param>
+
+Fall OSGi:
+public void start(BundleContext context) throws Exception {
+    Hashtable props = new Hashtable();
+    props.put("alias", "/hello");
+    props.put("init.message", "Hello World!");
+    props.put("UIProvider", "com.example.myexampleproject.DifferentFeaturesForDifferentClients");
+
+    context.registerService(Servlet.class.getName(), new HelloWorldServlet(), props);
+}     
+
+Frage: 
+wie kann Parameter "UIProvider" im Falle von Lunifera gesetzt werden?
+
+   

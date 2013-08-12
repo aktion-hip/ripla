@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,8 +13,8 @@ package org.ripla.web.internal.menu;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.ripla.web.interfaces.IMenuExtendible;
-import org.ripla.web.services.IExtendibleMenuContribution;
+import org.ripla.interfaces.IMenuExtendible;
+import org.ripla.services.IExtendibleMenuContribution;
 
 /**
  * Helper class for handling extendible menus (i.e. <code>IMenuExtendible</code>

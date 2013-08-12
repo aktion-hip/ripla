@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,9 +36,6 @@ public final class Constants {
 	public static final String EVENT_TOPIC_CONTEXT_MENU = "org/ripla/web/ControllerEvent/CONTEXTMENU"; //$NON-NLS-1$
 	public static final String EVENT_PROPERTY_CONTEXT_MENU_ID = "context.menu.id"; //$NON-NLS-1$
 	public static final String EVENT_PROPERTY_CONTROLLER_ID = "context.menu.controller.id"; //$NON-NLS-1$
-	public static final String EVENT_TOPIC_NOTIFICATION = "org/ripla/web/ControllerEvent/NOTIFICATION"; //$NON-NLS-1$
-	public static final String EVENT_PROPERTY_NOTIFICATION_MSG = "notification.msg"; //$NON-NLS-1$
-	public static final String EVENT_PROPERTY_NOTIFICATION_TYPE = "notification.type"; //$NON-NLS-1$
 	public static final String EVENT_TOPIC_APPLICATION = "org/ripla/web/ControllerEvent/APPLICATION"; //$NON-NLS-1$
 	public static final String EVENT_PROPERTY_REFRESH = "app.refresh"; //$NON-NLS-1$
 	public static final String EVENT_PROPERTY_CLOSE = "app.close"; //$NON-NLS-1$
@@ -51,4 +48,9 @@ public final class Constants {
 
 	public static final String DFT_SKIN_ID = "org.ripla.web.skin";
 	public static final String DFT_LANGUAGE = Locale.ENGLISH.getLanguage();
+
+	// session attributes
+	public static final String SA_MENU_MAP = "ripla.menu.map";
+	public static final String SA_ACTIVE_MENU = "ripla.active.menu";
+
 }

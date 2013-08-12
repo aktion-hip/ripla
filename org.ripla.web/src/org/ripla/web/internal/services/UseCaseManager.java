@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,19 +25,18 @@ import java.util.Map;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.service.event.EventAdmin;
 import org.osgi.service.useradmin.UserAdmin;
-import org.ripla.web.annotations.UseCaseController;
-import org.ripla.web.interfaces.IControllerConfiguration;
-import org.ripla.web.interfaces.IControllerSet;
-import org.ripla.web.interfaces.IMenuExtendible;
-import org.ripla.web.interfaces.IMenuItem;
+import org.ripla.annotations.UseCaseController;
+import org.ripla.interfaces.IControllerConfiguration;
+import org.ripla.interfaces.IControllerSet;
+import org.ripla.interfaces.IMenuExtendible;
+import org.ripla.interfaces.IMenuItem;
+import org.ripla.services.IExtendibleMenuContribution;
 import org.ripla.web.interfaces.IMenuSet;
 import org.ripla.web.interfaces.IPluggable;
 import org.ripla.web.internal.menu.ContextMenuManager;
 import org.ripla.web.internal.menu.ExtendibleMenuHandler;
 import org.ripla.web.internal.menu.MenuFactory;
-import org.ripla.web.services.IExtendibleMenuContribution;
 import org.ripla.web.services.IUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,15 +77,6 @@ public final class UseCaseManager {
 	 */
 	public ContextMenuManager getContextMenuManager() {
 		return contextMenuManager;
-	}
-
-	/**
-	 * @param inEventAdmin
-	 *            {@link EventAdmin}
-	 */
-	public void setEventAdmin(final EventAdmin inEventAdmin) {
-		controllerManager.setEventAdmin(inEventAdmin);
-		contextMenuManager.setEventAdmin(inEventAdmin);
 	}
 
 	/**

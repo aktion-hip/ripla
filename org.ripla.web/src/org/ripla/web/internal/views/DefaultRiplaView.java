@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,10 +10,11 @@
  ******************************************************************************/
 package org.ripla.web.internal.views;
 
+import org.ripla.exceptions.NoControllerFoundException;
+import org.ripla.interfaces.IMessages;
 import org.ripla.web.Activator;
-import org.ripla.web.exceptions.NoControllerFoundException;
-import org.ripla.web.interfaces.IMessages;
 
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 
@@ -60,7 +61,7 @@ public class DefaultRiplaView extends CustomComponent {
 
 	private void init(final String inMessage) {
 		setSizeFull();
-		final Label lLabel = new Label(inMessage, Label.CONTENT_XHTML);
+		final Label lLabel = new Label(inMessage, ContentMode.HTML);
 		setCompositionRoot(lLabel);
 	}
 

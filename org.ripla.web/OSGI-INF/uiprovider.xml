@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.web.vaadin.ui.provider">
+   <implementation class="org.ripla.web.internal.services.RiplaUiProviderFactory"/>
+   <service>
+      <provide interface="org.lunifera.runtime.web.vaadin.osgi.common.IOSGiUiProviderFactory"/>
+   </service>
+</scr:component>

@@ -1,25 +1,16 @@
-/*
-	This package is part of the application VIF.
-	Copyright (C) 2011, Benno Luthiger
-
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation; either version 2 of the License, or
-	(at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-
+/*******************************************************************************
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * RelationWare, Benno Luthiger
+ ******************************************************************************/
 package org.ripla.web.services;
 
-import com.vaadin.terminal.Resource;
+import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -29,18 +20,7 @@ import com.vaadin.ui.Label;
  * 
  * @author Luthiger
  */
-public interface ISkin {
-
-	/**
-	 * @return String this skin bundle's ID, i.e. symbolic name:
-	 *         <code>bundleContext.getBundle().getSymbolicName()</code>.
-	 */
-	String getSkinID();
-
-	/**
-	 * @return String the name of the skin, displayed in the skin select view
-	 */
-	String getSkinName();
+public interface ISkin extends org.ripla.services.ISkin {
 
 	/**
 	 * @return boolean <code>true</code> if the application should display a
@@ -88,11 +68,11 @@ public interface ISkin {
 
 	/**
 	 * <p>
-	 * Returns the menu bar component.
+	 * Returns the layout component containing the menu bar.
 	 * </p>
 	 * <p>
 	 * This component is added to the application's body component. This
-	 * component has to contain the <code>MenuBarLayout</code>.
+	 * component has to contain the <code>MenuBar</code>.
 	 * </p>
 	 * <p>
 	 * May be <code>null</code> for the default menu bar component.
@@ -100,18 +80,17 @@ public interface ISkin {
 	 * 
 	 * @return {@link HorizontalLayout} the menu bar component
 	 */
-	HorizontalLayout getMenuBarComponent();
+	HorizontalLayout getMenuBarMedium();
 
 	/**
 	 * <p>
 	 * Returns the menu bar layout.
 	 * </p>
 	 * <p>
-	 * You have to add this layout to the <code>MenuBarComponent</code>. This
+	 * You have to add this layout to the <code>MenuBarMedium</code>. This
 	 * layout is the component where the application's
 	 * <code>Vaadin MenuBar</code> (i.e. the main menu items) is added to. In
-	 * simple cases, the <code>MenuBarLayout</code> is the
-	 * <code>MenuBarComponent</code>.
+	 * simple cases, the <code>MenuBar</code> is the <code>MenuBarMedium</code>.
 	 * </p>
 	 * <p>
 	 * May be <code>null</code> for the default menu bar layout.
@@ -119,7 +98,7 @@ public interface ISkin {
 	 * 
 	 * @return {@link HorizontalLayout} a layout for the menu bar
 	 */
-	HorizontalLayout getMenuBarLayout();
+	HorizontalLayout getMenuBar();
 
 	/**
 	 * The menu items in the main menu may display an indicator for the sub

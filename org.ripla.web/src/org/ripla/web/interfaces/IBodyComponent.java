@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,7 @@
 
 package org.ripla.web.interfaces;
 
-import org.ripla.web.exceptions.NoControllerFoundException;
+import org.ripla.exceptions.NoControllerFoundException;
 
 import com.vaadin.ui.Component;
 
@@ -54,17 +54,6 @@ public interface IBodyComponent {
 	 */
 	void setContextMenu(String inMenuSetName,
 			Class<? extends IPluggable> inControllerClass);
-
-	/**
-	 * Displays a notification in the main window.
-	 * 
-	 * @param inNotification
-	 *            String the message to display
-	 * @param inNotificationType
-	 *            int the message type, e.g.
-	 *            <code>Notification.TYPE_WARNING_MESSAGE</code>
-	 */
-	void showNotification(String inNotification, int inNotificationType);
 
 	/**
 	 * Refresh the application's view e.g. after the user changed the language.

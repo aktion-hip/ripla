@@ -2,29 +2,37 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Ripla Platform Bundle
 Bundle-SymbolicName: org.ripla.web
-Bundle-Version: 1.0.2.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: RelationWare
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: com.vaadin,
- com.vaadin.data,
- com.vaadin.data.util,
- com.vaadin.event,
- com.vaadin.service,
- com.vaadin.terminal,
- com.vaadin.terminal.gwt.server,
- com.vaadin.ui,
- com.vaadin.ui.themes,
+Import-Package: com.vaadin.annotations;version="7.1.0",
+ com.vaadin.data;version="7.1.0",
+ com.vaadin.data.fieldgroup;version="7.1.0",
+ com.vaadin.data.util;version="7.1.0",
+ com.vaadin.event;version="7.1.0",
+ com.vaadin.server;version="7.1.0",
+ com.vaadin.shared.ui;version="7.1.0",
+ com.vaadin.shared.ui.label;version="7.1.0",
+ com.vaadin.ui;version="7.1.0",
+ com.vaadin.ui.themes;version="7.1.0",
  javax.servlet.http;version="2.5.0",
+ org.json;version="0.0.20080701",
+ org.lunifera.runtime.common.dispose,
+ org.lunifera.runtime.web.vaadin.osgi.common,
  org.osgi.framework;version="1.6.0",
  org.osgi.service.cm;version="1.3.0",
  org.osgi.service.component;version="1.1.0",
  org.osgi.service.event;version="1.3.0",
  org.osgi.service.prefs;version="1.1.1",
  org.osgi.service.useradmin;version="1.1.0",
- org.slf4j;version="1.6.4"
-Service-Component: OSGI-INF/ripla.xml
+ org.ripla.annotations,
+ org.ripla.exceptions,
+ org.ripla.interfaces,
+ org.ripla.menu,
+ org.ripla.services,
+ org.ripla.util,
+ org.slf4j;version="1.7.0"
 Export-Package: org.ripla.web,
- org.ripla.web.annotations,
  org.ripla.web.controllers,
  org.ripla.web.exceptions,
  org.ripla.web.interfaces,
@@ -33,3 +41,6 @@ Export-Package: org.ripla.web,
  org.ripla.web.util
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.ripla.web.Activator
+Service-Component: OSGI-INF/uiprovider.xml
+Deactivated-Service-Component: OSGI-INF/ripla.xml
+Deactivated-Lunifera-Config: config

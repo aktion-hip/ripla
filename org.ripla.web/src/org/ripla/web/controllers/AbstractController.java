@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2012-2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,32 +8,31 @@
  * Contributors:
  * RelationWare, Benno Luthiger
  ******************************************************************************/
-
 package org.ripla.web.controllers;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import org.osgi.service.event.Event;
-import org.osgi.service.event.EventAdmin;
 import org.osgi.service.useradmin.Authorization;
 import org.osgi.service.useradmin.Role;
 import org.osgi.service.useradmin.User;
 import org.osgi.service.useradmin.UserAdmin;
+import org.ripla.exceptions.RiplaException;
+import org.ripla.interfaces.IRiplaEventDispatcher;
+import org.ripla.interfaces.IRiplaEventDispatcher.Event;
+import org.ripla.util.ParameterObject;
+import org.ripla.util.PreferencesHelper;
 import org.ripla.web.Constants;
 import org.ripla.web.exceptions.PermissionsNotSufficientException;
-import org.ripla.web.exceptions.RiplaException;
 import org.ripla.web.interfaces.IPluggable;
-import org.ripla.web.internal.services.ApplicationData;
-import org.ripla.web.util.ParameterObject;
 import org.ripla.web.util.UseCaseHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vaadin.terminal.gwt.server.WebBrowser;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Window.Notification;
+import com.vaadin.ui.Notification;
 
 /**
  * Base class for all controllers of the application. A controller class
@@ -45,38 +44,13 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	private static final Logger LOG = LoggerFactory
 			.getLogger(AbstractController.class);
 
-	private transient EventAdmin eventAdmin;
 	private transient UserAdmin userAdmin;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.ripla.web.interfaces.IEventable#setEventAdmin(org.osgi.service.event
-	 * .EventAdmin)
-	 */
-	@Override
-	public final void setEventAdmin(final EventAdmin inEventAdmin) {
-		eventAdmin = inEventAdmin;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.ripla.web.interfaces.IPluggable#setUserAdmin(org.osgi.service.useradmin
-	 * .UserAdmin)
-	 */
 	@Override
 	public final void setUserAdmin(final UserAdmin inUserAdmin) {
 		userAdmin = inUserAdmin;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.ripla.web.interfaces.IPluggable#run()
-	 */
 	@Override
 	public final Component run() throws RiplaException {
 		checkRoles();
@@ -109,7 +83,8 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 			final StringBuilder lLogMsg = new StringBuilder(
 					"Note: The user has not sufficient permissions for the requested task.\n"); //$NON-NLS-1$
 			lLogMsg.append("   User: ").append(getUser().getName()).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
-			lLogMsg.append("   IP number: ").append(((WebBrowser) ApplicationData.getWindow().getTerminal()).getAddress()).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			lLogMsg.append("   IP number: ").append(VaadinSession.getCurrent().getBrowser().getAddress()).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
+
 			LOG.warn(new String(lLogMsg));
 			throw new PermissionsNotSufficientException();
 		}
@@ -121,14 +96,14 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	 * @return {@link User}
 	 */
 	protected final User getUser() {
-		return ApplicationData.getUser();
+		return VaadinSession.getCurrent().getAttribute(User.class);
 	}
 
 	/**
 	 * @return {@link Locale} the actual session's locale.
 	 */
 	protected final Locale getAppLocale() {
-		return ApplicationData.getLocale();
+		return VaadinSession.getCurrent().getAttribute(Locale.class);
 	}
 
 	/**
@@ -146,7 +121,8 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	 *            <code>null</code> to clear the parameter settings
 	 */
 	protected final void setParameters(final ParameterObject inParameters) {
-		ApplicationData.setParameters(inParameters);
+		VaadinSession.getCurrent().setAttribute(ParameterObject.class,
+				inParameters);
 	}
 
 	/**
@@ -168,9 +144,11 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	 * @return {@link ParameterObject} generich parameters
 	 */
 	protected final ParameterObject getParameters(final boolean inClear) {
-		final ParameterObject out = ApplicationData.getParameters();
+		final ParameterObject out = VaadinSession.getCurrent().getAttribute(
+				ParameterObject.class);
 		if (inClear) {
-			ApplicationData.setParameters(null);
+			VaadinSession.getCurrent()
+					.setAttribute(ParameterObject.class, null);
 		}
 		return out;
 	}
@@ -205,46 +183,41 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	 *            String the fully qualified name of the next controller
 	 */
 	protected final void sendEvent(final String inControllerName) {
-		final Map<String, Object> lProperties = new HashMap<String, Object>();
-		lProperties.put(Constants.EVENT_PROPERTY_NEXT_CONTROLLER,
-				inControllerName);
-
-		final Event lEvent = new Event(Constants.EVENT_TOPIC_CONTROLLERS,
-				lProperties);
-		eventAdmin.sendEvent(lEvent);
+		// TODO
+		// final Map<String, Object> lProperties = new HashMap<String,
+		// Object>();
+		// lProperties.put(Constants.EVENT_PROPERTY_NEXT_CONTROLLER,
+		// inControllerName);
+		//
+		// final Event lEvent = new Event(Constants.EVENT_TOPIC_CONTROLLERS,
+		// lProperties);
+		// eventDispatcher.sendEvent(lEvent);
 	}
 
 	/**
-	 * Use OSGi event service to display a notification message.
+	 * Convenience method to display a notification message.
 	 * 
 	 * @param inMessage
 	 *            String
-	 * @param inNotificationType
-	 *            int the message type (e.g.
-	 *            <code>Notification.TYPE_HUMANIZED_MESSAGE</code>)
+	 * @param inTrayNotification
+	 *            {@link Notification.Type} the message type (e.g.
+	 *            <code>Notification.Type.HUMANIZED_MESSAGE</code>)
 	 * @see com.vaadin.ui.Window.Notification
 	 */
 	protected final void showNotification(final String inMessage,
-			final int inNotificationType) {
-		final Map<String, Object> lProperties = new HashMap<String, Object>();
-		lProperties.put(Constants.EVENT_PROPERTY_NOTIFICATION_MSG, inMessage);
-		lProperties.put(Constants.EVENT_PROPERTY_NOTIFICATION_TYPE,
-				inNotificationType);
-
-		final Event lEvent = new Event(Constants.EVENT_TOPIC_NOTIFICATION,
-				lProperties);
-		eventAdmin.sendEvent(lEvent);
+			final Notification.Type inTrayNotification) {
+		Notification.show(inMessage, inTrayNotification);
 	}
 
 	/**
-	 * Use OSGi event service to display a notification message with type
-	 * <code>Notification.TYPE_TRAY_NOTIFICATION</code>.
+	 * Convenience method to display a notification message with type
+	 * <code>Notification.Type.TRAY_NOTIFICATION</code>.
 	 * 
 	 * @param inMessage
 	 *            String
 	 */
 	protected final void showNotification(final String inMessage) {
-		showNotification(inMessage, Notification.TYPE_TRAY_NOTIFICATION);
+		showNotification(inMessage, Notification.Type.TRAY_NOTIFICATION);
 	}
 
 	/**
@@ -252,12 +225,7 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	 * view.
 	 */
 	protected final void refreshBody() {
-		final Map<String, Object> lProperties = new HashMap<String, Object>();
-		lProperties.put(Constants.EVENT_PROPERTY_REFRESH, "refresh");
-
-		final Event lEvent = new Event(Constants.EVENT_TOPIC_APPLICATION,
-				lProperties);
-		eventAdmin.sendEvent(lEvent);
+		getDispatcher().dispatch(Event.REFRESH, new HashMap<String, Object>());
 	}
 
 	/**
@@ -265,12 +233,12 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	 * view.
 	 */
 	protected final void closeApp() {
-		final Map<String, Object> lProperties = new HashMap<String, Object>();
-		lProperties.put(Constants.EVENT_PROPERTY_CLOSE, "close");
+		getDispatcher().dispatch(Event.CLOSE, new HashMap<String, Object>());
+	}
 
-		final Event lEvent = new Event(Constants.EVENT_TOPIC_APPLICATION,
-				lProperties);
-		eventAdmin.sendEvent(lEvent);
+	private IRiplaEventDispatcher getDispatcher() {
+		return VaadinSession.getCurrent().getAttribute(
+				IRiplaEventDispatcher.class);
 	}
 
 	/**
@@ -284,10 +252,7 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 		lProperties.put(Constants.EVENT_PROPERTY_CONTEXT_MENU_ID,
 				UseCaseHelper.createFullyQualifiedID(inSetName, getClass()));
 		lProperties.put(Constants.EVENT_PROPERTY_CONTROLLER_ID, getClass());
-
-		final Event lEvent = new Event(Constants.EVENT_TOPIC_CONTEXT_MENU,
-				lProperties);
-		eventAdmin.sendEvent(lEvent);
+		getDispatcher().dispatch(Event.LOAD_CONTEXT_MENU, lProperties);
 	}
 
 	/**
@@ -301,7 +266,8 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	 */
 	protected final void savePreferences(final String inKey,
 			final String inValue) {
-		ApplicationData.getPreferences().set(inKey, inValue);
+		VaadinSession.getCurrent().getAttribute(PreferencesHelper.class)
+				.set(inKey, inValue);
 	}
 
 	/**
@@ -316,7 +282,8 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	 */
 	protected final String getPreference(final String inKey,
 			final String inDftValue) {
-		return ApplicationData.getPreferences().get(inKey, inDftValue);
+		return VaadinSession.getCurrent().getAttribute(PreferencesHelper.class)
+				.get(inKey, inDftValue);
 	}
 
 	/**
