@@ -167,26 +167,26 @@
   
   <section><h2 class="heading">Toolbar Service</h2><p class="p"> The toolbar service allowes bundles to contribute their toolbar items the application's toolbar.</p><img src="../../extend/toolbar/Toolbar.PNG" alt="Toolbar Items" class="float-left" /><p class="p"> In the case of the Ripla demo application, the toolbar contains three toolbar items: a <em>language select</em>, a <em>user info label</em> and a <em>logout button</em> (in the case of running the application with login enabled).<br /></p><p class="p"> The demo application's component description for the toolbar service looks as follows:</p><pre class="pre">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;components xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0"&gt;
-    &lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.demo.toolbar.language"&gt;
-        &lt;implementation class="org.ripla.demo.scr.ToolbarItemLanguage"/&gt;
+    &lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.web.demo.toolbar.language"&gt;
+        &lt;implementation class="org.ripla.web.demo.scr.ToolbarItemLanguage"/&gt;
         &lt;property name="service.pid" value="org.ripla.web.configuration"/&gt;
        &lt;service&gt;
           &lt;provide interface="org.ripla.web.services.IToolbarItem"/&gt;
        &lt;/service&gt;
     &lt;/scr:component&gt;
-    &lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.demo.toolbar.user"&gt;
-        &lt;implementation class="org.ripla.demo.scr.ToolbarItemUsername"/&gt;
+    &lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.web.demo.toolbar.user"&gt;
+        &lt;implementation class="org.ripla.web.demo.scr.ToolbarItemUsername"/&gt;
        &lt;service&gt;
           &lt;provide interface="org.ripla.web.services.IToolbarItem"/&gt;
        &lt;/service&gt;
     &lt;/scr:component&gt;
-    &lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.demo.toolbar.logout"&gt;
-        &lt;implementation class="org.ripla.demo.scr.ToolbarItemLogout"/&gt;
+    &lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.web.demo.toolbar.logout"&gt;
+        &lt;implementation class="org.ripla.web.demo.scr.ToolbarItemLogout"/&gt;
        &lt;service&gt;
           &lt;provide interface="org.ripla.web.services.IToolbarItem"/&gt;
        &lt;/service&gt;
     &lt;/scr:component&gt;
-&lt;/components&gt;</pre><p class="p">Responsible for the toolbar items a the three implementation classes <span class="underline">org.ripla.demo.scr.ToolbarItemLanguage</span> (language select), <span class="underline">org.ripla.demo.scr.ToolbarItemUsername</span> (user info) and <span class="underline">org.ripla.demo.scr.ToolbarItemLogout</span> (logout button). The interface these classes implement looks as follows:</p><pre class="pre">public interface IToolbarItem {
+&lt;/components&gt;</pre><p class="p">Responsible for the toolbar items a the three implementation classes <span class="underline">org.ripla.web.demo.scr.ToolbarItemLanguage</span> (language select), <span class="underline">org.ripla</span><span class="underline"><span class="underline">.web</span>.demo.scr.ToolbarItemUsername</span> (user info) and <span class="underline">org.ripla</span><span class="underline"><span class="underline">.web</span>.demo.scr.ToolbarItemLogout</span> (logout button). The interface these classes implement looks as follows:</p><pre class="pre">public interface IToolbarItem {
     IToolbarItemCreator getCreator();
     Component getComponent();
     void registerToolbarActionListener(IToolbarActionListener inListener);

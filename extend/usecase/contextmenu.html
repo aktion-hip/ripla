@@ -172,7 +172,7 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Context Menu IMenuSet</h2><p class="p">A view represents a certain position a user has reached in the use case. The context menu offers a restricted set of directions the user can move on from the actual position.<br /></p><p class="p">Therefore, a view's context menu is a context menu set (<span class="underline">IMenuSet</span>) that consists of one or more context menu items (<span class="underline">IContextMenuItem</span>). (An empty menu set is an option too.) On the other side, the same context menu item can reside in different context menu sets.<br /></p><pre class="pre">public interface IMenuSet {
+  <section><h2 class="heading">Context Menu IMenuSet</h2><p class="p">A view represents a certain position a user has reached in the use case. The context menu offers a restricted set of actions (i.e. directions the user can move on) at the actual position.<br /></p><p class="p">Therefore, a view's context menu is a context menu set (<span class="underline">IMenuSet</span>) that consists of one or more context menu items (<span class="underline">IContextMenuItem</span>). (An empty menu set is an option too.) On the other side, the same context menu item can reside in different context menu sets.<br /></p><pre class="pre">public interface IMenuSet {
     String getSetID();
     IContextMenuItem[] getContextMenuItems();
 }

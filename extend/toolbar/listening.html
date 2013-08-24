@@ -168,8 +168,14 @@
   <section><h2 class="heading">Toolbar Events</h2><p class="p">The method <span class="underline">IToolbarItem.registerToolbarActionListener(IToolbarActionListener)</span> registers an action listener instance to the toolbar item:</p><pre class="pre">public interface IToolbarActionListener {
     void processAction(IToolbarAction inAction);
 }</pre><p class="p">This listener instance can be used to send an action for example if the user triggers an action on the toolbar item. The action to be processed has to implement the following interface:<br /></p><pre class="pre">public interface IToolbarAction {
-    void run(RiplaApplication inApplication, EventAdmin inEventAdmin);
-}</pre><p class="p">The <span class="underline">IToolbarAction.run()</span> method receives the Ripla application instance and the <span class="underline">org.osgi.service.event.EventAdmin</span>. This should be enough to bring the application to a state intended by the toolbar item provider (e.g. to do a logout).<br /></p></section>
+    void run();
+}</pre><p class="p">An example for a toolbar action is a <em>Logout</em> button. In this example, the <span class="underline">VaadinSession</span> and the <span class="underline">IRiplaEventDispatcher</span> are used to run the action:</p><pre class="pre">public void run() {
+    VaadinSession.getCurrent()
+            .getAttribute(IRiplaEventDispatcher.class)
+            .dispatch(IRiplaEventDispatcher.Event.LOGOUT,
+                    new HashMap&lt;String, Object&gt;());
+}
+</pre></section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

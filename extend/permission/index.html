@@ -153,7 +153,7 @@ life time. Therefore, it's impossible to define a system restricting the access 
 to define permissions to protect aspects of their functionality themselves.
 Plus they need the possibility to notify the system about the permissions they
 define.</p><p class="p">This is
-where <span class="underline">org.ripla.web.services.IPermissionEntry</span> comes into play. By
+where <span class="underline">org.ripla.services.IPermissionEntry</span> comes into play. By
 implementing service providers for <span class="underline">IPermissionEntry</span>,
 bundles can define permissions and register them to the application’s permission
 registry.</p><p class="p"><strong>Note</strong>: the Ripla permission service collaborates with the OSGi user admin service (see <a href="../../extend/useadmin" title="User Administration Service" target="_self">User Administration Service</a>). In OSGi user admin wording, the permission is equivalent to an action group.</p><pre class="pre">public interface IPermissionEntry {
