@@ -8,7 +8,7 @@ Web Page
 
 http://aktion-hip.github.com/ripla/
 
-Download Page
--------------
+Downloads
+---------
 
-https://github.com/aktion-hip/ripla/downloads
+http://aktion-hip.github.io/ripla/downloads/

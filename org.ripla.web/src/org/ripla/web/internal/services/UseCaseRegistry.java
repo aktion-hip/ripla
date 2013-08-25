@@ -42,13 +42,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Helper class acting as central registry for all use cases.
+ * Singleton instance to register the use cases provided by usecase bundles. The
+ * provided use cases are injected through the service consumer
+ * <code>UseCaseComponent</code>.
  * 
  * @author Luthiger
+ * @see UseCaseComponent
  */
-public final class UseCaseManager {
+public enum UseCaseRegistry {
+	INSTANCE;
+
 	private static final Logger LOG = LoggerFactory
-			.getLogger(UseCaseManager.class);
+			.getLogger(UseCaseRegistry.class);
+
+	private final transient List<IUseCase> useCases = Collections
+			.synchronizedList(new ArrayList<IUseCase>());
+	private final transient Map<String, ExtendibleMenuHandler> extendibleMenus = Collections
+			.synchronizedMap(new HashMap<String, ExtendibleMenuHandler>());
 
 	private static final String PREFIX_ROOT = "/"; //$NON-NLS-1$
 	private static final String PREFIX_BIN = "/bin/"; //$NON-NLS-1$
@@ -57,11 +67,6 @@ public final class UseCaseManager {
 	private final transient ControllerManager controllerManager = new ControllerManager();
 	private final transient ContextMenuManager contextMenuManager = ContextMenuManager
 			.createInstance();
-
-	private final transient List<IUseCase> useCases = Collections
-			.synchronizedList(new ArrayList<IUseCase>());
-	private final transient Map<String, ExtendibleMenuHandler> extendibleMenus = Collections
-			.synchronizedMap(new HashMap<String, ExtendibleMenuHandler>());
 
 	private transient boolean automaticContextMenuRegistration = false;
 

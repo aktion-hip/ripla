@@ -61,7 +61,8 @@ public interface IBodyComponent {
 	void refreshBody();
 
 	/**
-	 * Displays the application's default view, e.g. the first view of the menu.
+	 * Displays the application's default view, e.g. the first view of the menu.<br />
+	 * Subclasses may override.
 	 */
 	void showDefault();
 

@@ -75,7 +75,7 @@ public class Skin implements ISkin {
 	public Component getFooter() {
 		final FooterHelper out = FooterHelper
 				.createFooter(FooterHelper.DFT_FOOTER_TEXT);
-		out.setHeight(19);
+		out.setHeight(27);
 		out.setStyleName("demo-footer");
 		return out;
 	}

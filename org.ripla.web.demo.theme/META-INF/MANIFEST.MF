@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Vaadin Demo Theme
 Bundle-SymbolicName: org.ripla.web.demo.theme
-Bundle-Version: 1.0.1.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: RelationWare
 Fragment-Host: com.vaadin.server;bundle-version="7.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

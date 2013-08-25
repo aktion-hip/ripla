@@ -17,6 +17,8 @@
     font-family:Verdana, Arial, Helvetica, sans-serif;
 	font-weight:bold;
     font-size:20px;
+    height: 25px;
+    vertical-align: bottom;
 }
 
 .ripla-toolbar,
@@ -120,7 +122,10 @@
 	background-repeat:no-repeat;
 	background-position:center;
 	clear:both;
-	text-align:center;
+}
+
+.demo-footer .ripla-footer-text {
+	text-align:center;	
 }
 
 .demo-view .demo-pagetitle {
@@ -179,9 +184,13 @@
     margin-top:100px;
 }
 
-.ripla-login-form .v-form-description {
-    font-size:13pt;
+.ripla-login-form div.ripla-welcome {
+    font-size:12pt;
     font-weight:bold;
     color:#000000;
     background-color:inherit;    
+}
+
+.ripla-content div.v-filterselect-focus {
+	outline: none;
 }

@@ -54,7 +54,7 @@ public class LoginConfigController extends AbstractController {
 				org.ripla.web.demo.Constants.KEY_LOGIN,
 				inLoginConfig == null ? Boolean.FALSE.toString() : Boolean
 						.toString(inLoginConfig));
-		closeApp();
+		logout();
 	}
 
 }

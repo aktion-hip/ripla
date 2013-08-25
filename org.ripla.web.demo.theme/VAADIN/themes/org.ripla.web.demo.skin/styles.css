@@ -14,6 +14,7 @@
 
 .demo-header-text {
     font-size:20px;
+    height: 25px;
     font-weight:bold;    
     font-family:verdana, sans-serif;
 }
@@ -155,7 +156,7 @@
     margin-top:100px;
 }
 
-.ripla-login-form .v-form-description {
+.ripla-login-form div.ripla-welcome {
     font-size:13pt;
     font-weight:bold;
     color:#1F4E8C;

@@ -17,6 +17,7 @@ import org.ripla.interfaces.IMessages;
 import org.ripla.web.controllers.AbstractController;
 import org.ripla.web.demo.widgets.Activator;
 import org.ripla.web.demo.widgets.Constants;
+import org.ripla.web.demo.widgets.data.FormBean;
 import org.ripla.web.demo.widgets.views.FormView;
 
 import com.vaadin.ui.Component;
@@ -44,48 +45,34 @@ public class FormController extends AbstractController {
 	/**
 	 * Callback method to save the user input.
 	 * 
-	 * @param inGender
-	 * @param inName
-	 * @param inFirstName
-	 * @param inStreet
-	 * @param inPostal
-	 * @param inCity
-	 * @param inMail
-	 * @param inAge
-	 * @param inEducation
-	 * @param inWorkArea
+	 * @param inFormItem
+	 *            {@link FormBean}
 	 * @return String feedback
 	 */
-	public String save(
-			final String inGender,
-			final String inName, // NOPMD by Luthiger on 06.09.12 23:52
-			final String inFirstName, final String inStreet,
-			final String inPostal, final String inCity, final String inMail,
-			final String inAge, final String inEducation,
-			final String inWorkArea) {
+	public String save(final FormBean inItem) {
 		// nothing saved in this demo
 		final IMessages lMessages = Activator.getMessages();
 		final StringBuilder outFeedback = new StringBuilder();
 		outFeedback.append("<ul>");
-		appendChecked(outFeedback, inGender,
+		appendChecked(outFeedback, inItem.getGender(),
 				lMessages.getMessage("widgets.view.form.gender"));
-		appendChecked(outFeedback, inName,
+		appendChecked(outFeedback, inItem.getName(),
 				lMessages.getMessage("widgets.view.form.name"));
-		appendChecked(outFeedback, inFirstName,
+		appendChecked(outFeedback, inItem.getFirstName(),
 				lMessages.getMessage("widgets.view.form.firstname"));
-		appendChecked(outFeedback, inStreet,
+		appendChecked(outFeedback, inItem.getStreet(),
 				lMessages.getMessage("widgets.view.form.street"));
-		appendChecked(outFeedback, inPostal,
+		appendChecked(outFeedback, inItem.getPostal(),
 				lMessages.getMessage("widgets.view.form.city"));
-		appendChecked(outFeedback, inCity,
+		appendChecked(outFeedback, inItem.getCity(),
 				lMessages.getMessage("widgets.view.form.city"));
-		appendChecked(outFeedback, inMail,
+		appendChecked(outFeedback, inItem.getMail(),
 				lMessages.getMessage("widgets.view.form.mail"));
-		appendChecked(outFeedback, inAge,
+		appendChecked(outFeedback, inItem.getAge(),
 				lMessages.getMessage("widgets.view.form.age"));
-		appendChecked(outFeedback, inEducation,
+		appendChecked(outFeedback, inItem.getEducation(),
 				lMessages.getMessage("widgets.view.form.education"));
-		appendChecked(outFeedback, inWorkArea,
+		appendChecked(outFeedback, inItem.getWorkArea(),
 				lMessages.getMessage("widgets.view.form.workarea"));
 		outFeedback.append("</ul>");
 		return new String(outFeedback);

@@ -68,31 +68,37 @@ public class UseCaseComponent implements IUseCase {
 		outMenu.setPermission(Constants.PERMISSION_INPUT_WIDGETS);
 
 		RiplaMenuComposite lSubMenu = new RiplaMenuComposite(
-				lMessages.getMessage("widgets.menu.button"), 10); //$NON-NLS-1$
+				lMessages.getMessage("widgets.menu.input"), 10); //$NON-NLS-1$
+		lSubMenu.setControllerName(UseCaseHelper
+				.createFullyQualifiedControllerName(InputWidgetsController.class));
+		outMenu.add(lSubMenu);
+
+		lSubMenu = new RiplaMenuComposite(
+				lMessages.getMessage("widgets.menu.button"), 20); //$NON-NLS-1$
 		lSubMenu.setControllerName(UseCaseHelper
 				.createFullyQualifiedControllerName(ButtonWidgetsController.class));
 		outMenu.add(lSubMenu);
 
 		lSubMenu = new RiplaMenuComposite(
-				lMessages.getMessage("widgets.menu.selection"), 20); //$NON-NLS-1$
+				lMessages.getMessage("widgets.menu.selection"), 30); //$NON-NLS-1$
 		lSubMenu.setControllerName(UseCaseHelper
 				.createFullyQualifiedControllerName(SelectionWidgetsController.class));
 		outMenu.add(lSubMenu);
 
 		lSubMenu = new RiplaMenuComposite(
-				lMessages.getMessage("widgets.menu.form"), 30); //$NON-NLS-1$
+				lMessages.getMessage("widgets.menu.form"), 40); //$NON-NLS-1$
 		lSubMenu.setControllerName(UseCaseHelper
 				.createFullyQualifiedControllerName(FormController.class));
 		outMenu.add(lSubMenu);
 
 		lSubMenu = new RiplaMenuComposite(
-				lMessages.getMessage("widgets.menu.table"), 40); //$NON-NLS-1$
+				lMessages.getMessage("widgets.menu.table"), 50); //$NON-NLS-1$
 		lSubMenu.setControllerName(UseCaseHelper
 				.createFullyQualifiedControllerName(TableWidgetsController.class));
 		outMenu.add(lSubMenu);
 
 		lSubMenu = new RiplaMenuComposite(
-				lMessages.getMessage("widgets.menu.tree"), 50); //$NON-NLS-1$
+				lMessages.getMessage("widgets.menu.tree"), 60); //$NON-NLS-1$
 		lSubMenu.setControllerName(UseCaseHelper
 				.createFullyQualifiedControllerName(TreeWidgetsController.class));
 		outMenu.add(lSubMenu);

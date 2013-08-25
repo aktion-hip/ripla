@@ -15,6 +15,7 @@ Import-Package: com.vaadin.annotations;version="7.1.0",
  com.vaadin.shared.ui.label;version="7.1.0",
  com.vaadin.ui;version="7.1.0",
  com.vaadin.ui.themes;version="7.1.0",
+ javax.servlet;version="2.6.0",
  javax.servlet.http;version="2.5.0",
  org.json;version="0.0.20080701",
  org.lunifera.runtime.common.dispose,
@@ -41,6 +42,7 @@ Export-Package: org.ripla.web,
  org.ripla.web.util
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.ripla.web.Activator
-Service-Component: OSGI-INF/uiprovider.xml
+Service-Component: OSGI-INF/uiprovider.xml,OSGI-INF/skins.xml,OSGI-INF/usecase.xml,
+ OSGI-INF/toolbar.xml
 Deactivated-Service-Component: OSGI-INF/ripla.xml
 Deactivated-Lunifera-Config: config

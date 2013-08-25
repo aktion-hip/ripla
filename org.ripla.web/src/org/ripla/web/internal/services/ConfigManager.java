@@ -31,8 +31,6 @@ public class ConfigManager {
 			.getLogger(ConfigManager.class);
 
 	public static final String PID = "org.ripla.web.configuration";
-	public static final String KEY_SKIN = "org.ripla.config.skin";
-	public static final String KEY_LANGUAGE = "org.ripla.config.language";
 
 	private transient ConfigurationAdmin configAdmin = null;;
 
@@ -109,7 +107,7 @@ public class ConfigManager {
 	 * @return String the skin id from configuration admin
 	 */
 	public String getSkinID() {
-		return getValue(KEY_SKIN, Constants.DFT_SKIN_ID);
+		return getValue(Constants.KEY_CONFIG_SKIN, Constants.DFT_SKIN_ID);
 	}
 
 	/**
@@ -118,7 +116,7 @@ public class ConfigManager {
 	 * @return String the language (lowercase ISO 639 code)
 	 */
 	public String getLanguage() {
-		return getValue(KEY_LANGUAGE, Constants.DFT_LANGUAGE);
+		return getValue(Constants.KEY_CONFIG_LANGUAGE, Constants.DFT_LANGUAGE);
 	}
 
 	/**
@@ -128,7 +126,7 @@ public class ConfigManager {
 	 *            String the new skin id
 	 */
 	public void setSkinID(final String inSkinID) {
-		setValue(PID, KEY_SKIN, inSkinID);
+		setValue(PID, Constants.KEY_CONFIG_SKIN, inSkinID);
 	}
 
 	/**
@@ -138,7 +136,7 @@ public class ConfigManager {
 	 *            String the new language value
 	 */
 	public void setLanguage(final String inLanguage) {
-		setValue(PID, KEY_LANGUAGE, inLanguage);
+		setValue(PID, Constants.KEY_CONFIG_LANGUAGE, inLanguage);
 	}
 
 	private void setValue(final String inMetaPID, final String inKey,

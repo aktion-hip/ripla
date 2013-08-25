@@ -21,12 +21,15 @@ import org.ripla.interfaces.IAppConfiguration;
 import org.ripla.interfaces.IAuthenticator;
 import org.ripla.web.RiplaApplication;
 
+import com.vaadin.annotations.Theme;
+
 /**
  * The Demo application class.
  * 
  * @author Luthiger
  */
 @SuppressWarnings("serial")
+@Theme("org.ripla.web.demo.skin")
 public class DemoApplication extends RiplaApplication {
 	private static final String APP_NAME = "Ripla Demo Application";
 

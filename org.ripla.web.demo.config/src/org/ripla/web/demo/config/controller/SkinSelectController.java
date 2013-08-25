@@ -13,7 +13,6 @@ package org.ripla.web.demo.config.controller;
 
 import org.ripla.annotations.UseCaseController;
 import org.ripla.exceptions.RiplaException;
-import org.ripla.util.PreferencesHelper;
 import org.ripla.web.controllers.AbstractController;
 import org.ripla.web.demo.config.Constants;
 import org.ripla.web.demo.config.data.SkinBean;
@@ -46,13 +45,10 @@ public class SkinSelectController extends AbstractController {
 	 * 
 	 * @param inSkin
 	 *            {@link SkinBean}
-	 * @param inApplication
 	 */
-	public void save(final SkinBean inSkin) { // , final Application
-												// inApplication
-		savePreferences(PreferencesHelper.KEY_SKIN, inSkin.getID());
-		// TODO
-		// inApplication.setTheme(inSkin.getID());
+	public void save(final SkinBean inSkin) {
+		changeSkin(inSkin.getID());
+		logout();
 	}
 
 }

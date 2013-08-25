@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public interface IRiplaEventDispatcher {
 	public enum Event {
-		LOAD_CONTROLLER, LOAD_CONTEXT_MENU, REFRESH, CLOSE;
+		LOAD_CONTROLLER, LOAD_CONTEXT_MENU, REFRESH, REFRESH_SKIN, REFRESH_UI, LOGOUT;
 	}
 
 	/**

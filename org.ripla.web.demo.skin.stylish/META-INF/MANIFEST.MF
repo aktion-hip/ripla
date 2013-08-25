@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Stylish Demo Skin
+Bundle-SymbolicName: org.ripla.demo.skin.stylish
+Bundle-Version: 2.0.0.qualifier
+Bundle-Vendor: RelationWare
+Import-Package: com.vaadin.server;version="7.1.0",
+ com.vaadin.shared.ui.label;version="7.1.0",
+ com.vaadin.ui;version="7.1.0",
+ org.osgi.framework;version="1.3.0",
+ org.ripla.interfaces,
+ org.ripla.services,
+ org.ripla.util,
+ org.ripla.web.interfaces,
+ org.ripla.web.services,
+ org.ripla.web.util,
+ org.slf4j;version="1.7.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Service-Component: OSGI-INF/skin.xml
+Bundle-Activator: org.ripla.web.demo.skin.stylish.Activator

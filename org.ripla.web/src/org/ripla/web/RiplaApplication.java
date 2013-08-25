@@ -11,13 +11,10 @@
 
 package org.ripla.web; // NOPMD by Luthiger on 09.09.12 00:42
 
-import java.util.Dictionary;
 import java.util.Locale;
 
 import org.lunifera.runtime.web.vaadin.osgi.common.OSGiUI;
 import org.osgi.service.cm.ConfigurationAdmin;
-import org.osgi.service.cm.ConfigurationException;
-import org.osgi.service.cm.ManagedService;
 import org.osgi.service.prefs.PreferencesService;
 import org.osgi.service.useradmin.User;
 import org.osgi.service.useradmin.UserAdmin;
@@ -27,19 +24,15 @@ import org.ripla.interfaces.IRiplaEventDispatcher;
 import org.ripla.interfaces.IWorkflowListener;
 import org.ripla.services.IExtendibleMenuContribution;
 import org.ripla.services.IPermissionEntry;
-import org.ripla.services.ISkinService;
 import org.ripla.util.PreferencesHelper;
 import org.ripla.web.controllers.RiplaBody;
 import org.ripla.web.internal.services.ConfigManager;
 import org.ripla.web.internal.services.PermissionHelper;
 import org.ripla.web.internal.services.RiplaEventDispatcher;
 import org.ripla.web.internal.services.SkinRegistry;
-import org.ripla.web.internal.services.ToolbarItemRegistry;
-import org.ripla.web.internal.services.UseCaseManager;
+import org.ripla.web.internal.services.UseCaseRegistry;
 import org.ripla.web.internal.views.RiplaLogin;
 import org.ripla.web.services.ISkin;
-import org.ripla.web.services.IToolbarItem;
-import org.ripla.web.services.IUseCase;
 import org.ripla.web.util.RiplaRequestHandler;
 import org.ripla.web.util.ToolbarItemFactory;
 import org.slf4j.Logger;
@@ -71,8 +64,7 @@ import com.vaadin.ui.Window;
  * @author Luthiger
  */
 @SuppressWarnings("serial")
-public class RiplaApplication extends OSGiUI implements ManagedService,
-		IWorkflowListener { // NOPMD
+public class RiplaApplication extends OSGiUI implements IWorkflowListener { // NOPMD
 	private static final Logger LOG = LoggerFactory
 			.getLogger(RiplaApplication.class);
 
@@ -80,14 +72,10 @@ public class RiplaApplication extends OSGiUI implements ManagedService,
 
 	private final PreferencesHelper preferences = createPreferencesHelper();
 	private final ConfigManager configManager = new ConfigManager();
-	private final SkinRegistry skinRegistry = new SkinRegistry(preferences);
-	private final ToolbarItemRegistry toolbarRegistry = new ToolbarItemRegistry();
-	private final UseCaseManager useCaseHelper = new UseCaseManager();
-	private RiplaEventDispatcher eventDispatcher;
 	private final PermissionHelper permissionHelper = new PermissionHelper();
+	private RiplaEventDispatcher eventDispatcher;
 	private ToolbarItemFactory toolbarItemFactory;
 
-	// private String requestURL; // old vaadin HttpServletRequestListener
 	private RiplaRequestHandler requestHandler;
 	private Layout bodyView;
 	private boolean initialized = false;
@@ -107,7 +95,8 @@ public class RiplaApplication extends OSGiUI implements ManagedService,
 		eventDispatcher = new RiplaEventDispatcher();
 		VaadinSession.getCurrent().setAttribute(IRiplaEventDispatcher.class,
 				eventDispatcher);
-		useCaseHelper.registerContextMenus();
+		UseCaseRegistry.INSTANCE.registerContextMenus();
+		SkinRegistry.INSTANCE.setPreferences(preferences);
 		if (!initializeLayout(getAppConfiguration())) {
 			return;
 		}
@@ -176,16 +165,10 @@ public class RiplaApplication extends OSGiUI implements ManagedService,
 
 	private boolean initializeLayout(final IAppConfiguration inConfiguration) {
 		setStyleName("ripla-window"); //$NON-NLS-1$
-		// inMain.addListener(new Window.CloseListener() {
-		// @Override
-		// public void windowClose(final CloseEvent inEvent) {
-		// close();
-		// }
-		// });
 
 		requestHandler = setRequestHandler();
-		skinRegistry.setDefaultSkin(inConfiguration.getDftSkinID());
-		final ISkin lSkin = skinRegistry.getActiveSkin();
+		SkinRegistry.INSTANCE.setDefaultSkin(inConfiguration.getDftSkinID());
+		final ISkin lSkin = SkinRegistry.INSTANCE.getActiveSkin();
 
 		final VerticalLayout lLayout = new VerticalLayout();
 		lLayout.setSizeFull();
@@ -247,9 +230,8 @@ public class RiplaApplication extends OSGiUI implements ManagedService,
 	}
 
 	private RiplaRequestHandler setRequestHandler() {
-		final RiplaRequestHandler out = new RiplaRequestHandler("requestURL",
-				useCaseHelper);
-		// inMain.addParameterHandler(out);
+		final RiplaRequestHandler out = new RiplaRequestHandler();
+		VaadinSession.getCurrent().addRequestHandler(out);
 		return out;
 	}
 
@@ -265,7 +247,33 @@ public class RiplaApplication extends OSGiUI implements ManagedService,
 	 */
 	public final void refreshBody() {
 		bodyView.removeAllComponents();
-		bodyView.addComponent(createBodyView(skinRegistry.getActiveSkin()));
+		bodyView.addComponent(createBodyView(SkinRegistry.INSTANCE
+				.getActiveSkin()));
+	}
+
+	/**
+	 * Refreshes the whole UI.
+	 */
+	public final void refreshUI() {
+		bodyView.removeAllComponents();
+
+		final ISkin lSkin = SkinRegistry.INSTANCE.getActiveSkin();
+		final IAppConfiguration lConfiguration = getAppConfiguration();
+		if (lConfiguration.getLoginAuthenticator() == null) {
+			bodyView.addComponent(createBodyView(lSkin));
+		} else {
+			bodyView.addComponent(createLoginView(lConfiguration, lSkin));
+		}
+	}
+
+	/**
+	 * Changes the skin used for the UI.
+	 * 
+	 * @param inSkinID
+	 *            String the ID of the new skin to be used.
+	 */
+	public final void changeSkin(final String inSkinID) {
+		SkinRegistry.INSTANCE.changeSkin(inSkinID);
 	}
 
 	/**
@@ -273,9 +281,9 @@ public class RiplaApplication extends OSGiUI implements ManagedService,
 	 * Subclasses may override to provide their own body views.
 	 * <p>
 	 * This implementation creates an instance of {@link RiplaBody}, notifies
-	 * the event handler about the new body component, calls the request handler
-	 * for that a requested view can be displayed in the main view and then
-	 * passes the new view back to the application.
+	 * the event dispatcher about the new body component, calls the request
+	 * handler for that a requested view can be displayed in the main view and
+	 * then passes the new view back to the application.
 	 * </p>
 	 * 
 	 * @param inSkin
@@ -283,14 +291,13 @@ public class RiplaApplication extends OSGiUI implements ManagedService,
 	 * @return {@link Component} the application's body view
 	 */
 	protected Component createBodyView(final ISkin inSkin) {
-		final RiplaBody out = RiplaBody.createInstance(inSkin, toolbarRegistry,
-				useCaseHelper, this);
+		final RiplaBody out = RiplaBody.createInstance(inSkin, this);
 
-		eventDispatcher.setBodyComponent(out);
+		eventDispatcher.setBodyComponent(out, this);
 
-		// if (!requestHandler.process(out)) {
-		// out.showDefault();
-		// }
+		if (!requestHandler.process(out)) {
+			out.showDefault();
+		}
 		return out;
 	}
 
@@ -319,47 +326,11 @@ public class RiplaApplication extends OSGiUI implements ManagedService,
 		}
 
 		final RiplaLogin lLogin = new RiplaLogin(inConfiguration, this,
-				useCaseHelper.getUserAdmin());
+				UseCaseRegistry.INSTANCE.getUserAdmin());
 		out.addComponent(lLogin);
+		out.setExpandRatio(lLogin, 1);
 		return out;
 	}
-
-	// @Override
-	// public final void handleEvent(final org.osgi.service.event.Event inEvent)
-	// {
-	// eventHandler.handleEvent(inEvent);
-	// }
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	public void updated(final Dictionary inProperties)
-			throws ConfigurationException {
-		if (inProperties == null) {
-			return;
-		}
-
-		synchronized (skinRegistry) {
-			final String lLanguage = (String) inProperties
-					.get(ConfigManager.KEY_LANGUAGE);
-			getPreferences().set(PreferencesHelper.KEY_LANGUAGE, lLanguage);
-
-			final String lSkinID = (String) inProperties
-					.get(ConfigManager.KEY_SKIN);
-			skinRegistry.changeSkin(lSkinID);
-		}
-	}
-
-	/**
-	 * We want to synchronize the metadata value if the skin id is changed by
-	 * the application.
-	 * 
-	 * @see com.vaadin.Application#setTheme(java.lang.String)
-	 */
-	// @Override
-	// public void setTheme(final String inTheme) {
-	// configManager.setSkinID(inTheme);
-	// super.setTheme(inTheme);
-	// }
 
 	/**
 	 * We want to save the locale to the preferences store.
@@ -406,7 +377,7 @@ public class RiplaApplication extends OSGiUI implements ManagedService,
 	 * @return {@link SkinRegistry}
 	 */
 	public SkinRegistry getSkinRegistry() {
-		return skinRegistry;
+		return SkinRegistry.INSTANCE;
 	}
 
 	/**
@@ -484,59 +455,29 @@ public class RiplaApplication extends OSGiUI implements ManagedService,
 	}
 
 	public void setUserAdmin(final UserAdmin inUserAdmin) {
-		useCaseHelper.setUserAdmin(inUserAdmin);
+		UseCaseRegistry.INSTANCE.setUserAdmin(inUserAdmin);
 		permissionHelper.setUserAdmin(inUserAdmin);
 		LOG.debug("The OSGi user admin service is made available.");
 	}
 
 	public void unsetUserAdmin(final UserAdmin inUserAdmin) {
-		useCaseHelper.setUserAdmin(null);
+		UseCaseRegistry.INSTANCE.setUserAdmin(null);
 		permissionHelper.setUserAdmin(null);
 		LOG.debug("Removed the OSGi user admin service is made available.");
-	}
-
-	public void registerSkin(final ISkinService inSkin) {
-		LOG.debug("Registered skin '{}'.", inSkin.getSkinID());
-		skinRegistry.registerSkin(inSkin);
-	}
-
-	public void unregisterSkin(final ISkinService inSkin) {
-		LOG.debug("Unregistered skin '{}'.", inSkin.getSkinID());
-		skinRegistry.unregisterSkin(inSkin);
-	}
-
-	public void registerToolbarItem(final IToolbarItem inItem) {
-		LOG.debug("Registered the toolbar item '{}'.", inItem);
-		toolbarRegistry.registerToolbarItem(inItem);
-	}
-
-	public void unregisterToolbarItem(final IToolbarItem inItem) {
-		LOG.debug("Unregistered the toolbar item '{}'.", inItem);
-		toolbarRegistry.unregisterToolbarItem(inItem);
-	}
-
-	public void addUseCase(final IUseCase inUseCase) {
-		LOG.debug("Added use case {}.", inUseCase);
-		useCaseHelper.addUseCase(inUseCase);
-	}
-
-	public void removeUseCase(final IUseCase inUseCase) {
-		LOG.debug("Removed use case {}.", inUseCase);
-		useCaseHelper.removeUseCase(inUseCase);
 	}
 
 	public void registerMenuContribution(
 			final IExtendibleMenuContribution inMenuContribution) {
 		LOG.debug("Registered extendible menu contribution '{}'.",
 				inMenuContribution.getExtendibleMenuID());
-		useCaseHelper.registerMenuContribution(inMenuContribution);
+		UseCaseRegistry.INSTANCE.registerMenuContribution(inMenuContribution);
 	}
 
 	public void unregisterMenuContribution(
 			final IExtendibleMenuContribution inMenuContribution) {
 		LOG.debug("Unregistered extendible menu contribution '{}'.",
 				inMenuContribution.getExtendibleMenuID());
-		useCaseHelper.unregisterMenuContribution(inMenuContribution);
+		UseCaseRegistry.INSTANCE.unregisterMenuContribution(inMenuContribution);
 	}
 
 	public void registerPermission(final IPermissionEntry inPermission) {

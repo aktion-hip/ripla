@@ -30,6 +30,7 @@ import org.ripla.web.util.UseCaseHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
@@ -83,7 +84,7 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 			final StringBuilder lLogMsg = new StringBuilder(
 					"Note: The user has not sufficient permissions for the requested task.\n"); //$NON-NLS-1$
 			lLogMsg.append("   User: ").append(getUser().getName()).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
-			lLogMsg.append("   IP number: ").append(VaadinSession.getCurrent().getBrowser().getAddress()).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			lLogMsg.append("   IP number: ").append(Page.getCurrent().getWebBrowser().getAddress()).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
 			LOG.warn(new String(lLogMsg));
 			throw new PermissionsNotSufficientException();
@@ -166,35 +167,6 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	}
 
 	/**
-	 * Use OSGi event service to display the next content view.
-	 * 
-	 * @param inClass
-	 *            Class the next task
-	 */
-	protected final void sendEvent(
-			final Class<? extends IPluggable> inController) {
-		sendEvent(createFullyQualifiedControllerName(inController));
-	}
-
-	/**
-	 * Use OSGi event service to display the next content view.
-	 * 
-	 * @param inControllerName
-	 *            String the fully qualified name of the next controller
-	 */
-	protected final void sendEvent(final String inControllerName) {
-		// TODO
-		// final Map<String, Object> lProperties = new HashMap<String,
-		// Object>();
-		// lProperties.put(Constants.EVENT_PROPERTY_NEXT_CONTROLLER,
-		// inControllerName);
-		//
-		// final Event lEvent = new Event(Constants.EVENT_TOPIC_CONTROLLERS,
-		// lProperties);
-		// eventDispatcher.sendEvent(lEvent);
-	}
-
-	/**
 	 * Convenience method to display a notification message.
 	 * 
 	 * @param inMessage
@@ -221,28 +193,33 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	}
 
 	/**
-	 * Use OSGi event service to trigger a refresh of the application's body
-	 * view.
+	 * Use event dispatcher to trigger a refresh of the application's body view.
 	 */
 	protected final void refreshBody() {
 		getDispatcher().dispatch(Event.REFRESH, new HashMap<String, Object>());
 	}
 
 	/**
-	 * Use OSGi event service to trigger a refresh of the application's body
-	 * view.
+	 * Use event dispatcher to trigger a refresh of the application's skin.
+	 * 
+	 * @param inSkinID
+	 *            String the new skin's ID
 	 */
-	protected final void closeApp() {
-		getDispatcher().dispatch(Event.CLOSE, new HashMap<String, Object>());
-	}
-
-	private IRiplaEventDispatcher getDispatcher() {
-		return VaadinSession.getCurrent().getAttribute(
-				IRiplaEventDispatcher.class);
+	protected final void changeSkin(final String inSkinID) {
+		final Map<String, Object> lProperties = new HashMap<String, Object>();
+		lProperties.put(Constants.EVENT_PROPERTY_SKIN_ID, inSkinID);
+		getDispatcher().dispatch(Event.REFRESH_SKIN, lProperties);
 	}
 
 	/**
-	 * Use OSGi event service to display the context menu.
+	 * Use event dispatcher to trigger a logout.
+	 */
+	protected final void logout() {
+		getDispatcher().dispatch(Event.LOGOUT, new HashMap<String, Object>());
+	}
+
+	/**
+	 * Use event dispatcher to display the context menu.
 	 * 
 	 * @param inSetName
 	 *            String the ID of the context menu to display
@@ -253,6 +230,11 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 				UseCaseHelper.createFullyQualifiedID(inSetName, getClass()));
 		lProperties.put(Constants.EVENT_PROPERTY_CONTROLLER_ID, getClass());
 		getDispatcher().dispatch(Event.LOAD_CONTEXT_MENU, lProperties);
+	}
+
+	private IRiplaEventDispatcher getDispatcher() {
+		return VaadinSession.getCurrent().getAttribute(
+				IRiplaEventDispatcher.class);
 	}
 
 	/**

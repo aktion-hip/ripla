@@ -11,6 +11,7 @@
 
 package org.ripla.web.interfaces;
 
+
 /**
  * Interface for actions triggered by a user interaction on a toolbar item.
  * 

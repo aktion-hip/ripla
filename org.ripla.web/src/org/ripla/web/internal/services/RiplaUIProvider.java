@@ -12,7 +12,6 @@ package org.ripla.web.internal.services;
 
 import org.lunifera.runtime.web.vaadin.osgi.common.CustomOSGiUiProvider;
 import org.ripla.web.Constants;
-import org.ripla.web.RiplaApplication;
 
 import com.vaadin.server.UICreateEvent;
 import com.vaadin.ui.UI;
@@ -25,11 +24,14 @@ import com.vaadin.ui.UI;
  */
 @SuppressWarnings("serial")
 public class RiplaUIProvider extends CustomOSGiUiProvider {
-	private SkinRegistry skinRegistry;
 
 	/**
+	 * RiplaUIProvider constructor.
+	 * 
 	 * @param inVaadinApplication
+	 *            String
 	 * @param inUiClass
+	 *            Class&lt;? extends UI>
 	 */
 	public RiplaUIProvider(final String inVaadinApplication,
 			final Class<? extends UI> inUiClass) {
@@ -38,20 +40,11 @@ public class RiplaUIProvider extends CustomOSGiUiProvider {
 
 	@Override
 	public String getTheme(final UICreateEvent inEvent) {
-		if (skinRegistry == null) {
-			return Constants.DFT_SKIN_ID;
+		if (SkinRegistry.INSTANCE.isInitialized()) {
+			return SkinRegistry.INSTANCE.getActiveSkinService().getSkinID();
 		}
-		return skinRegistry.getActiveSkinService().getSkinID();
-	}
-
-	@Override
-	public UI createInstance(final UICreateEvent inEvent) {
-		@SuppressWarnings("restriction")
-		final UI outUI = super.createInstance(inEvent);
-		if (outUI instanceof RiplaApplication) {
-			skinRegistry = ((RiplaApplication) outUI).getSkinRegistry();
-		}
-		return outUI;
+		final String out = super.getTheme(inEvent);
+		return out == null ? Constants.DFT_SKIN_ID : out;
 	}
 
 }

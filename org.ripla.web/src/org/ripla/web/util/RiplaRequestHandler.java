@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 RelationWare, Benno Luthiger
+ * Copyright (c) 2013 RelationWare, Benno Luthiger
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,23 +11,24 @@
 package org.ripla.web.util;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.ripla.exceptions.NoControllerFoundException;
 import org.ripla.web.Constants;
 import org.ripla.web.interfaces.IBodyComponent;
 import org.ripla.web.interfaces.IPluggable;
-import org.ripla.web.internal.services.UseCaseManager;
+import org.ripla.web.internal.services.UseCaseRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vaadin.server.RequestHandler;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinResponse;
+import com.vaadin.server.VaadinServlet;
+import com.vaadin.server.VaadinServletService;
 import com.vaadin.server.VaadinSession;
 
 /**
- * Parameter handler to handle request parameters:
+ * Request handler to handle request parameters:
  * 
  * <pre>
  * http://my.host.org/ripla?request=parameter
@@ -45,40 +46,30 @@ public class RiplaRequestHandler implements RequestHandler {
 	private IRequestParameter requestParameter;
 
 	private final String requestURL;
-	private final UseCaseManager useCaseManager;
 
 	/**
 	 * RequestHandler constructor.
-	 * 
-	 * @param inRequestURL
-	 *            String the application's request url
-	 * @param inUseCaseManager
-	 *            {@link UseCaseManager}
 	 */
-	public RiplaRequestHandler(final String inRequestURL,
-			final UseCaseManager inUseCaseManager) {
-		requestURL = inRequestURL;
-		useCaseManager = inUseCaseManager;
+	public RiplaRequestHandler() {
+		requestURL = VaadinServlet.getCurrent().getServletContext()
+				.getContextPath()
+				+ VaadinServletService.getCurrentServletRequest()
+						.getServletPath();
 	}
 
 	@Override
 	public boolean handleRequest(final VaadinSession inSession,
 			final VaadinRequest inRequest, final VaadinResponse inResponse)
 			throws IOException {
-		inRequest.getParameter(Constants.KEY_REQUEST_PARAMETER);
-		// TODO Auto-generated method stub
+		final String lParameter = inRequest
+				.getParameter(Constants.KEY_REQUEST_PARAMETER);
+		if (lParameter != null) {
+			requestParameter = createRequestParameter(lParameter);
+			requestParameter.handleParameters(inSession, inRequest, inResponse);
+			LOG.trace("Handling request parameter '{}'.", lParameter);
+		}
 		return false;
 	}
-
-	// @Override
-	// public void handleParameters(final Map<String, String[]> inParameters) {
-	// if (inParameters.containsKey(Constants.KEY_REQUEST_PARAMETER)) {
-	// requestParameter = createRequestParameter(inParameters
-	// .get(Constants.KEY_REQUEST_PARAMETER)[0]);
-	// requestParameter.handleParameters(inParameters);
-	// LOG.trace("Handling request parameter '{}'.", requestParameter);
-	// }
-	// }
 
 	/**
 	 * Displays the requested view in the main view.
@@ -97,8 +88,8 @@ public class RiplaRequestHandler implements RequestHandler {
 		try {
 			final String lControllerName = requestParameter.getControllerName();
 			requestParameter = null; // NOPMD by Luthiger on 10.09.12 00:21
-			inBody.setContentView(useCaseManager.getControllerManager()
-					.getContent(lControllerName));
+			inBody.setContentView(UseCaseRegistry.INSTANCE
+					.getControllerManager().getContent(lControllerName));
 			return true;
 		}
 		catch (final NoControllerFoundException exc) { // NOPMD by Luthiger
@@ -109,7 +100,7 @@ public class RiplaRequestHandler implements RequestHandler {
 
 	/**
 	 * Creates the URL to the view of the specified task, e.g.
-	 * <code>http://localhost:8084/forum?request=org.hip.vif.forum.groups/org.hip.vif.groups.tasks.RequestsListTask&key=value</code>
+	 * <code>http://localhost:8084/demo?request=org.ripla.web.demo.config/org.ripla.web.demo.config.controller.SkinSelectController&key=value</code>
 	 * .
 	 * 
 	 * @param inTask
@@ -133,7 +124,7 @@ public class RiplaRequestHandler implements RequestHandler {
 	}
 
 	/**
-	 * @return String e.g. <code>http://localhost:8084/forum</code>
+	 * @return String e.g. <code>http://localhost:8084/demo</code>
 	 */
 	public String getRequestURL() {
 		return requestURL;
@@ -166,13 +157,17 @@ public class RiplaRequestHandler implements RequestHandler {
 	public interface IRequestParameter {
 		/**
 		 * Do something with the parameters passed in the servlet request, e.g.
-		 * store the locally.
+		 * store them locally.
 		 * 
-		 * @param inParameters
-		 *            Map&lt;String, String[]> the parameter map containing the
-		 *            keys and values
+		 * @param inSession
+		 *            {@link VaadinSession}
+		 * @param inRequest
+		 *            {@link VaadinRequest}
+		 * @param inResponse
+		 *            {@link VaadinResponse}
 		 */
-		void handleParameters(Map<String, String[]> inParameters);
+		void handleParameters(final VaadinSession inSession,
+				final VaadinRequest inRequest, final VaadinResponse inResponse);
 
 		/**
 		 * Returns the name of the controller the request is calling.
@@ -190,7 +185,8 @@ public class RiplaRequestHandler implements RequestHandler {
 		}
 
 		@Override
-		public void handleParameters(final Map<String, String[]> inParameters) {
+		public void handleParameters(final VaadinSession inSession,
+				final VaadinRequest inRequest, final VaadinResponse inResponse) {
 			// do nothing
 		}
 

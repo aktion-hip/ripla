@@ -16,6 +16,7 @@ import org.ripla.web.demo.config.Activator;
 import org.ripla.web.demo.config.controller.LoginConfigController;
 import org.ripla.web.util.RiplaViewHelper;
 
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -64,6 +65,7 @@ public class LoginConfigView extends CustomComponent {
 				lMessages.getMessage("view.login.chk.label")); //$NON-NLS-1$
 		lCheckbox.setValue(inLoginConfig);
 		lCheckbox.setEnabled(inEnabled);
+		lCheckbox.focus();
 		lLayout.addComponent(lCheckbox);
 
 		final Button lSave = new Button(
@@ -75,6 +77,7 @@ public class LoginConfigView extends CustomComponent {
 			}
 		});
 		lSave.setEnabled(inEnabled);
+		lSave.setClickShortcut(KeyCode.ENTER);
 		lLayout.addComponent(lSave);
 	}
 

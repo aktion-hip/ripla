@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.MenuBar.MenuItem;
 
 /**
  * The controller manager class.<br />
@@ -67,16 +68,11 @@ public final class ControllerManager {
 		return runController(lLoader);
 	}
 
-	/**
-	 * @param inLoader
-	 * @return
-	 */
 	private Component runController(final BundleClassLoader inLoader) {
 		try {
 			final IPluggable lController = inLoader.createLoader();
 			lController.setUserAdmin(userAdmin);
-			VaadinSession.getCurrent().setAttribute(Constants.SA_ACTIVE_MENU,
-					inLoader.getSymbolicName());
+			setActiveMenuItem(inLoader.getSymbolicName());
 			return lController.run();
 		}
 		catch (final Exception exc) {
@@ -87,6 +83,23 @@ public final class ControllerManager {
 			LOG.error("Problem during task execution.", lThrowable); //$NON-NLS-1$
 			return new DefaultRiplaView(exc);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void setActiveMenuItem(final String inBundleName) {
+		final VaadinSession lCurrentSession = VaadinSession.getCurrent();
+		final MenuItem lOldItem = (MenuItem) lCurrentSession
+				.getAttribute(Constants.SA_ACTIVE_MENU);
+		if (lOldItem != null) {
+			lOldItem.setStyleName("");
+		}
+		final Map<String, MenuItem> lMenuMap = (Map<String, MenuItem>) lCurrentSession
+				.getAttribute(Constants.SA_MENU_MAP);
+		final MenuItem lNewItem = lMenuMap.get(inBundleName);
+		if (lNewItem != null) {
+			lNewItem.setStyleName(Constants.CSS_ACTIVE_MENU);
+		}
+		lCurrentSession.setAttribute(Constants.SA_ACTIVE_MENU, lNewItem);
 	}
 
 	/**

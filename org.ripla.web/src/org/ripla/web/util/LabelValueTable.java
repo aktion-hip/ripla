@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.ripla.web.util;
 
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;
@@ -34,7 +35,7 @@ public final class LabelValueTable extends CustomComponent {
 	public static final String STYLE_PLAIN = "<div class=\"ripla-value\">%s</div>"; //$NON-NLS-1$
 	private static final String STYLE_EMPH = "<div class=\"ripla-value-emphasized\">%s</div>"; //$NON-NLS-1$
 
-	private GridLayout layout;
+	private final GridLayout layout;
 
 	/**
 	 * Default constructor.
@@ -160,7 +161,7 @@ public final class LabelValueTable extends CustomComponent {
 
 	private Label createLabel(final String inStyle, final String inCaption) {
 		final Label out = new Label(String.format(inStyle, inCaption),
-				Label.CONTENT_XHTML);
+				ContentMode.HTML);
 		out.setWidth(null);
 		return out;
 	}
@@ -174,7 +175,7 @@ public final class LabelValueTable extends CustomComponent {
 	 */
 	public static Label createPlainLabel(final String inCaption) {
 		final Label out = new Label(String.format(STYLE_LABEL, inCaption),
-				Label.CONTENT_XHTML);
+				ContentMode.HTML);
 		out.setWidth(null);
 		return out;
 	}

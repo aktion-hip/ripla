@@ -8,6 +8,7 @@
  * Contributors:
  * RelationWare, Benno Luthiger
  ******************************************************************************/
+
 package org.ripla.web.internal.services;
 
 import java.util.ArrayList;
@@ -18,39 +19,27 @@ import org.ripla.services.ISkinService;
 import org.ripla.util.PreferencesHelper;
 import org.ripla.web.Constants;
 import org.ripla.web.services.ISkin;
-import org.ripla.web.util.LabelHelper;
-
-import com.vaadin.server.Resource;
-import com.vaadin.server.Sizeable.Unit;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 
 /**
- * Helper class for managing <code>org.ripla.web.services.ISkin</code>
- * instances.
+ * Singleton instance to register the skins provided by skin bundles. The
+ * provided skins are injected through the service consumer
+ * <code>SkinComponent</code>.
  * 
  * @author Luthiger
+ * @see SkinComponent
  */
-public final class SkinRegistry {
+public enum SkinRegistry {
+	INSTANCE;
+
 	private final transient Collection<ISkinService> skins = Collections
 			.synchronizedList(new ArrayList<ISkinService>());
 	private transient ISkinService activeSkin = null;
 
-	private final transient PreferencesHelper preferences;
+	private transient PreferencesHelper preferences;
 	private transient String dftSkinID = Constants.DFT_SKIN_ID;
 
-	/**
-	 * SkinRegistry constructor.
-	 * 
-	 * @param inPreferences
-	 *            {@link PreferencesHelper}
-	 */
-	public SkinRegistry(final PreferencesHelper inPreferences) {
+	public void setPreferences(final PreferencesHelper inPreferences) {
 		preferences = inPreferences;
-		skins.add(new RiplaSkinService());
 	}
 
 	/**
@@ -123,6 +112,11 @@ public final class SkinRegistry {
 		activeSkin = calculateSkin(inSkinID);
 	}
 
+	public void flushSkinPref() {
+		preferences.set(PreferencesHelper.KEY_SKIN, getActiveSkinService()
+				.getSkinID());
+	}
+
 	/**
 	 * Sets the application's default skin.
 	 * 
@@ -133,95 +127,7 @@ public final class SkinRegistry {
 		dftSkinID = inDftSkinID;
 	}
 
-	// ---
-
-	private static class RiplaSkinService implements ISkinService {
-		@Override
-		public String getSkinID() {
-			return Constants.DFT_SKIN_ID;
-		}
-
-		@Override
-		public String getSkinName() {
-			return "Ripla Default Skin";
-		}
-
-		@Override
-		public org.ripla.services.ISkin createSkin() {
-			return new RiplaSkin();
-		}
+	public boolean isInitialized() {
+		return preferences != null;
 	}
-
-	/**
-	 * The Ripla default skin.
-	 * 
-	 * @author Luthiger
-	 */
-	private static class RiplaSkin implements ISkin {
-
-		@Override
-		public boolean hasHeader() {
-			return true;
-		}
-
-		@Override
-		public Component getHeader(final String inAppName) {
-			final Layout outHeader = new HorizontalLayout();
-			outHeader.setStyleName("ripla-header"); //$NON-NLS-1$
-			outHeader.setWidth("100%"); //$NON-NLS-1$
-			outHeader.setHeight(70, Unit.PIXELS);
-			outHeader.addComponent(LabelHelper.createLabel("header",
-					"ripla-header-text"));
-			return outHeader;
-		}
-
-		@Override
-		public boolean hasFooter() {
-			return true;
-		}
-
-		@Override
-		public Component getFooter() {
-			final Layout outFooter = new HorizontalLayout();
-			outFooter.setStyleName("ripla-footer"); //$NON-NLS-1$
-			outFooter.setWidth("100%"); //$NON-NLS-1$
-			outFooter.setHeight(18, Unit.PIXELS);
-			outFooter.addComponent(LabelHelper.createLabel("footer",
-					"ripla-footer-text"));
-			return outFooter;
-		}
-
-		@Override
-		public boolean hasToolBar() {
-			return true;
-		}
-
-		@Override
-		public Label getToolbarSeparator() {
-			final Label outSeparator = new Label("&bull;", ContentMode.HTML); //$NON-NLS-1$
-			outSeparator.setSizeUndefined();
-			return outSeparator;
-		}
-
-		@Override
-		public boolean hasMenuBar() {
-			return true;
-		}
-
-		@Override
-		public HorizontalLayout getMenuBar() {
-			return null;
-		}
-
-		@Override
-		public HorizontalLayout getMenuBarMedium() {
-			return null;
-		}
-
-		@Override
-		public Resource getSubMenuIcon() {
-			return null;
-		}
-	}
-
 }

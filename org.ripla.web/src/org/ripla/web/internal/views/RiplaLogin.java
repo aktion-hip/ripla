@@ -19,6 +19,7 @@ import org.ripla.interfaces.IAuthenticator;
 import org.ripla.interfaces.IMessages;
 import org.ripla.web.Activator;
 import org.ripla.web.RiplaApplication;
+import org.ripla.web.util.LabelHelper;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -26,13 +27,11 @@ import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.event.MouseEvents.ClickListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
@@ -54,8 +53,8 @@ public class RiplaLogin extends CustomComponent {
 	private final RiplaApplication application;
 	private final UserAdmin userAdmin;
 
-	private static TextField user;
-	private static PasswordField pass;
+	private static TextField userid;
+	private static PasswordField password;
 	private Button loginButton;
 
 	private Item loginItem;
@@ -92,18 +91,17 @@ public class RiplaLogin extends CustomComponent {
 		inLayout.addComponent(lLayout);
 		inLayout.setComponentAlignment(lLayout, Alignment.TOP_CENTER);
 
-		final Label lDescription = new Label(inConfiguration.getWelcome(),
-				ContentMode.HTML);
-		lLayout.addComponent(lDescription);
+		lLayout.addComponent(LabelHelper.createLabel(
+				inConfiguration.getWelcome(), "ripla-welcome"));
 
-		user = new TextField(String.format(
+		userid = new TextField(String.format(
 				"%s:", lMessages.getMessage("login.field.user"))); //$NON-NLS-1$ //$NON-NLS-2$
-		lLayout.addComponent(user);
-		user.focus();
+		lLayout.addComponent(userid);
+		userid.focus();
 
-		pass = new PasswordField(String.format(
+		password = new PasswordField(String.format(
 				"%s:", lMessages.getMessage("login.field.pass"))); //$NON-NLS-1$ //$NON-NLS-2$
-		lLayout.addComponent(pass);
+		lLayout.addComponent(password);
 
 		loginButton = new Button(lMessages.getMessage("login.button")); //$NON-NLS-1$
 		lLayout.addComponent(loginButton);
@@ -111,6 +109,7 @@ public class RiplaLogin extends CustomComponent {
 		loginItem = createLoginItem();
 		final FieldGroup lBinding = new FieldGroup(loginItem);
 		lBinding.bindMemberFields(this);
+		lBinding.setBuffered(false);
 	}
 
 	/**
@@ -150,7 +149,7 @@ public class RiplaLogin extends CustomComponent {
 		loginButton.addClickListener(getListener(authenticator, application,
 				userAdmin));
 		loginButton.setClickShortcut(KeyCode.ENTER);
-		user.focus();
+		userid.focus();
 	}
 
 	private Item createLoginItem() {

@@ -16,11 +16,16 @@ import java.util.Map;
 import org.ripla.exceptions.NoControllerFoundException;
 import org.ripla.interfaces.IRiplaEventDispatcher;
 import org.ripla.web.Constants;
+import org.ripla.web.RiplaApplication;
 import org.ripla.web.interfaces.IBodyComponent;
 import org.ripla.web.interfaces.IPluggable;
 import org.ripla.web.internal.views.DefaultRiplaView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.vaadin.server.VaadinServlet;
+import com.vaadin.server.VaadinServletService;
+import com.vaadin.ui.UI;
 
 /**
  * The event dispatcher implementation.
@@ -32,13 +37,18 @@ public class RiplaEventDispatcher implements IRiplaEventDispatcher {
 			.getLogger(RiplaEventDispatcher.class);
 
 	private transient IBodyComponent bodyComponent;
+	private transient RiplaApplication application;
 
 	/**
 	 * @param inBody
 	 *            {@link IBodyComponent}
+	 * @param inApplication
+	 *            {@link RiplaApplication}
 	 */
-	public void setBodyComponent(final IBodyComponent inBody) {
+	public void setBodyComponent(final IBodyComponent inBody,
+			final RiplaApplication inApplication) {
 		bodyComponent = inBody;
+		application = inApplication;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -74,15 +84,34 @@ public class RiplaEventDispatcher implements IRiplaEventDispatcher {
 			bodyComponent.refreshBody();
 			break;
 
-		case CLOSE:
-			LOG.debug("Event: close application");
-			bodyComponent.close();
+		case REFRESH_SKIN:
+			final Object lSkinID = inProperties
+					.get(Constants.EVENT_PROPERTY_SKIN_ID);
+			LOG.debug("Event: change skin to {}", lSkinID);
+			application.changeSkin((String) lSkinID);
+			break;
+
+		case REFRESH_UI:
+			LOG.debug("Event: refresh UI");
+			application.refreshUI();
+			break;
+
+		case LOGOUT:
+			LOG.debug("Event: logout");
+			final UI lUI = application.getUI();
+			lUI.getSession().close();
+			lUI.getPage().setLocation(getAppLocation());
 			break;
 
 		default:
 			break;
 		}
+	}
 
+	private String getAppLocation() {
+		return VaadinServlet.getCurrent().getServletContext().getContextPath()
+				+ VaadinServletService.getCurrentServletRequest()
+						.getServletPath();
 	}
 
 	private void handleNoTaskFound(final NoControllerFoundException inExc,

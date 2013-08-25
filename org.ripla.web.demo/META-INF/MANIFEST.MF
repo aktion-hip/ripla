@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Ripla Demo Application
 Bundle-SymbolicName: org.ripla.web.demo
-Bundle-Version: 1.0.2.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: RelationWare
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: com.vaadin.annotations;version="7.1.0",
@@ -31,5 +31,5 @@ Import-Package: com.vaadin.annotations;version="7.1.0",
 Bundle-Activator: org.ripla.web.demo.Activator
 Bundle-ActivationPolicy: lazy
 Export-Package: org.ripla.web.demo
-Service-Component: OSGI-INF/demo.xml, OSGI-INF/toolbar.xml
+Service-Component: OSGI-INF/demo.xml, OSGI-INF/toolbar.xml, OSGI-INF/config.xml
 Lunifera-Config: config

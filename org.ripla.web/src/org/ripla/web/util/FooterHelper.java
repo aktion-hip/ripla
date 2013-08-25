@@ -68,7 +68,7 @@ public final class FooterHelper extends CustomComponent {
 	 *            int the heigth in pixels
 	 */
 	public void setHeight(final int inHeight) {
-		layout.setHeight(inHeight, UNITS_PIXELS);
+		layout.setHeight(inHeight, Unit.PIXELS);
 	}
 
 	/**

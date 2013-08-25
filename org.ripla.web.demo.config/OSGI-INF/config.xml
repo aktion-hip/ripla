@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.web.demo.config.skin">
    <implementation class="org.ripla.web.demo.config.scr.ConfigComponent"/>
-   <reference bind="registerSkin" unbind="unregisterSkin" cardinality="1..n" interface="org.ripla.web.services.ISkin" name="skinConfiguration" policy="dynamic"/>
+   <reference bind="registerSkin" unbind="unregisterSkin" cardinality="1..n" interface="org.ripla.services.ISkinService" name="skinConfiguration" policy="dynamic"/>
 </scr:component>

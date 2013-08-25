@@ -4,13 +4,7 @@
    <reference cardinality="1..n" interface="org.osgi.service.prefs.PreferencesService" bind="setPreferences" unbind="unsetPreferences" name="preferences" policy="dynamic"/>
    <reference cardinality="1..n" interface="org.osgi.service.event.EventAdmin" bind="setEventAdmin" unbind="unsetEventAdmin" name="eventadmin" policy="dynamic"/>
    <reference cardinality="0..n" interface="org.osgi.service.useradmin.UserAdmin" bind="setUserAdmin" unbind="unsetUserAdmin" name="useradmin" policy="dynamic"/>
-   <reference bind="registerSkin" unbind="unregisterSkin" cardinality="0..n" interface="org.ripla.services.ISkinService" name="skin" policy="dynamic"/>   
-   <reference bind="registerToolbarItem" unbind="unregisterToolbarItem" cardinality="0..n" interface="org.ripla.web.services.IToolbarItem" name="toolbar" policy="dynamic"/>   
-   <reference bind="addUseCase" unbind="removeUseCase" cardinality="0..n" interface="org.ripla.web.services.IUseCase" name="usecase" policy="dynamic"/>   
    <reference bind="registerMenuContribution" unbind="unregisterMenuContribution" cardinality="0..n" interface="org.ripla.services.IExtendibleMenuContribution" name="extendibleContributions" policy="dynamic"/>   
    <reference bind="registerPermission" unbind="unregisterPermission" cardinality="0..n" interface="org.ripla.services.IPermissionEntry" name="permissions" policy="dynamic"/>   
-   <service>
-      <provide interface="org.osgi.service.cm.ManagedService"/>
-   </service>
    <property name="event.topics" type="String" value="org/ripla/web/ControllerEvent/*"/>
 </scr:component>

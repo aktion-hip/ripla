@@ -11,7 +11,10 @@
 
 package org.ripla.web.demo.scr;
 
+import java.util.HashMap;
+
 import org.osgi.service.useradmin.User;
+import org.ripla.interfaces.IRiplaEventDispatcher;
 import org.ripla.web.RiplaApplication;
 import org.ripla.web.demo.Activator;
 import org.ripla.web.interfaces.IToolbarAction;
@@ -19,6 +22,7 @@ import org.ripla.web.interfaces.IToolbarActionListener;
 import org.ripla.web.interfaces.IToolbarItemCreator;
 import org.ripla.web.services.IToolbarItem;
 
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
@@ -53,9 +57,12 @@ public class ToolbarItemLogout implements IToolbarItem {
 					listener.processAction(new IToolbarAction() {
 						@Override
 						public void run() {
-							// TODO
-							// inApplication.getMainWindow().getApplication()
-							// .close();
+							VaadinSession
+									.getCurrent()
+									.getAttribute(IRiplaEventDispatcher.class)
+									.dispatch(
+											IRiplaEventDispatcher.Event.LOGOUT,
+											new HashMap<String, Object>());
 						}
 					});
 				}

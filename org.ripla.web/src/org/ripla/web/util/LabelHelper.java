@@ -11,6 +11,7 @@
 
 package org.ripla.web.util;
 
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
 
 /**
@@ -30,7 +31,7 @@ public final class LabelHelper {
 
 	public static Label createLabel(final String inLabel, final String inStyle) {
 		return new Label(String.format(TMPL_LABEL, inStyle, inLabel),
-				Label.CONTENT_XHTML);
+				ContentMode.HTML);
 	}
 
 }

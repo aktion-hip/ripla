@@ -17,6 +17,7 @@ import org.ripla.web.demo.config.data.SkinBean;
 import org.ripla.web.demo.config.data.SkinConfigRegistry;
 import org.ripla.web.util.RiplaViewHelper;
 
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -52,7 +53,7 @@ public class SkinConfigurationView extends CustomComponent {
 		skinSelect = new ComboBox(null, SkinConfigRegistry.INSTANCE.getSkins());
 		skinSelect.setNullSelectionAllowed(false);
 		skinSelect.setNewItemsAllowed(false);
-		skinSelect.setWidth(200, Unit.PIXELS);
+		skinSelect.setWidth(230, Unit.PIXELS);
 		skinSelect.focus();
 		lLayout.addComponent(skinSelect);
 
@@ -61,11 +62,10 @@ public class SkinConfigurationView extends CustomComponent {
 		lSave.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(final Button.ClickEvent inEvent) {
-				// TODO
-				// inController.save((SkinBean) skinSelect.getValue(),
-				// getApplication());
+				inController.save((SkinBean) skinSelect.getValue());
 			}
 		});
+		lSave.setClickShortcut(KeyCode.ENTER);
 		lLayout.addComponent(lSave);
 	}
 
@@ -81,8 +81,7 @@ public class SkinConfigurationView extends CustomComponent {
 	@Override
 	public void attach() {
 		super.attach();
-		// TODO
-		// skinSelect.select(getActive(getApplication().getTheme()));
+		skinSelect.select(getActive(getUI().getTheme()));
 	}
 
 }

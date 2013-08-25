@@ -2,11 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Demo of Vaadin Widgets
 Bundle-SymbolicName: org.ripla.web.demo.widgets
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.ripla.web.demo.widgets.Activator
 Bundle-Vendor: RelationWare
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: com.vaadin.data;version="7.1.0",
+ com.vaadin.data.fieldgroup;version="7.1.1.nightly-e9f3fcc211c0f05f606e75baee969c90bc1a5387-137",
  com.vaadin.data.util;version="7.1.0",
  com.vaadin.data.util.filter;version="7.1.0",
  com.vaadin.event;version="7.1.0",
