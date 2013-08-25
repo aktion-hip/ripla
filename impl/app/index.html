@@ -186,10 +186,6 @@ lunifera.web.vaadin.widgetset=com.vaadin.DefaultWidgetSet
       bind="setPreferences" unbind="unsetPreferences" name="preferences" policy="dynamic"/&gt;
    &lt;reference cardinality="0..n" interface="org.osgi.service.useradmin.UserAdmin" 
       bind="setUserAdmin" unbind="unsetUserAdmin" name="useradmin" policy="dynamic"/&gt;
-   &lt;reference bind="registerToolbarItem" unbind="unregisterToolbarItem" cardinality="0..n" 
-      interface="org.ripla.web.services.IToolbarItem" name="toolbar" policy="dynamic"/&gt;   
-   &lt;reference bind="addUseCase" unbind="removeUseCase" cardinality="0..n" 
-      interface="org.ripla.web.services.IUseCase" name="usecase" policy="dynamic"/&gt;   
    &lt;reference bind="registerMenuContribution" unbind="unregisterMenuContribution" cardinality="0..n" 
       interface="org.ripla.services.IExtendibleMenuContribution" name="extendibleContributions" policy="dynamic"/&gt;   
    &lt;reference bind="registerPermission" unbind="unregisterPermission" cardinality="0..n" 
