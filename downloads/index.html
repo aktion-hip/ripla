@@ -90,7 +90,12 @@
       <li class="level-0 selected">
         <a href="../downloads"
            class="onbranch" title="Downloads">Downloads</a>
-        
+            <ul class="navigation-level-1">    
+		      <li class="level-1">
+		        <a href="../downloads/ripla_devel.html"
+		           title="Ripla with Eclipse">Ripla with Eclipse</a>
+		      </li>
+			</ul>
       </li>
     
   </ul>
@@ -105,7 +110,9 @@
   The sources for the Ripla implementation of the OSGi user admin service: <em>code</em> and <em>source</em>.</p><h4 class="heading">ripla-demo</h4><p class="p"> <strong><a href="../downloads/ripla-demo_2.0.0.201308251515.jar" title="" target="">ripla-demo_2.0.0.201308251515.jar</a></strong> (15.6 MB)<br />The Ripla Demo application. This is an executable and self extracting jar. To start the application, rename the file to <em>ripla-demo-8080.jar</em> where <em>8080</em> is the port number you want the demo application to run with. Then, double click the jar file to start the application. This will install the OSGi runtime (Equinox), extract and deploy the bundles included, start the web server (listening on the specified port) and fire up your default web browser with the URL <a href="http://localhost:8080/demo" title="" target="_blank">http://localhost:8080/demo</a>.</p><h4 class="heading">ripla.target</h4><p class="p">  <strong><a href="../downloads/org.ripla.target_200.zip" title="" target="">org.ripla.target.zip</a></strong> (19.6 MB)<br />
   The OSGi target bundle to jump directly into Ripla web application programming using the Eclipse IDE. 
   This bundle contains all OSGi bundles needed for Ripla programming, i.e. the OSGi runtime (Equinox), 
-  the Vaadin7 bundles as well as org.ripla.web and org.ripla.useramin (inclusive sources).</p><p class="p"> To install the Ripla target into your Eclipse IDE, proceed as follows:</p><ol class="decimal"><li>Extract the content of <em>org.ripla.target.zip</em> in your file system.</li><li>Open your Eclipse IDE, possibly with a new workspace.</li><li>Import the project extracted from <em>org.ripla.target.zip</em>: <em>File -&gt; Import... -&gt; Existing Projects into Workspace</em>.</li><li>Open the project <em>org.ripla.target</em> and open the file <em>ripla.target</em> within this project. This will display the target editor in your IDE.</li><li>Click the link <em>Set as Target Platform</em> in the<em> </em>upper right corner of the target editor. Thus, the Ripla target is activated and you're prepared to start with Ripla programming!</li></ol></section>
+  the Vaadin7 bundles as well as org.ripla.web and org.ripla.useramin (inclusive sources).</p><p class="p"> To install the Ripla target into your Eclipse IDE, proceed as follows:</p><ol class="decimal"><li>Extract the content of <em>org.ripla.target.zip</em> in your file system.</li><li>Open your Eclipse IDE, possibly with a new workspace.</li><li>Import the project extracted from <em>org.ripla.target.zip</em>: <em>File -&gt; Import... -&gt; Existing Projects into Workspace</em>.</li><li>Open the project <em>org.ripla.target</em> and open the file <em>ripla.target</em> within this project. This will display the target editor in your IDE.</li><li>Click the link <em>Set as Target Platform</em> in the<em> </em>upper right corner of the target editor. Thus, the Ripla target is activated and you're prepared to start with Ripla programming!</li></ol>
+  <h4 class="heading">Ripla-Demo.launch</h4><p class="p"><strong><a href="../downloads/Ripla-Demo.launch" title="">Ripla-Demo.launch</a></strong> (5 KB)<br />Sample launch configuration to start the OSGi framework for the Ripla Demo application in Eclipse. All required bundles (from the Ripla target) are selected. You can import this configuration using the Eclipse import method "Launch Configurations".<br /><strong>Note</strong>: org.osgi.service.http.port=8080<br /></p>
+  </section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
