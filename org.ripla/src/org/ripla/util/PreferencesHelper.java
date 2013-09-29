@@ -71,33 +71,41 @@ public class PreferencesHelper {
 	}
 
 	/**
-	 * Setter for the value of the property with the specified key.
+	 * Setter for the value of the property with the specified key. The value is
+	 * only stored to the preferences, if the passed value is different from the
+	 * original value.
 	 * 
 	 * @param inKey
 	 *            String
 	 * @param inValue
 	 *            String
+	 * @return boolean <code>true</code> if the value changed in the preferences
 	 */
-	public final void set(final String inKey, final String inValue) {
+	public final boolean set(final String inKey, final String inValue) {
 		if (preferences == null) {
-			return;
+			return false;
 		}
 
 		final Preferences lPreferences = preferences.getSystemPreferences();
-		set(inKey, inValue, lPreferences);
+		return set(inKey, inValue, lPreferences);
 	}
 
-	private void set(final String inKey, final String inValue,
-			final Preferences lPreferences) {
-		lPreferences.remove(inKey);
-		lPreferences.put(inKey, inValue);
-		savePreferences(lPreferences);
+	private boolean set(final String inKey, final String inValue,
+			final Preferences inPreferences) {
+		if (!inPreferences.get(inKey, "").equals(inValue)) {
+			inPreferences.remove(inKey);
+			inPreferences.put(inKey, inValue);
+			savePreferences(inPreferences);
+			return true;
+		}
+		return false;
 	}
 
 	private void savePreferences(final Preferences inPreferences) {
 		try {
 			inPreferences.flush();
-		} catch (final BackingStoreException exc) {
+		}
+		catch (final BackingStoreException exc) {
 			LOG.error("Can't save preferences!", exc);
 		}
 	}

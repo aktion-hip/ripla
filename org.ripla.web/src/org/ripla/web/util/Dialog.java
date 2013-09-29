@@ -52,9 +52,9 @@ public final class Dialog {
 	 *            String the dialog window's title
 	 * @param inQuestion
 	 *            String the question
-	 * @return {@link DialogWindow}
+	 * @return {@link AbstractDialogWindow}
 	 */
-	public static DialogWindow openQuestion(final String inTitle,
+	public static AbstractDialogWindow openQuestion(final String inTitle,
 			final String inQuestion) {
 		return new DialogWindow(inTitle, inQuestion);
 	}
@@ -85,10 +85,10 @@ public final class Dialog {
 	 * @param inCommand
 	 *            {@link ICommand} the command to execute if the yes-button is
 	 *            clicked
-	 * @return
+	 * @return {@link AbstractDialogWindow}
 	 */
 	@SuppressWarnings("serial")
-	public static DialogWindow openQuestion(final String inTitle,
+	public static AbstractDialogWindow openQuestion(final String inTitle,
 			final String inQuestion, final ICommand inCommand) {
 		final DialogWindow out = new DialogWindow(inTitle, inQuestion);
 		out.addNoListener(new Button.ClickListener() {
@@ -108,6 +108,34 @@ public final class Dialog {
 	}
 
 	/**
+	 * Creates a dialog window with a ok button.<br />
+	 * This dialog adds a click listener to the button.
+	 * 
+	 * @param inTitle
+	 *            String the dialog window's title
+	 * @param inMessage
+	 *            String the message displayed
+	 * @param inCommand
+	 *            {@link ICommand} the command to execute if the ok-button is
+	 *            clicked
+	 * @return {@link AbstractDialogWindow}
+	 */
+	@SuppressWarnings("serial")
+	public static AbstractDialogWindow openConfirmation(final String inTitle,
+			final String inMessage, final ICommand inCommand) {
+		final ConfirmationWindow out = new ConfirmationWindow(inTitle,
+				inMessage);
+		out.addOkListener(new Button.ClickListener() {
+			@Override
+			public void buttonClick(final ClickEvent inEvent) {
+				out.setVisible(false);
+				inCommand.execute();
+			}
+		});
+		return out;
+	}
+
+	/**
 	 * Creates a <code>Button.ClickListener</code> that displays the passed
 	 * <code>DialogWindow</code>. Usage:
 	 * 
@@ -117,14 +145,14 @@ public final class Dialog {
 	 * </pre>
 	 * 
 	 * @param inDialog
-	 *            {@link DialogWindow}
+	 *            {@link AbstractDialogWindow}
 	 * @param inComponent
 	 *            {@link Component}
 	 * @return {@link ClickListener}
 	 */
 	@SuppressWarnings("serial")
 	public static Button.ClickListener createClickListener(
-			final DialogWindow inDialog, final Component inComponent) {
+			final AbstractDialogWindow inDialog, final Component inComponent) {
 		return new Button.ClickListener() {
 			@Override
 			public void buttonClick(final ClickEvent inEvent) {
@@ -154,31 +182,27 @@ public final class Dialog {
 	 * A dialog window with title, dialog and two click buttons.
 	 */
 	@SuppressWarnings("serial")
-	public static class DialogWindow extends Window {
-		private final transient Button buttonYes;
-		private final transient Button buttonNo;
+	public static abstract class AbstractDialogWindow extends Window {
+		private final VerticalLayout layout;
 
 		/**
 		 * Set constructor private
 		 */
-		DialogWindow(final String inTitle, final String inQuestion) {
+		AbstractDialogWindow(final String inTitle, final String inQuestion) {
 			super(inTitle);
-			final IMessages lMessages = Activator.getMessages();
-			final VerticalLayout lLayout = new VerticalLayout();
-			setContent(lLayout);
-			lLayout.setMargin(true);
-			lLayout.setSpacing(true);
-			lLayout.setSizeUndefined();
+			layout = new VerticalLayout();
+			layout.setMargin(true);
+			layout.setSpacing(true);
+			layout.setSizeUndefined();
 
-			lLayout.addComponent(new Label(inQuestion));
-			buttonYes = new Button(
-					lMessages.getMessage("dialog.button.lbl.yes")); //$NON-NLS-1$
-			buttonYes.setClickShortcut(KeyCode.ENTER);
-			buttonNo = new Button(lMessages.getMessage("dialog.button.lbl.no")); //$NON-NLS-1$
-			buttonNo.setClickShortcut(KeyCode.ESCAPE);
-			lLayout.addComponent(createButtons(buttonYes, buttonNo));
+			layout.addComponent(new Label(inQuestion));
+			setContent(layout);
 			setModal(true);
 		};
+
+		protected VerticalLayout getLayout() {
+			return layout;
+		}
 
 		/**
 		 * Closes the window, can be called when the parent window is detached.
@@ -187,18 +211,26 @@ public final class Dialog {
 		public void close() {
 			UI.getCurrent().removeWindow(this);
 		}
+	}
 
-		/**
-		 * Sets the dialog's visibility.
-		 * 
-		 * @param inVisible
-		 *            boolean <code>true</code> makes the existing dialog window
-		 *            visible, <code>false</code> makes the visible window
-		 *            invisible
-		 */
-		@Override
-		public void setVisible(final boolean inVisible) {
-			setVisible(inVisible);
+	@SuppressWarnings("serial")
+	public static class DialogWindow extends AbstractDialogWindow {
+		private transient Button buttonYes;
+		private transient Button buttonNo;
+
+		DialogWindow(final String inTitle, final String inQuestion) {
+			super(inTitle, inQuestion);
+			addButtons(getLayout());
+		}
+
+		private void addButtons(final VerticalLayout inLayout) {
+			final IMessages lMessages = Activator.getMessages();
+			buttonYes = new Button(
+					lMessages.getMessage("dialog.button.lbl.yes")); //$NON-NLS-1$
+			buttonYes.setClickShortcut(KeyCode.ENTER);
+			buttonNo = new Button(lMessages.getMessage("dialog.button.lbl.no")); //$NON-NLS-1$
+			buttonNo.setClickShortcut(KeyCode.ESCAPE);
+			inLayout.addComponent(createButtons(buttonYes, buttonNo));
 		}
 
 		/**
@@ -217,6 +249,30 @@ public final class Dialog {
 		 */
 		public void addNoListener(final Button.ClickListener inListener) {
 			buttonNo.addClickListener(inListener);
+		}
+
+	}
+
+	@SuppressWarnings("serial")
+	public static class ConfirmationWindow extends AbstractDialogWindow {
+
+		private final Button buttonOk;
+
+		ConfirmationWindow(final String inTitle, final String inQuestion) {
+			super(inTitle, inQuestion);
+			buttonOk = new Button(Activator.getMessages().getMessage(
+					"dialog.button.lbl.ok")); //$NON-NLS-1$
+			buttonOk.setClickShortcut(KeyCode.ENTER);
+			getLayout().addComponent(buttonOk);
+		}
+
+		/**
+		 * @param inListener
+		 *            {@link ClickListener} adds the <code>ok</code> button's
+		 *            click listener
+		 */
+		public void addOkListener(final Button.ClickListener inListener) {
+			buttonOk.addClickListener(inListener);
 		}
 	}
 

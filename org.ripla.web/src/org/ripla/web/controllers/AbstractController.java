@@ -97,14 +97,24 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	 * @return {@link User}
 	 */
 	protected final User getUser() {
-		return VaadinSession.getCurrent().getAttribute(User.class);
+		try {
+			VaadinSession.getCurrent().getLockInstance().lock();
+			return VaadinSession.getCurrent().getAttribute(User.class);
+		} finally {
+			VaadinSession.getCurrent().getLockInstance().unlock();
+		}
 	}
 
 	/**
 	 * @return {@link Locale} the actual session's locale.
 	 */
 	protected final Locale getAppLocale() {
-		return VaadinSession.getCurrent().getAttribute(Locale.class);
+		try {
+			VaadinSession.getCurrent().getLockInstance().lock();
+			return VaadinSession.getCurrent().getAttribute(Locale.class);
+		} finally {
+			VaadinSession.getCurrent().getLockInstance().unlock();
+		}
 	}
 
 	/**
@@ -122,8 +132,13 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	 *            <code>null</code> to clear the parameter settings
 	 */
 	protected final void setParameters(final ParameterObject inParameters) {
-		VaadinSession.getCurrent().setAttribute(ParameterObject.class,
-				inParameters);
+		try {
+			VaadinSession.getCurrent().getLockInstance().lock();
+			VaadinSession.getCurrent().setAttribute(ParameterObject.class,
+					inParameters);
+		} finally {
+			VaadinSession.getCurrent().getLockInstance().unlock();
+		}
 	}
 
 	/**
@@ -145,11 +160,17 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	 * @return {@link ParameterObject} generich parameters
 	 */
 	protected final ParameterObject getParameters(final boolean inClear) {
-		final ParameterObject out = VaadinSession.getCurrent().getAttribute(
-				ParameterObject.class);
-		if (inClear) {
-			VaadinSession.getCurrent()
-					.setAttribute(ParameterObject.class, null);
+		ParameterObject out = null;
+		try {
+			VaadinSession.getCurrent().getLockInstance().lock();
+			out = VaadinSession.getCurrent()
+					.getAttribute(ParameterObject.class);
+			if (inClear) {
+				VaadinSession.getCurrent().setAttribute(ParameterObject.class,
+						null);
+			}
+		} finally {
+			VaadinSession.getCurrent().getLockInstance().unlock();
 		}
 		return out;
 	}
@@ -233,8 +254,13 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	}
 
 	private IRiplaEventDispatcher getDispatcher() {
-		return VaadinSession.getCurrent().getAttribute(
-				IRiplaEventDispatcher.class);
+		try {
+			VaadinSession.getCurrent().getLockInstance().lock();
+			return VaadinSession.getCurrent().getAttribute(
+					IRiplaEventDispatcher.class);
+		} finally {
+			VaadinSession.getCurrent().getLockInstance().unlock();
+		}
 	}
 
 	/**
@@ -248,8 +274,13 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	 */
 	protected final void savePreferences(final String inKey,
 			final String inValue) {
-		VaadinSession.getCurrent().getAttribute(PreferencesHelper.class)
-				.set(inKey, inValue);
+		try {
+			VaadinSession.getCurrent().getLockInstance().lock();
+			VaadinSession.getCurrent().getAttribute(PreferencesHelper.class)
+					.set(inKey, inValue);
+		} finally {
+			VaadinSession.getCurrent().getLockInstance().unlock();
+		}
 	}
 
 	/**
@@ -264,8 +295,14 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	 */
 	protected final String getPreference(final String inKey,
 			final String inDftValue) {
-		return VaadinSession.getCurrent().getAttribute(PreferencesHelper.class)
-				.get(inKey, inDftValue);
+		try {
+			VaadinSession.getCurrent().getLockInstance().lock();
+			return VaadinSession.getCurrent()
+					.getAttribute(PreferencesHelper.class)
+					.get(inKey, inDftValue);
+		} finally {
+			VaadinSession.getCurrent().getLockInstance().unlock();
+		}
 	}
 
 	/**

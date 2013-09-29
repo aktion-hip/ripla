@@ -37,6 +37,7 @@ import org.ripla.web.services.IToolbarItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
@@ -132,6 +133,7 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 	 * Subclasses may override for a different arrangement of the views.
 	 */
 	protected void initializeLayout() {
+		Page.getCurrent().setTitle(application.getAppName());
 		if (skin.hasHeader()) {
 			final Component lHeader = skin.getHeader(application.getAppName());
 			layout.addComponent(lHeader);
@@ -233,8 +235,7 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 		};
 
 		final Authorization lAuthorization = UseCaseRegistry.INSTANCE
-				.getUserAdmin().getAuthorization(
-						VaadinSession.getCurrent().getAttribute(User.class));
+				.getUserAdmin().getAuthorization(getUser());
 		final Map<String, MenuItem> lMenuMap = new HashMap<String, MenuBar.MenuItem>();
 		for (final MenuFactory lFactory : UseCaseRegistry.INSTANCE.getMenus()) {
 			final MenuItem lItem = lFactory.createMenu(inMenuBar,
@@ -243,8 +244,13 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 		}
 		// we set the menu map to the session to access it later to mark the
 		// active menu
-		VaadinSession.getCurrent()
-				.setAttribute(Constants.SA_MENU_MAP, lMenuMap);
+		try {
+			VaadinSession.getCurrent().getLockInstance().lock();
+			VaadinSession.getCurrent().setAttribute(Constants.SA_MENU_MAP,
+					lMenuMap);
+		} finally {
+			VaadinSession.getCurrent().getLockInstance().unlock();
+		}
 		LOG.debug("Menu created for Ripla."); //$NON-NLS-1$
 	}
 
@@ -292,7 +298,7 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 			final IToolbarItemCreator lFactory = lItem.getCreator();
 			final Component lComponent = lFactory == null ? lItem
 					.getComponent() : lFactory.createToolbarItem(application,
-					VaadinSession.getCurrent().getAttribute(User.class));
+					getUser());
 			if (lComponent == null) {
 				continue;
 			}
@@ -317,6 +323,15 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 		}
 
 		return outToolbar;
+	}
+
+	private User getUser() {
+		try {
+			VaadinSession.getCurrent().getLockInstance().lock();
+			return VaadinSession.getCurrent().getAttribute(User.class);
+		} finally {
+			VaadinSession.getCurrent().getLockInstance().unlock();
+		}
 	}
 
 	/**
@@ -362,7 +377,7 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 	public void setContextMenu(final String inMenuSetName,
 			final Class<? extends IPluggable> inControllerClass) {
 		getSidebar().removeAllComponents();
-		final User lUser = VaadinSession.getCurrent().getAttribute(User.class);
+		final User lUser = getUser();
 		getSidebar().addComponent(
 				UseCaseRegistry.INSTANCE.getContextMenuManager()
 						.renderContextMenu(inMenuSetName, lUser,

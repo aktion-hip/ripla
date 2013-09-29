@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Demo Configuration UseCase
 Bundle-SymbolicName: org.ripla.web.demo.config
-Bundle-Version: 2.0.0.qualifier
+Bundle-Version: 2.0.1.qualifier
 Bundle-Activator: org.ripla.web.demo.config.Activator
 Bundle-Vendor: RelationWare
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
@@ -13,21 +13,22 @@ Import-Package: com.vaadin.event;version="7.1.0",
  com.vaadin.ui;version="7.1.0",
  org.json,
  org.osgi.framework;version="1.6.0",
+ org.osgi.service.cm;version="1.4.0",
  org.osgi.service.event;version="1.3.0",
  org.osgi.service.prefs;version="1.1.1",
- org.ripla.annotations,
- org.ripla.web.demo,
- org.ripla.exceptions,
- org.ripla.interfaces,
- org.ripla.services,
- org.ripla.util,
- org.ripla.web,
- org.ripla.web.controllers,
- org.ripla.web.exceptions,
- org.ripla.web.interfaces,
- org.ripla.web.menu,
- org.ripla.web.services,
- org.ripla.web.util,
+ org.ripla.annotations;version="[1.0.0,2.0.0)",
+ org.ripla.exceptions;version="[1.0.0,2.0.0)",
+ org.ripla.interfaces;version="[1.0.0,2.0.0)",
+ org.ripla.services;version="[1.0.0,2.0.0)",
+ org.ripla.util;version="[1.0.0,2.0.0)",
+ org.ripla.web;version="[2.0.0,3.0.0)",
+ org.ripla.web.controllers;version="[2.0.0,3.0.0)",
+ org.ripla.web.demo.exp;version="[2.0.0,3.0.0)",
+ org.ripla.web.exceptions;version="[2.0.0,3.0.0)",
+ org.ripla.web.interfaces;version="[2.0.0,3.0.0)",
+ org.ripla.web.menu;version="[2.0.0,3.0.0)",
+ org.ripla.web.services;version="[2.0.0,3.0.0)",
+ org.ripla.web.util;version="[2.0.0,3.0.0)",
  org.slf4j;version="1.7.0"
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/extendibleMenu.xml, OSGI-INF/useCase.xml, OSGI-INF/config.xml, OSGI-INF/permission.xml

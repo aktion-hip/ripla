@@ -26,7 +26,12 @@ public abstract class AbstractWebMessages extends AbstractMessages {
 
 	@Override
 	protected Locale getLocaleChecked() {
-		return VaadinSession.getCurrent().getLocale();
+		try {
+			VaadinSession.getCurrent().getLockInstance().lock();
+			return VaadinSession.getCurrent().getLocale();
+		} finally {
+			VaadinSession.getCurrent().getLockInstance().unlock();
+		}
 	}
 
 }

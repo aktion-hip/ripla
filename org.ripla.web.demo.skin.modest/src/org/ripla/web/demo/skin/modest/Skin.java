@@ -28,22 +28,22 @@ import com.vaadin.ui.Label;
  */
 public class Skin implements ISkin {
 
-	private final transient HorizontalLayout menuBarComponent;
-	private final transient HorizontalLayout menuBarLayout;
+	private final transient HorizontalLayout menuBarMedium;
+	private final transient HorizontalLayout menuBar;
 
 	public Skin() {
-		menuBarLayout = new HorizontalLayout();
-		menuBarLayout.setWidth("100%"); //$NON-NLS-1$
-		menuBarLayout.setHeight(39, Unit.PIXELS);
-		menuBarLayout.setStyleName("modest-menubar");
+		menuBar = new HorizontalLayout();
+		menuBar.setWidth("100%"); //$NON-NLS-1$
+		menuBar.setHeight(39, Unit.PIXELS);
+		menuBar.setStyleName("modest-menubar");
 
-		menuBarComponent = new HorizontalLayout();
-		menuBarComponent.setStyleName("ripla-menubar"); //$NON-NLS-1$
-		menuBarComponent.setWidth("100%"); //$NON-NLS-1$
-		menuBarComponent.setHeight(39, Unit.PIXELS);
+		menuBarMedium = new HorizontalLayout();
+		menuBarMedium.setStyleName("ripla-menubar"); //$NON-NLS-1$
+		menuBarMedium.setWidth("100%"); //$NON-NLS-1$
+		menuBarMedium.setHeight(39, Unit.PIXELS);
 
-		menuBarComponent.addComponent(menuBarLayout);
-		menuBarComponent.setExpandRatio(menuBarLayout, 1);
+		menuBarMedium.addComponent(menuBar);
+		menuBarMedium.setExpandRatio(menuBar, 1);
 	}
 
 	@Override
@@ -99,12 +99,12 @@ public class Skin implements ISkin {
 
 	@Override
 	public HorizontalLayout getMenuBar() {
-		return menuBarLayout;
+		return menuBar;
 	}
 
 	@Override
 	public HorizontalLayout getMenuBarMedium() {
-		return menuBarComponent;
+		return menuBarMedium;
 	}
 
 	@Override

@@ -90,9 +90,20 @@ public final class LanguageSelect extends CustomComponent {
 			public void valueChange(final ValueChangeEvent inEvent) {
 				final Locale lNew = ((LocaleAdapter) select.getValue())
 						.getLocale();
-				final Locale lOld = VaadinSession.getCurrent().getLocale();
-				if (!lOld.equals(lNew)) {
-					VaadinSession.getCurrent().setLocale(lNew);
+				Locale lOld = null;
+				try {
+					VaadinSession.getCurrent().getLockInstance().lock();
+					lOld = VaadinSession.getCurrent().getLocale();
+				} finally {
+					VaadinSession.getCurrent().getLockInstance().unlock();
+				}
+				if (lOld != null && !lOld.equals(lNew)) {
+					try {
+						VaadinSession.getCurrent().getLockInstance().lock();
+						VaadinSession.getCurrent().setLocale(lNew);
+					} finally {
+						VaadinSession.getCurrent().getLockInstance().unlock();
+					}
 					if (listener != null) {
 						listener.processAction(new IToolbarAction() {
 							@Override

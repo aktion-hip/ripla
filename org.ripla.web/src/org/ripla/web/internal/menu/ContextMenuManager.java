@@ -178,9 +178,17 @@ public final class ContextMenuManager {
 							UseCaseHelper
 									.createFullyQualifiedControllerName(controllerClass));
 
-			VaadinSession.getCurrent()
-					.getAttribute(IRiplaEventDispatcher.class)
-					.dispatch(Event.LOAD_CONTROLLER, lProperties);
+			getDispatcher().dispatch(Event.LOAD_CONTROLLER, lProperties);
+		}
+	}
+
+	private static IRiplaEventDispatcher getDispatcher() {
+		try {
+			VaadinSession.getCurrent().getLockInstance().lock();
+			return VaadinSession.getCurrent().getAttribute(
+					IRiplaEventDispatcher.class);
+		} finally {
+			VaadinSession.getCurrent().getLockInstance().unlock();
 		}
 	}
 

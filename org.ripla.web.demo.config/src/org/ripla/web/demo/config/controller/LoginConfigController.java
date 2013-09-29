@@ -36,12 +36,12 @@ public class LoginConfigController extends AbstractController {
 		emptyContextMenu();
 
 		final String lLoginConfig = getPreference(
-				org.ripla.web.demo.Constants.KEY_LOGIN,
+				org.ripla.web.demo.exp.Constants.KEY_LOGIN,
 				Boolean.FALSE.toString());
 		return new LoginConfigView(
 				Boolean.parseBoolean(lLoginConfig),
 				this,
-				getUserAdminRole(org.ripla.web.demo.Constants.ADMIN_GROUP_NAME) != null);
+				getUserAdminRole(org.ripla.web.demo.exp.Constants.ADMIN_GROUP_NAME) != null);
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class LoginConfigController extends AbstractController {
 	 */
 	public void saveChange(final Boolean inLoginConfig) {
 		savePreferences(
-				org.ripla.web.demo.Constants.KEY_LOGIN,
+				org.ripla.web.demo.exp.Constants.KEY_LOGIN,
 				inLoginConfig == null ? Boolean.FALSE.toString() : Boolean
 						.toString(inLoginConfig));
 		logout();

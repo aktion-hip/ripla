@@ -11,6 +11,7 @@
 
 package org.ripla.web.demo.config.scr;
 
+import org.osgi.service.cm.ConfigurationAdmin;
 import org.ripla.services.ISkinService;
 import org.ripla.web.demo.config.data.SkinConfigRegistry;
 
@@ -27,6 +28,14 @@ public class ConfigComponent {
 
 	public void unregisterSkin(final ISkinService inSkin) {
 		SkinConfigRegistry.INSTANCE.unregister(inSkin);
+	}
+
+	public void setConfigAdmin(final ConfigurationAdmin inConfigAdmin) {
+		SkinConfigRegistry.INSTANCE.setConfigAdmin(inConfigAdmin);
+	}
+
+	public void unsetConfigAdmin(final ConfigurationAdmin inConfigAdmin) {
+		SkinConfigRegistry.INSTANCE.setConfigAdmin(null);
 	}
 
 }

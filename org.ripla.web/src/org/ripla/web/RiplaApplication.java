@@ -93,8 +93,13 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 		setSessionPreferences(preferences);
 
 		eventDispatcher = new RiplaEventDispatcher();
-		VaadinSession.getCurrent().setAttribute(IRiplaEventDispatcher.class,
-				eventDispatcher);
+		try {
+			VaadinSession.getCurrent().getLockInstance().lock();
+			VaadinSession.getCurrent().setAttribute(
+					IRiplaEventDispatcher.class, eventDispatcher);
+		} finally {
+			VaadinSession.getCurrent().getLockInstance().unlock();
+		}
 		UseCaseRegistry.INSTANCE.registerContextMenus();
 		SkinRegistry.INSTANCE.setPreferences(preferences);
 		if (!initializeLayout(getAppConfiguration())) {
@@ -103,16 +108,31 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 	}
 
 	private void setSessionPreferences(final PreferencesHelper inPreferences) {
-		VaadinSession.getCurrent().setAttribute(PreferencesHelper.class,
-				inPreferences);
+		try {
+			VaadinSession.getCurrent().getLockInstance().lock();
+			VaadinSession.getCurrent().setAttribute(PreferencesHelper.class,
+					inPreferences);
+		} finally {
+			VaadinSession.getCurrent().getLockInstance().unlock();
+		}
 	}
 
 	private void setSessionLocale(final Locale inLocale) {
-		VaadinSession.getCurrent().setLocale(inLocale);
+		try {
+			VaadinSession.getCurrent().getLockInstance().lock();
+			VaadinSession.getCurrent().setLocale(inLocale);
+		} finally {
+			VaadinSession.getCurrent().getLockInstance().unlock();
+		}
 	}
 
 	private void setSessionUser(final User inUser) {
-		VaadinSession.getCurrent().setAttribute(User.class, inUser);
+		try {
+			VaadinSession.getCurrent().getLockInstance().lock();
+			VaadinSession.getCurrent().setAttribute(User.class, inUser);
+		} finally {
+			VaadinSession.getCurrent().getLockInstance().unlock();
+		}
 	}
 
 	/**
@@ -231,7 +251,12 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 
 	private RiplaRequestHandler setRequestHandler() {
 		final RiplaRequestHandler out = new RiplaRequestHandler();
-		VaadinSession.getCurrent().addRequestHandler(out);
+		try {
+			VaadinSession.getCurrent().getLockInstance().lock();
+			VaadinSession.getCurrent().addRequestHandler(out);
+		} finally {
+			VaadinSession.getCurrent().getLockInstance().unlock();
+		}
 		return out;
 	}
 
@@ -340,8 +365,13 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 	@Override
 	public void setLocale(final Locale inLocale) {
 		if (initialized) {
-			final User lUser = VaadinSession.getCurrent().getAttribute(
-					User.class);
+			User lUser = null;
+			try {
+				VaadinSession.getCurrent().getLockInstance().lock();
+				lUser = VaadinSession.getCurrent().getAttribute(User.class);
+			} finally {
+				VaadinSession.getCurrent().getLockInstance().unlock();
+			}
 			if (lUser == null) {
 				preferences.setLocale(inLocale);
 			} else {

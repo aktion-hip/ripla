@@ -4,7 +4,7 @@
         <AD id="org.ripla.config.skin" type="String" default="org.ripla.web.skin" name="Skin" description="The application's skin."/>
         <AD id="org.ripla.config.language" type="String" default="en" name="Language" description="The application's language."/>
     </OCD>
-    <Designate pid="org.ripla.web.configuration">
+    <Designate pid="org.ripla.web.demo.config">
         <Object ocdref="org.ripla.configuration"/>
     </Designate>
 </metatype:MetaData>    

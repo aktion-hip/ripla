@@ -88,18 +88,37 @@ public final class ControllerManager {
 	@SuppressWarnings("unchecked")
 	private void setActiveMenuItem(final String inBundleName) {
 		final VaadinSession lCurrentSession = VaadinSession.getCurrent();
-		final MenuItem lOldItem = (MenuItem) lCurrentSession
-				.getAttribute(Constants.SA_ACTIVE_MENU);
+		MenuItem lOldItem = null;
+		try {
+			lCurrentSession.getLockInstance().lock();
+			lOldItem = (MenuItem) lCurrentSession
+					.getAttribute(Constants.SA_ACTIVE_MENU);
+		} finally {
+			lCurrentSession.getLockInstance().unlock();
+		}
+
 		if (lOldItem != null) {
 			lOldItem.setStyleName("");
 		}
-		final Map<String, MenuItem> lMenuMap = (Map<String, MenuItem>) lCurrentSession
-				.getAttribute(Constants.SA_MENU_MAP);
-		final MenuItem lNewItem = lMenuMap.get(inBundleName);
+		Map<String, MenuItem> lMenuMap = null;
+		try {
+			lCurrentSession.getLockInstance().lock();
+			lMenuMap = (Map<String, MenuItem>) lCurrentSession
+					.getAttribute(Constants.SA_MENU_MAP);
+		} finally {
+			lCurrentSession.getLockInstance().unlock();
+		}
+		final MenuItem lNewItem = lMenuMap == null ? null : lMenuMap
+				.get(inBundleName);
 		if (lNewItem != null) {
 			lNewItem.setStyleName(Constants.CSS_ACTIVE_MENU);
 		}
-		lCurrentSession.setAttribute(Constants.SA_ACTIVE_MENU, lNewItem);
+		try {
+			lCurrentSession.getLockInstance().lock();
+			lCurrentSession.setAttribute(Constants.SA_ACTIVE_MENU, lNewItem);
+		} finally {
+			lCurrentSession.getLockInstance().unlock();
+		}
 	}
 
 	/**

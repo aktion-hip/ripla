@@ -9,7 +9,7 @@
  * RelationWare, Benno Luthiger
  ******************************************************************************/
 
-package org.ripla.web.demo;
+package org.ripla.web.demo.exp;
 
 /**
  * The demo application's constants.
@@ -31,5 +31,11 @@ public final class Constants {
 	public static final String USER_PW_USER = "user";
 
 	public static final String ADMIN_GROUP_NAME = "ripla.admin.group";
+
+	// scr:component/@name and metatype:MetaData/Designate/@pid
+	public static final String COMPONENT_NAME = "org.ripla.web.demo.configuration";
+
+	public static final String KEY_CONFIG_SKIN = "org.ripla.config.skin";
+	public static final String KEY_CONFIG_LANGUAGE = "org.ripla.config.language";
 
 }

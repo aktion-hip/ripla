@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" factory="org.lunifera.web.vaadin.UI/org.ripla.web.demo.DemoApplication" immediate="false" name="org.ripla.web.demo.ui">
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" factory="org.lunifera.web.vaadin.UI/org.ripla.web.demo.DemoApplication" immediate="false" name="org.ripla.web.demo">
    <implementation class="org.ripla.web.demo.DemoApplication"/>
    <reference cardinality="1..n" interface="org.osgi.service.prefs.PreferencesService" bind="setPreferences" unbind="unsetPreferences" name="preferences" policy="dynamic"/>
    <reference cardinality="0..n" interface="org.osgi.service.useradmin.UserAdmin" bind="setUserAdmin" unbind="unsetUserAdmin" name="useradmin" policy="dynamic"/>

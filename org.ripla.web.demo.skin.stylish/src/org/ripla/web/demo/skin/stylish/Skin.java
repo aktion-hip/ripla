@@ -29,25 +29,24 @@ import com.vaadin.ui.Label;
  */
 public class Skin implements ISkin {
 
-	private final transient HorizontalLayout menuBarComponent;
-	private final transient HorizontalLayout menuBarLayout;
+	private final transient HorizontalLayout menuBarMedium;
+	private final transient HorizontalLayout menuBar;
 
 	public Skin() {
-		menuBarLayout = new HorizontalLayout();
-		menuBarLayout.setWidth("100%"); //$NON-NLS-1$
-		menuBarLayout.setHeight(45, Unit.PIXELS);
-		menuBarLayout.setStyleName("stylish-menubar");
+		menuBar = new HorizontalLayout();
+		menuBar.setWidth("100%"); //$NON-NLS-1$
+		menuBar.setHeight(45, Unit.PIXELS);
+		menuBar.setStyleName("stylish-menubar");
 
-		menuBarComponent = new HorizontalLayout();
-		menuBarComponent.setStyleName("ripla-menubar"); //$NON-NLS-1$
-		menuBarComponent.setWidth("100%"); //$NON-NLS-1$
-		menuBarComponent.setHeight(45, Unit.PIXELS);
+		menuBarMedium = new HorizontalLayout();
+		menuBarMedium.setStyleName("ripla-menubar"); //$NON-NLS-1$
+		menuBarMedium.setWidth("100%"); //$NON-NLS-1$
+		menuBarMedium.setHeight(45, Unit.PIXELS);
 
-		menuBarComponent.addComponent(createMargin("stylish-menubar-left", 6));
-		menuBarComponent.addComponent(menuBarLayout);
-		menuBarComponent.setExpandRatio(menuBarLayout, 1);
-		menuBarComponent
-				.addComponent(createMargin("stylish-menubar-right", 11));
+		menuBarMedium.addComponent(createMargin("stylish-menubar-left", 6));
+		menuBarMedium.addComponent(menuBar);
+		menuBarMedium.setExpandRatio(menuBar, 1);
+		menuBarMedium.addComponent(createMargin("stylish-menubar-right", 11));
 	}
 
 	private Label createMargin(final String inStyle, final int inWidth) {
@@ -112,12 +111,12 @@ public class Skin implements ISkin {
 
 	@Override
 	public HorizontalLayout getMenuBar() {
-		return menuBarLayout;
+		return menuBar;
 	}
 
 	@Override
 	public HorizontalLayout getMenuBarMedium() {
-		return menuBarComponent;
+		return menuBarMedium;
 	}
 
 	@Override

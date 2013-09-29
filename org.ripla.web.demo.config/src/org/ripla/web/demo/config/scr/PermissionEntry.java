@@ -44,7 +44,7 @@ public class PermissionEntry implements IPermissionEntry {
 
 	@Override
 	public String[] getMemberNames() {
-		return new String[] { org.ripla.web.demo.Constants.ADMIN_GROUP_NAME };
+		return new String[] { org.ripla.web.demo.exp.Constants.ADMIN_GROUP_NAME };
 	}
 
 }

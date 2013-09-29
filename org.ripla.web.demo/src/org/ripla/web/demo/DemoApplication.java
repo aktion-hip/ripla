@@ -20,6 +20,7 @@ import org.ripla.exceptions.LoginException;
 import org.ripla.interfaces.IAppConfiguration;
 import org.ripla.interfaces.IAuthenticator;
 import org.ripla.web.RiplaApplication;
+import org.ripla.web.demo.exp.Constants;
 
 import com.vaadin.annotations.Theme;
 

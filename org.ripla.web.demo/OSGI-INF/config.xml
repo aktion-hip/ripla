@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.web.configuration">
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" modified="modified" immediate="true" name="org.ripla.web.demo.config">
    <implementation class="org.ripla.web.demo.scr.RiplaConfig"/>
-   <reference cardinality="1..n" interface="org.osgi.service.prefs.PreferencesService" bind="setPreferences" unbind="unsetPreferences" name="preferences" policy="dynamic"/>   
-   <service>
-      <provide interface="org.osgi.service.cm.ManagedService"/>
-   </service>   
+   <reference cardinality="1..n" interface="org.osgi.service.prefs.PreferencesService" bind="setPreferences" unbind="unsetPreferences" name="preferences" policy="dynamic"/>    
 </scr:component>

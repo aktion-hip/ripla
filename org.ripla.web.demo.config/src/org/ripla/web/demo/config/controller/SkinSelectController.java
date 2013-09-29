@@ -16,6 +16,7 @@ import org.ripla.exceptions.RiplaException;
 import org.ripla.web.controllers.AbstractController;
 import org.ripla.web.demo.config.Constants;
 import org.ripla.web.demo.config.data.SkinBean;
+import org.ripla.web.demo.config.data.SkinConfigRegistry;
 import org.ripla.web.demo.config.views.SkinConfigurationView;
 
 import com.vaadin.ui.Component;
@@ -47,6 +48,7 @@ public class SkinSelectController extends AbstractController {
 	 *            {@link SkinBean}
 	 */
 	public void save(final SkinBean inSkin) {
+		SkinConfigRegistry.INSTANCE.changeSkin(inSkin.getID());
 		changeSkin(inSkin.getID());
 		logout();
 	}

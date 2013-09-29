@@ -10,7 +10,7 @@ Import-Package: org.osgi.framework;version="1.6.0",
  org.osgi.service.component;version="1.1.0",
  org.osgi.service.prefs;version="1.1.1",
  org.osgi.service.useradmin;version="1.1.0",
- org.ripla.useradmin.admin,
+ org.ripla.useradmin.admin;version="[1.0.0,2.0.0)",
  org.slf4j;version="1.6.4"
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/useradmin.xml
