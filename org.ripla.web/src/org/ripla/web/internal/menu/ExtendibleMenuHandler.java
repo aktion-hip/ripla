@@ -10,8 +10,8 @@
  ******************************************************************************/
 package org.ripla.web.internal.menu;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.ripla.interfaces.IMenuExtendible;
 import org.ripla.services.IExtendibleMenuContribution;
@@ -26,7 +26,7 @@ import org.ripla.services.IExtendibleMenuContribution;
  * @see IMenuExtendible
  */
 public final class ExtendibleMenuHandler {
-	private final transient Collection<IExtendibleMenuContribution> contributions = new ArrayList<IExtendibleMenuContribution>();
+	private final transient Set<IExtendibleMenuContribution> contributions = new HashSet<IExtendibleMenuContribution>();
 
 	/**
 	 * Constructor
