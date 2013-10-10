@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0">
+	<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.demo.config.extendible.skin">
+		<implementation class="org.ripla.rap.demo.config.scr.SkinSelectMenu"/>
+	   <service>
+	      <provide interface="org.ripla.services.IExtendibleMenuContribution"/>
+	   </service>
+	</scr:component>
+	<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.demo.config.extendible.login">
+		<implementation class="org.ripla.rap.demo.config.scr.LoginConfigMenu"/>
+	   <service>
+	      <provide interface="org.ripla.services.IExtendibleMenuContribution"/>
+	   </service>
+	</scr:component>
+</components>

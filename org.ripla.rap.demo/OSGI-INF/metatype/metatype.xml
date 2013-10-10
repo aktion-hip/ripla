@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metatype:MetaData xmlns:metatype="http://www.osgi.org/xmlns/metatype/v1.0.0" localization="OSGI-INF/metatype/metatype">
+    <OCD id="org.ripla.rap.demo" name="Ripla Configuration" description="Basic Ripla configuration">
+        <AD id="org.ripla.config.skin" type="String" default="org.ripla.rap.demo.skin" name="Skin" description="The application's skin."/>
+        <AD id="org.ripla.config.language" type="String" default="en" name="Language" description="The application's language."/>
+    </OCD>
+    <Designate pid="org.ripla.rap.demo">
+        <Object ocdref="org.ripla.rap.demo"/>
+    </Designate>
+</metatype:MetaData>    
+

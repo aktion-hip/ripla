@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test module for Ripla base
+Bundle-SymbolicName: org.ripla.test
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: RelationWare
+Fragment-Host: org.ripla
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.mockito;version="1.9.5",
+ org.mockito.runners;version="1.9.5",
+ org.mockito.stubbing;version="1.9.5"
+Require-Bundle: org.junit

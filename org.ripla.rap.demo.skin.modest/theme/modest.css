@@ -1,0 +1,187 @@
+@CHARSET "ISO-8859-1";
+
+.ripla-main,
+.demo-main {
+    background-color: #FFFFFF;
+}
+
+Button,
+.ripla-font {
+	font: 13px Verdana, Arial, Helvetica, sans-serif;
+}
+
+Composite.modest-header {
+	background-image: url("theme/images/head_bg.jpg");
+	background-repeat: repeat-x;
+    padding: 0 0 0 85px;
+}
+
+Label.modest-header-text {
+    font: bold 20px Verdana;
+    color: #FFFFFF;
+    background-color: inherit;
+}
+
+Composite.ripla-toolbar-holder,
+Composite.ripla-toolbar,
+Composite.ripla-language-holder,
+Composite.ripla-language-toolitem,
+Composite.ripla-toolbar-item-holder,
+Composite.ripla-toolbar-item-language,
+Composite.ripla-toolbar-item-logout,
+.ripla-toolbar-label,
+Label.ripla-language-label {
+    color: #000000;
+    background-color: #F8F2DA;
+}
+Composite.ripla-toolbar-item-holder {
+	padding: 3px 0 0 0;
+}
+Composite.ripla-toolbar-item-language,
+Composite.ripla-toolbar-item-logout {
+	padding: 1px 0 0 0;
+}
+.ripla-toolbar-label,
+Combo.ripla-language-select, 
+Label.ripla-language-label {
+	font: normal 12px Verdana;
+}
+Link-Hyperlink.ripla-toolbar-label {	
+	text-decoration: none;
+}
+Composite.ripla-toolbar {
+	padding: 0 10px 0 0;
+}
+
+Composite.ripla-menubar,
+Composite.ripla-menu-holder,
+ToolBar.ripla-menu  {
+    background-color:#F8F2DA;
+}
+Composite.ripla-menu-holder {
+    padding: 4px 0 0 15px;
+    border: none;
+    border-radius: 0;
+}
+Composite.modest-menubar {
+    background-image: url("theme/images/menubg1.jpg");
+	background-repeat: repeat;
+	border: 0 #FFFFFF;
+	padding: 1px 0 0 0;
+}
+
+ToolItem.ripla-menu {
+	color: #9B7746;
+    background-color: #F8F2DA;
+    background-image: url("theme/images/menubg1.jpg");
+}
+ToolItem.ripla-menu:hover,
+ToolItem.ripla-menu-active {
+	background-image:url("theme/images/menubg2.jpg");
+    color: #333333;
+    border: none;
+}
+
+Menu.ripla-menu {
+	box-shadow: -8px 3px 6px #777777;
+	border-radius: 4px 4px 4px 4px;
+}
+MenuItem.ripla-menu-item {
+	color: #000000;
+	background-color: #FFFFFF;
+}
+MenuItem.ripla-menu-item:hover {
+	color: #fb4e00;
+	background-color: #FFFFFF;
+	background-image: none;
+}
+
+Composite.ripla-sash {
+	background-color: #E1DFDF;
+}
+
+Composite.ripla-context-pane, Composite.ripla-content-pane {
+	background-color: #F8F2DA;
+}
+
+Composite.ripla-view,
+Composite.ripla-content-view,
+Composite.ripla-context-view {
+	background-color: transparent;
+}
+Composite.ripla-content-view {
+	padding: 10px 0 0 15px;
+}
+Composite.ripla-context-view {
+	padding: 16px 0 0 0;
+}
+
+Composite.demo-footer {
+    background-color: #000000;
+}
+Label.demo-footer-text {
+	color: #999999;
+	font: 10px Verdana, Helvetica, sans-serif;
+}
+Label.ripla-viewtitle {
+	color:#F4AA38;
+	font: bold 18px Verdana;
+}
+Composite.demo-subtitle {	
+	padding: 7px 0 5px 0;	
+}
+Label.demo-subtitle {
+    color:#F4AA38;
+	font: bold 15px Verdana;
+}
+Composite.ripla-contextmenu {
+	background-color: transparent;	
+	padding: 0 0 0 5px;
+}
+Link.ripla-contextmenu-item {
+	font: normal 14px Verdana;
+}
+Link.ripla-contextmenu-item-active {
+	font: bold 14px Verdana;
+}
+Link-Hyperlink.ripla-contextmenu-item {
+    color: #000000;
+	text-decoration: none;
+}
+Link-Hyperlink.ripla-contextmenu-item-active {
+    color: #9B7746;
+	text-decoration: none;
+}
+
+Label.ripla-label {
+	font: normal 14px Verdana;
+}
+Label.ripla-label-emphasized {
+	font: bold 14px Verdana;
+}
+
+Combo.ripla-language-select {
+	background-color: #FFFFFF;
+	border: 1px solid #BBBBBB;
+	box-shadow: none;
+	border-radius: 3px 3px 3px 3px;
+}
+Combo-Field.ripla-language-select,
+Combo-Button.ripla-language-select {
+	background-image: none;
+	background-color: transparent;
+	border: hidden;
+}
+
+Label.demo-toolbar-sep {
+	color: #000000;
+	background-color: inherit;
+}
+
+Composite.ripla-login-view {
+	padding: 0 50px 0 50px;
+	background-color: transparent;
+}
+Composite.ripla-login-form {
+	padding: 0 250px 0 50px;
+}

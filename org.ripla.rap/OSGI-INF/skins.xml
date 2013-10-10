@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.rap.skins">
+   <implementation class="org.ripla.rap.internal.services.SkinComponent"/>
+   <reference bind="registerSkin" unbind="unregisterSkin" cardinality="1..n" interface="org.ripla.rap.services.ISkinService" name="skin" policy="dynamic"/>   
+</scr:component>
