@@ -139,7 +139,7 @@ public final class ContextMenuManager {
 		outContextMenu.setBackgroundMode(SWT.INHERIT_DEFAULT);
 
 		final GridLayout lLayout = GridLayoutHelper.createGridLayout();
-		lLayout.verticalSpacing = 7;
+		// lLayout.verticalSpacing = 7;
 		outContextMenu.setLayout(lLayout);
 		outContextMenu.setLayoutData(GridLayoutHelper.createFillLayoutData());
 		final ContextMenuSet lContextMenuSet = contextMenus.get(inMenuSetName);
@@ -150,8 +150,13 @@ public final class ContextMenuManager {
 		for (final ContextMenuItem lItem : lContextMenuSet
 				.getContextMenuItems()) {
 			if (lItem.checkConditions(inUser, inAuthorization, inParameters)) {
-				final Link lContextMenuLink = new Link(outContextMenu, SWT.NONE); // NOPMD
-				// lContextMenuLink.setText(lItem.getCaption());
+				final Composite lContextMenuItem = GridLayoutHelper
+						.createComposite(outContextMenu);
+				lContextMenuItem.setData(RWT.CUSTOM_VARIANT,
+						"ripla-contextmenu-item");
+
+				final Link lContextMenuLink = new Link(lContextMenuItem,
+						SWT.NONE); // NOPMD
 				lContextMenuLink.setText(String.format("<a href=\"\">%s</a>",
 						lItem.getCaption()));
 				lContextMenuLink.setData(RWT.CUSTOM_VARIANT,

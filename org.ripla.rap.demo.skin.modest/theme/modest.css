@@ -138,6 +138,9 @@ Composite.ripla-contextmenu {
 	background-color: transparent;	
 	padding: 0 0 0 5px;
 }
+Composite.ripla-contextmenu-item {
+	padding: 3px 0 3px 0;
+}
 Link.ripla-contextmenu-item {
 	font: normal 14px Verdana;
 }

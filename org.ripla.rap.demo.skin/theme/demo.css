@@ -110,6 +110,9 @@ Label.demo-subtitle {
     color:#1F4E8C;
 	font: bold 15px Arial;
 }
+Composite.ripla-contextmenu-item {
+	padding: 3px 0 4px 0;
+}
 Link.ripla-contextmenu-item {
 	font: normal 14px Arial;
 }

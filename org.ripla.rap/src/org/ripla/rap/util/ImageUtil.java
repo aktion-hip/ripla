@@ -13,8 +13,14 @@ package org.ripla.rap.util;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.eclipse.rap.rwt.RWT;
+import org.eclipse.rap.rwt.client.service.JavaScriptExecutor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,7 +69,7 @@ public final class ImageUtil {
 	 */
 	public static Image getImageFrom(final Device inDevice,
 			final Class<?> inClass, final String inPath) {
-		return getImage(inDevice, inPath, ImageUtil.class.getClassLoader());
+		return getImage(inDevice, inPath, inClass.getClassLoader());
 	}
 
 	/**
@@ -99,6 +105,29 @@ public final class ImageUtil {
 			}
 		}
 		return lResult;
+	}
+
+	/**
+	 * Creates a link with the specified label.
+	 * 
+	 * @param inLabel
+	 *            {@link Label}
+	 * @param inUrl
+	 *            String the link url
+	 */
+	@SuppressWarnings("serial")
+	public static void makeLink(final Label inLabel, final String inUrl) {
+		inLabel.setCursor(inLabel.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
+		inLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(final MouseEvent inEvent) {
+				final JavaScriptExecutor lExecutor = RWT.getClient()
+						.getService(JavaScriptExecutor.class);
+				if (lExecutor != null) {
+					lExecutor.execute("window.location.href = '" + inUrl + "'");
+				}
+			}
+		});
 	}
 
 }
