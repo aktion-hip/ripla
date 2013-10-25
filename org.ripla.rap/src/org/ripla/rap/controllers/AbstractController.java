@@ -27,6 +27,7 @@ import org.ripla.rap.Constants;
 import org.ripla.rap.app.RiplaApplication;
 import org.ripla.rap.exceptions.PermissionsNotSufficientException;
 import org.ripla.rap.interfaces.IPluggable;
+import org.ripla.rap.util.NotificationHelper;
 import org.ripla.rap.util.UseCaseHelper;
 import org.ripla.util.ParameterObject;
 import org.ripla.util.PreferencesHelper;
@@ -177,24 +178,9 @@ public abstract class AbstractController implements IPluggable {
 	 * 
 	 * @param inMessage
 	 *            String
-	 * @param inNotificationType
-	 *            int the message type (e.g.
-	 *            <code>Notification.TYPE_HUMANIZED_MESSAGE</code>)
-	 * @see com.vaadin.ui.Window.Notification
 	 */
-	protected final void showNotification(final String inMessage,
-			final int inNotificationType) {
-		// TODO
-		// final Map<String, Object> lProperties = new HashMap<String,
-		// Object>();
-		// lProperties.put(org.ripla.Constants.EVENT_PROPERTY_NOTIFICATION_MSG,
-		// inMessage);
-		// lProperties.put(org.ripla.Constants.EVENT_PROPERTY_NOTIFICATION_TYPE,
-		// inNotificationType);
-		//
-		// final Event lEvent = new Event(
-		// org.ripla.Constants.EVENT_TOPIC_NOTIFICATION, lProperties);
-		// eventAdmin.sendEvent(lEvent);
+	protected final void showNotification(final String inMessage) {
+		NotificationHelper.showNotification(inMessage, parent);
 	}
 
 	/**
