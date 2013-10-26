@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>Users and Permissions</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href="../.." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="users">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,44 +38,37 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0 selected">
-        <a href="../../impl"
-           class="onbranch" title="Create Application">Create Application</a>
+        <a href="../../impl" title="Create Application" class="onbranch">Create Application</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1 selected">
-        <a href="../../impl/app"
-           class="onbranch"
-           title="Create an Application Bundle">Create an Application Bundle</a>
+        <a href="../../impl/app" title="Create an Application Bundle" class="onbranch">Create an Application Bundle</a>
         
           
             <ul class="navigation-level-2">
     
       <li class="level-2">
-        <a href="../../impl/app/config.html"
-           title="Application Configuration">Application Configuration</a>
+        <a href="../../impl/app/config.html" title="Application Configuration">Application Configuration</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/app/body.html"
-           title="Application Layout">Application Layout</a>
+        <a href="../../impl/app/body.html" title="Application Layout">Application Layout</a>
         
       </li>
     
     
       <li class="level-2 selected">
-        <a href="../../impl/app/users.html"
-           class="selected" title="Users and Permissions">Users and Permissions</a>
+        <a href="../../impl/app/users.html" title="Users and Permissions" class="selected">Users and Permissions</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/app/workflow.html"
-           title="Configuration Workflow">Configuration Workflow</a>
+        <a href="../../impl/app/workflow.html" title="Configuration Workflow">Configuration Workflow</a>
         
       </li>
     
@@ -115,15 +79,13 @@
     
     
       <li class="level-1">
-        <a href="../../impl/usecase"
-           title="Use Case Bundle">Use Case Bundle</a>
+        <a href="../../impl/usecase" title="Use Case Bundle">Use Case Bundle</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../impl/skin"
-           title="Ripla Skins">Ripla Skins</a>
+        <a href="../../impl/skin" title="Ripla Skins">Ripla Skins</a>
         
       </li>
     
@@ -134,22 +96,19 @@
     
     
       <li class="level-0">
-        <a href="../../extend"
-           title="Extension Points">Extension Points</a>
+        <a href="../../extend" title="Extension Points">Extension Points</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -159,18 +118,30 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Users and Permissions</h2><p class="p">Ripla provides an implementation of the <a href="/static_sites/ripla/extend/useadmin" title="" target="_self">OSGi user admin service</a> to manage users and their access rights. In addition, Ripla provides a <a href="/static_sites/ripla/extend/permission" title="" target="_self">permisson service</a> for that use case bundles can create permissions to restrict the access to resources they control. <br /></p><p class="p"> Applications that want to use this functionality have to initialize the registered permissions. This can be done by calling <span class="underline">RiplaApplication.initializePermissions()</span>. By calling this method, a permission group will be created for each registered <span class="underline">
+  <section>
+  <h1>Users and Permissions</h1>
+  <p>Ripla provides an implementation of the <a class="link" title="" target="_self" href="/static_sites/ripla/extend/useadmin">OSGi user admin service</a> to manage users and their access rights. In addition, Ripla provides a <a class="link" title="" target="_self" href="/static_sites/ripla/extend/permission">permisson service</a> for that use case bundles can create permissions to restrict the access to resources they control. <br></p>
+
+<p> Applications that want to use this functionality have to initialize the registered permissions. This can be done by calling <span class="underline">RiplaApplication.initializePermissions()</span>. By calling this method, a permission group will be created for each registered <span class="underline">
 IPermissionEntry</span> and the members defined in those permission 
-instances will be added to the permission groups. </p><p class="p"> This requires that such member instances exist already. Thus, subclasses have 
+instances will be added to the permission groups. </p>
+
+<p> This requires that such member instances exist already. Thus, subclasses have 
 to prepare groups (i.e. roles) that can act as members for the registered 
-permission groups before the registered permission instances are processed.</p><p class="p">Therefore, the initialization method is best called in the application class' method  that binds the user admin service to the application. E.g.: </p><pre class="pre">public class DemoApplication extends RiplaApplication {
+permission groups before the registered permission instances are processed.</p>
+
+<p>Therefore, the initialization method is best called in the application class' method  that binds the user admin service to the application. E.g.: </p>
+
+<pre>public class DemoApplication extends RiplaApplication {
 //...
-    public void setUserAdmin(final UserAdmin inUserAdmin) {
-        super.setUserAdmin(inUserAdmin);
-        Group lAdministrators = (Group) inUserAdmin.createRole("ripla.admin", Role.GROUP);
-        initializePermissions();
-    }
-}</pre></section>
+&#160;&#160;&#160; public void setUserAdmin(final UserAdmin inUserAdmin) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; super.setUserAdmin(inUserAdmin);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; Group lAdministrators = (Group) inUserAdmin.createRole("ripla.admin", Role.GROUP);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; initializePermissions();
+&#160;&#160;&#160; }
+}</pre>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

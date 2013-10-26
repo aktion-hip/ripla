@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>Toolbar Service</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href="../.." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="index">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,50 +38,43 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0">
-        <a href="../../impl"
-           title="Create Application">Create Application</a>
+        <a href="../../impl" title="Create Application">Create Application</a>
         
       </li>
     
     
       <li class="level-0 selected">
-        <a href="../../extend"
-           class="onbranch" title="Extension Points">Extension Points</a>
+        <a href="../../extend" title="Extension Points" class="onbranch">Extension Points</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1">
-        <a href="../../extend/usecase"
-           title="Use Case Service">Use Case Service</a>
+        <a href="../../extend/usecase" title="Use Case Service">Use Case Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/skin"
-           title="Skin Service">Skin Service</a>
+        <a href="../../extend/skin" title="Skin Service">Skin Service</a>
         
       </li>
     
     
       <li class="level-1 selected">
-        <a href="../../extend/toolbar"
-           class="onbranch" title="Toolbar Service">Toolbar Service</a>
+        <a href="../../extend/toolbar" title="Toolbar Service" class="onbranch">Toolbar Service</a>
         
           
             <ul class="navigation-level-2">
     
       <li class="level-2">
-        <a href="../../extend/toolbar/create.html"
-           title="Creating Toolbar Items">Creating Toolbar Items</a>
+        <a href="../../extend/toolbar/create.html" title="Creating Toolbar Items">Creating Toolbar Items</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../extend/toolbar/listening.html"
-           title="Toolbar Events">Toolbar Events</a>
+        <a href="../../extend/toolbar/listening.html" title="Toolbar Events">Toolbar Events</a>
         
       </li>
     
@@ -121,22 +85,19 @@
     
     
       <li class="level-1">
-        <a href="../../extend/extendible"
-           title="Extendible Menu Service">Extendible Menu Service</a>
+        <a href="../../extend/extendible" title="Extendible Menu Service">Extendible Menu Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/permission"
-           title="Permission Service">Permission Service</a>
+        <a href="../../extend/permission" title="Permission Service">Permission Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/useadmin"
-           title="User Administration Service">User Administration Service</a>
+        <a href="../../extend/useadmin" title="User Administration Service">User Administration Service</a>
         
       </li>
     
@@ -147,15 +108,13 @@
     
     
       <li class="level-0">
-        <a href="../../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -165,33 +124,59 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Toolbar Service</h2><p class="p"> The toolbar service allowes bundles to contribute their toolbar items the application's toolbar.</p><img src="../../extend/toolbar/Toolbar.PNG" alt="Toolbar Items" class="float-left" /><p class="p"> In the case of the Ripla demo application, the toolbar contains three toolbar items: a <em>language select</em>, a <em>user info label</em> and a <em>logout button</em> (in the case of running the application with login enabled).<br /></p><p class="p"> The demo application's component description for the toolbar service looks as follows:</p><pre class="pre">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+  <section>
+  <h1>Toolbar Service</h1>
+  <p> The toolbar service allowes bundles to contribute their toolbar items the application's toolbar.</p>
+
+<div class="image float-left"><img alt="Toolbar Items" height="74" width="329" src="../../extend/toolbar/Toolbar.PNG"></div>
+
+<p> In the case of the Ripla demo application, the toolbar contains three toolbar items: a <em>language select</em>, a <em>user info label</em> and a <em>logout button</em> (in the case of running the application with login enabled).<br></p>
+
+<p> The demo application's component description for the toolbar service looks as follows:</p>
+
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;components xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0"&gt;
-    &lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.web.demo.toolbar.language"&gt;
-        &lt;implementation class="org.ripla.web.demo.scr.ToolbarItemLanguage"/&gt;
-        &lt;property name="service.pid" value="org.ripla.web.configuration"/&gt;
-       &lt;service&gt;
-          &lt;provide interface="org.ripla.web.services.IToolbarItem"/&gt;
-       &lt;/service&gt;
-    &lt;/scr:component&gt;
-    &lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.web.demo.toolbar.user"&gt;
-        &lt;implementation class="org.ripla.web.demo.scr.ToolbarItemUsername"/&gt;
-       &lt;service&gt;
-          &lt;provide interface="org.ripla.web.services.IToolbarItem"/&gt;
-       &lt;/service&gt;
-    &lt;/scr:component&gt;
-    &lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.web.demo.toolbar.logout"&gt;
-        &lt;implementation class="org.ripla.web.demo.scr.ToolbarItemLogout"/&gt;
-       &lt;service&gt;
-          &lt;provide interface="org.ripla.web.services.IToolbarItem"/&gt;
-       &lt;/service&gt;
-    &lt;/scr:component&gt;
-&lt;/components&gt;</pre><p class="p">Responsible for the toolbar items a the three implementation classes <span class="underline">org.ripla.web.demo.scr.ToolbarItemLanguage</span> (language select), <span class="underline">org.ripla</span><span class="underline"><span class="underline">.web</span>.demo.scr.ToolbarItemUsername</span> (user info) and <span class="underline">org.ripla</span><span class="underline"><span class="underline">.web</span>.demo.scr.ToolbarItemLogout</span> (logout button). The interface these classes implement looks as follows:</p><pre class="pre">public interface IToolbarItem {
-    IToolbarItemCreator getCreator();
-    Component getComponent();
-    void registerToolbarActionListener(IToolbarActionListener inListener);
-    int getPosition();
-}</pre><p class="p"><span class="underline">IToolbarItem.getCreator()</span> returns a toolbar item factory to create the toolbar item's ui component. May be <span class="underline">null</span> if <span class="underline">getComponent()</span> is defined.</p><p class="p"><span class="underline">IToolbarItem.getComponent()</span> returns the toolbar item's ui component. May be <span class="underline">null</span> if <span class="underline">getCreator()</span> is defined.</p><p class="p">See <a href="../../extend/toolbar/create.html" title="Creating Toolbar Items" target="_self">Creating Toolbar Items</a> for more information about toolbar item creation.<br /></p><p class="p"><span class="underline">IToolbarItem.registerToolbarActionListener(IToolbarActionListener inListener)</span> registers a listener to <span class="underline">IToolbarAction</span> events. See <a href="../../extend/toolbar/listening.html" title="Toolbar Events" target="_self">Toolbar Events</a> for more information how to propagate toolbar actions.<br /></p><p class="p"> <span class="underline">IToolbarItem.getPosition()</span> returns the item's position on the toolbar. The items are placed from right to left on the toolbar. The higher the value, the higher the position from the right margin.<br /></p></section>
+&#160;&#160;&#160; &lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.web.demo.toolbar.language"&gt;
+&#160;&#160;&#160; &#160;&#160;&#160; &lt;implementation class="org.ripla.web.demo.scr.ToolbarItemLanguage"/&gt;
+&#160;&#160;&#160; &#160;&#160;&#160; &lt;property name="service.pid" value="org.ripla.web.configuration"/&gt;
+&#160;&#160;&#160; &#160;&#160; &lt;service&gt;
+&#160;&#160;&#160; &#160;&#160;&#160;&#160;&#160; &lt;provide interface="org.ripla.web.services.IToolbarItem"/&gt;
+&#160;&#160;&#160; &#160;&#160; &lt;/service&gt;
+&#160;&#160;&#160; &lt;/scr:component&gt;
+&#160;&#160;&#160; &lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.web.demo.toolbar.user"&gt;
+&#160;&#160;&#160; &#160;&#160;&#160; &lt;implementation class="org.ripla.web.demo.scr.ToolbarItemUsername"/&gt;
+&#160;&#160;&#160; &#160;&#160; &lt;service&gt;
+&#160;&#160;&#160; &#160;&#160;&#160;&#160;&#160; &lt;provide interface="org.ripla.web.services.IToolbarItem"/&gt;
+&#160;&#160;&#160; &#160;&#160; &lt;/service&gt;
+&#160;&#160;&#160; &lt;/scr:component&gt;
+&#160;&#160;&#160; &lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.web.demo.toolbar.logout"&gt;
+&#160;&#160;&#160; &#160;&#160;&#160; &lt;implementation class="org.ripla.web.demo.scr.ToolbarItemLogout"/&gt;
+&#160;&#160;&#160; &#160;&#160; &lt;service&gt;
+&#160;&#160;&#160; &#160;&#160;&#160;&#160;&#160; &lt;provide interface="org.ripla.web.services.IToolbarItem"/&gt;
+&#160;&#160;&#160; &#160;&#160; &lt;/service&gt;
+&#160;&#160;&#160; &lt;/scr:component&gt;
+&lt;/components&gt;</pre>
+
+<p>Responsible for the toolbar items a the three implementation classes <span class="underline">org.ripla.web.demo.scr.ToolbarItemLanguage</span> (language select), <span class="underline">org.ripla</span><span class="underline"><span class="underline">.web</span>.demo.scr.ToolbarItemUsername</span> (user info) and <span class="underline">org.ripla</span><span class="underline"><span class="underline">.web</span>.demo.scr.ToolbarItemLogout</span> (logout button). The interface these classes implement looks as follows:</p>
+
+<pre>public interface IToolbarItem {
+&#160;&#160;&#160; IToolbarItemCreator getCreator();
+&#160;&#160;&#160; Component getComponent();
+&#160;&#160;&#160; void registerToolbarActionListener(IToolbarActionListener inListener);
+&#160;&#160;&#160; int getPosition();
+}</pre>
+
+<p><span class="underline">IToolbarItem.getCreator()</span> returns a toolbar item factory to create the toolbar item's ui component. May be <span class="underline">null</span> if <span class="underline">getComponent()</span> is defined.</p>
+
+<p><span class="underline">IToolbarItem.getComponent()</span> returns the toolbar item's ui component. May be <span class="underline">null</span> if <span class="underline">getCreator()</span> is defined.</p>
+
+<p>See <a class="link" title="Creating Toolbar Items" target="_self" href="../../extend/toolbar/create.html">Creating Toolbar Items</a> for more information about toolbar item creation.<br></p>
+
+<p><span class="underline">IToolbarItem.registerToolbarActionListener(IToolbarActionListener inListener)</span> registers a listener to <span class="underline">IToolbarAction</span> events. See <a class="link" title="Toolbar Events" target="_self" href="../../extend/toolbar/listening.html">Toolbar Events</a> for more information how to propagate toolbar actions.<br></p>
+
+<p> <span class="underline">IToolbarItem.getPosition()</span> returns the item's position on the toolbar. The items are placed from right to left on the toolbar. The higher the value, the higher the position from the right margin.<br></p>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

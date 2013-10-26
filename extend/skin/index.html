@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>Skin Service</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href="../.." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="index">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,36 +38,31 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0">
-        <a href="../../impl"
-           title="Create Application">Create Application</a>
+        <a href="../../impl" title="Create Application">Create Application</a>
         
       </li>
     
     
       <li class="level-0 selected">
-        <a href="../../extend"
-           class="onbranch" title="Extension Points">Extension Points</a>
+        <a href="../../extend" title="Extension Points" class="onbranch">Extension Points</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1">
-        <a href="../../extend/usecase"
-           title="Use Case Service">Use Case Service</a>
+        <a href="../../extend/usecase" title="Use Case Service">Use Case Service</a>
         
       </li>
     
     
       <li class="level-1 selected">
-        <a href="../../extend/skin"
-           class="onbranch" title="Skin Service">Skin Service</a>
+        <a href="../../extend/skin" title="Skin Service" class="onbranch">Skin Service</a>
         
           
             <ul class="navigation-level-2">
     
       <li class="level-2">
-        <a href="../../extend/skin/style.html"
-           title="Style Bundle">Style Bundle</a>
+        <a href="../../extend/skin/style.html" title="Style Bundle">Style Bundle</a>
         
       </li>
     
@@ -107,29 +73,25 @@
     
     
       <li class="level-1">
-        <a href="../../extend/toolbar"
-           title="Toolbar Service">Toolbar Service</a>
+        <a href="../../extend/toolbar" title="Toolbar Service">Toolbar Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/extendible"
-           title="Extendible Menu Service">Extendible Menu Service</a>
+        <a href="../../extend/extendible" title="Extendible Menu Service">Extendible Menu Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/permission"
-           title="Permission Service">Permission Service</a>
+        <a href="../../extend/permission" title="Permission Service">Permission Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/useadmin"
-           title="User Administration Service">User Administration Service</a>
+        <a href="../../extend/useadmin" title="User Administration Service">User Administration Service</a>
         
       </li>
     
@@ -140,15 +102,13 @@
     
     
       <li class="level-0">
-        <a href="../../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -158,24 +118,62 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Skin Service</h2><p class="p">The service provider of the skin service (<span class="underline">org.ripla.services.ISkinService</span>) has to provide the skin id and the factory that create the skin instances for each UI created.</p><pre class="pre">public interface ISkinService {
-    String getSkinID();
-    String getSkinName();
+  <section>
+  <h1>Skin Service</h1>
+  <p>The service provider of the skin service (<span class="underline">org.ripla.services.ISkinService</span>) has to provide the skin id and the factory that create the skin instances for each UI created.</p>
+
+<pre>public interface ISkinService {
+&#160;&#160;&#160; String getSkinID();
+&#160;&#160;&#160; String getSkinName();
     ISkin createSkin();
 }
-</pre><p class="p"> <span class="underline">ISkin.getSkinID()</span> returns the skin's ID (String). The skin is registered at the application's skin registery using this ID. <strong>Note</strong>: the skin's ID has to match the name of the skin resources folder in the skin's fragment bundle (see <a href="../../impl/skin" title="Ripla Skins" target="_self">Ripla Skins</a>).<br /></p><p class="p"><span class="underline"> ISkin.getSkinName()</span> returns the name of the skin that will be displayed e.g. in the skin select view (String).</p><p class="p"><span class="underline">ISkin.createSkin()</span> supplies the skin logic, e.g. the view components to display header, footer etc. The skin resouces are provided by a fragment bundle. See <a href="../../impl/skin" title="Ripla Skins" target="_self">Ripla Skins</a> for more information about skin creation.<br /></p><pre class="pre">public interface ISkin {
-    boolean hasHeader();
-    Component getHeader();
-    boolean hasFooter();
-    Component getFooter();
-    boolean hasToolBar();
-    Label getToolbarSeparator();
-    boolean hasMenuBar();
-    HorizontalLayout getMenuBarComponent();    
-    HorizontalLayout getMenuBarLayout();
+</pre>
+
+<p> <span class="underline">ISkin.getSkinID()</span> returns the skin's ID (String). The skin is registered at the application's skin registery using this ID. <strong>Note</strong>: the skin's ID has to match the name of the skin resources folder in the skin's fragment bundle (see <a class="link" title="Ripla Skins" target="_self" href="../../impl/skin">Ripla Skins</a>).<br></p>
+
+<p><span class="underline"> ISkin.getSkinName()</span> returns the name of the skin that will be displayed e.g. in the skin select view (String).</p>
+
+<p><span class="underline">ISkin.createSkin()</span> supplies the skin logic, e.g. the view components to display header, footer etc. The skin resouces are provided by a fragment bundle. See <a class="link" title="Ripla Skins" target="_self" href="../../impl/skin">Ripla Skins</a> for more information about skin creation.<br></p>
+
+<pre>public interface ISkin {
+&#160;&#160;&#160; boolean hasHeader();
+&#160;&#160;&#160; Component getHeader();
+&#160;&#160;&#160; boolean hasFooter();
+&#160;&#160;&#160; Component getFooter();
+&#160;&#160;&#160; boolean hasToolBar();
+&#160;&#160;&#160; Label getToolbarSeparator();
+&#160;&#160;&#160; boolean hasMenuBar();
+&#160;&#160;&#160; HorizontalLayout getMenuBarComponent();&#160;&#160;&#160; 
+&#160;&#160;&#160; HorizontalLayout getMenuBarLayout();
     Resource getSubMenuIcon();
 }
-</pre><p class="p"><span class="underline">ISkin.hasHeader()</span> returns <span class="underline">true</span> if the application should display a header view, else <span class="underline">false</span> (boolean).<br /> <span class="underline">ISkin.getHeader()</span> returns the skin's header component, i.e. a Vaadin object.<br /></p><p class="p"><span class="underline"> ISkin.hasFooter()</span> returns <span class="underline">true</span> if the application should display a footer view, else <span class="underline">false</span>  (boolean).</p><p class="p"><span class="underline"> ISkin.getFooter()</span> returns the skin's footer component, i.e. a Vaadin object. </p><p class="p"><span class="underline"> ISkin.hasToolBar()</span> returns <span class="underline">true</span> if the application should display a tool bar, else <span class="underline">false</span> (boolean).</p><p class="p"><span class="underline"> ISkin.getToolbarSeparator()</span> returns the object displayed between the toolbar items, i.e. a Vaadin label object.<br /></p><p class="p"><span class="underline"> ISkin.hasMenuBar()</span> returns <span class="underline">true</span> if the application should display a menu bar, else <span class="underline">false</span> (boolean).</p><p class="p"><span class="underline"> ISkin.getMenuBarMedium()</span> returns the layout component containing the menu bar. This component is added to the application's body component. This component has to contain the <span class="underline">MenuBar</span>. May be <span class="underline">null</span> for the default menu bar component.<br /></p><p class="p"><span class="underline"> ISkin.getMenuBar()</span> returns the menu bar layout, i.e. a Vaadin layout component. May be <span class="underline">null</span> for the default menu bar layout. This layout has to be added to the <span class="underline">MenuBarMedium</span>. This layout is the component where the application's Vaadin <span class="underline">MenuBar</span> (i.e. the main menu items) is added to. In simple cases, the <span class="underline">MenuBar</span> layout is the <span class="underline">MenuBarMedium</span>.</p><p class="p"><span class="underline">ISkin.getSubMenuIcon()</span> returns the icon for the sub menu, may be <span class="underline">null</span>. The menu items in the main menu may display an indicator for the sub menu. Such an indicator can be provided by this method.<br /></p><h4 class="heading">Menu bar components</h4><p class="p">The algorithm how the Ripla application creates the application's main menu is as follows: The application looks up the skin's <em>menu bar medium</em>. If none is provided, a default component is created. After that, the application creates a <em>Vaadin menu bar object</em> and populates it with the menu items retrieved from the use case bundles. After that, the application looks up the skin's <em>menu bar layout</em>. If none is provided, the menu bar object is added to the default menu bar component. Otherwise, the menu bar object is added to the menu bar layout provided by the skin. Thus, the menu bar layout has to be properly added to the menu bar medium, else, the application's main menu will not be displayed correctly.</p><p class="p">The separation of menu bar component and layout allows the creation of stylish menu bars. See <a href="https://github.com/aktion-hip/ripla/tree/master/org.ripla.demo.skin.stylish" title="" target="_blank">org.ripla.web.demo.skin.stylish</a> for an example.</p></section>
+</pre>
+
+<p><span class="underline">ISkin.hasHeader()</span> returns <span class="underline">true</span> if the application should display a header view, else <span class="underline">false</span> (boolean).<br> <span class="underline">ISkin.getHeader()</span> returns the skin's header component, i.e. a Vaadin object.<br></p>
+
+<p><span class="underline"> ISkin.hasFooter()</span> returns <span class="underline">true</span> if the application should display a footer view, else <span class="underline">false</span>  (boolean).</p>
+
+<p><span class="underline"> ISkin.getFooter()</span> returns the skin's footer component, i.e. a Vaadin object. </p>
+
+<p><span class="underline"> ISkin.hasToolBar()</span> returns <span class="underline">true</span> if the application should display a tool bar, else <span class="underline">false</span> (boolean).</p>
+
+<p><span class="underline"> ISkin.getToolbarSeparator()</span> returns the object displayed between the toolbar items, i.e. a Vaadin label object.<br></p>
+
+<p><span class="underline"> ISkin.hasMenuBar()</span> returns <span class="underline">true</span> if the application should display a menu bar, else <span class="underline">false</span> (boolean).</p>
+
+<p><span class="underline"> ISkin.getMenuBarMedium()</span> returns the layout component containing the menu bar. This component is added to the application's body component. This component has to contain the <span class="underline">MenuBar</span>. May be <span class="underline">null</span> for the default menu bar component.<br></p>
+
+<p><span class="underline"> ISkin.getMenuBar()</span> returns the menu bar layout, i.e. a Vaadin layout component. May be <span class="underline">null</span> for the default menu bar layout. This layout has to be added to the <span class="underline">MenuBarMedium</span>. This layout is the component where the application's Vaadin <span class="underline">MenuBar</span> (i.e. the main menu items) is added to. In simple cases, the <span class="underline">MenuBar</span> layout is the <span class="underline">MenuBarMedium</span>.</p>
+
+<p><span class="underline">ISkin.getSubMenuIcon()</span> returns the icon for the sub menu, may be <span class="underline">null</span>. The menu items in the main menu may display an indicator for the sub menu. Such an indicator can be provided by this method.<br></p>
+
+<h3>Menu bar components</h3>
+
+<p>The algorithm how the Ripla application creates the application's main menu is as follows: The application looks up the skin's <em>menu bar medium</em>. If none is provided, a default component is created. After that, the application creates a <em>Vaadin menu bar object</em> and populates it with the menu items retrieved from the use case bundles. After that, the application looks up the skin's <em>menu bar layout</em>. If none is provided, the menu bar object is added to the default menu bar component. Otherwise, the menu bar object is added to the menu bar layout provided by the skin. Thus, the menu bar layout has to be properly added to the menu bar medium, else, the application's main menu will not be displayed correctly.</p>
+
+<p>The separation of menu bar component and layout allows the creation of stylish menu bars. See <a class="link" title="" target="_blank" href="https://github.com/aktion-hip/ripla/tree/master/org.ripla.demo.skin.stylish">org.ripla.web.demo.skin.stylish</a> for an example.</p>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

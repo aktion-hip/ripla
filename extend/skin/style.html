@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>Style Bundle</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href="../.." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="style">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,36 +38,31 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0">
-        <a href="../../impl"
-           title="Create Application">Create Application</a>
+        <a href="../../impl" title="Create Application">Create Application</a>
         
       </li>
     
     
       <li class="level-0 selected">
-        <a href="../../extend"
-           class="onbranch" title="Extension Points">Extension Points</a>
+        <a href="../../extend" title="Extension Points" class="onbranch">Extension Points</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1">
-        <a href="../../extend/usecase"
-           title="Use Case Service">Use Case Service</a>
+        <a href="../../extend/usecase" title="Use Case Service">Use Case Service</a>
         
       </li>
     
     
       <li class="level-1 selected">
-        <a href="../../extend/skin"
-           class="onbranch" title="Skin Service">Skin Service</a>
+        <a href="../../extend/skin" title="Skin Service" class="onbranch">Skin Service</a>
         
           
             <ul class="navigation-level-2">
     
       <li class="level-2 selected">
-        <a href="../../extend/skin/style.html"
-           class="selected" title="Style Bundle">Style Bundle</a>
+        <a href="../../extend/skin/style.html" title="Style Bundle" class="selected">Style Bundle</a>
         
       </li>
     
@@ -107,29 +73,25 @@
     
     
       <li class="level-1">
-        <a href="../../extend/toolbar"
-           title="Toolbar Service">Toolbar Service</a>
+        <a href="../../extend/toolbar" title="Toolbar Service">Toolbar Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/extendible"
-           title="Extendible Menu Service">Extendible Menu Service</a>
+        <a href="../../extend/extendible" title="Extendible Menu Service">Extendible Menu Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/permission"
-           title="Permission Service">Permission Service</a>
+        <a href="../../extend/permission" title="Permission Service">Permission Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/useadmin"
-           title="User Administration Service">User Administration Service</a>
+        <a href="../../extend/useadmin" title="User Administration Service">User Administration Service</a>
         
       </li>
     
@@ -140,15 +102,13 @@
     
     
       <li class="level-0">
-        <a href="../../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -158,7 +118,17 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Style Bundle</h2><p class="p"> The main visual aspects of a skin is provided by its style sheet (css). This style sheet has to be provided by a bundle fragment whose  fragment host is <span class="underline">com.vaadin</span>. See <a href="../../impl/skin" title="Ripla Skins" target="_self">Ripla Skins</a> for more information.</p><p class="p">The Ripla application defines a list of styles for the various visual components it uses. These styles can be used in the style sheet:</p><ul class="disc"><li>ripla-window</li><li>ripla-main</li><li>ripla-body</li><li>ripla-content</li><li>ripla-split</li><li>ripla-sidebar</li><li>ripla-menu</li><li>ripla-menubar</li><li>ripla-menu-item</li><li>ripla-menu-active</li><li>ripla-toolbar</li><li>ripla-toolbar-label</li><li>ripla-contextmenu</li><li>ripla-contextmenu-item</li><li>ripla-header</li><li>ripla-header-text</li><li>ripla-footer</li><li>ripla-footer-text</li><li>ripla-login-form</li><li>ripla-form</li><li>ripla-buttons</li><li>ripla-input</li><li>ripla-select</li><li>ripla-help</li><li>ripla-view</li><li>ripla-language-select</li><li>ripla-lookup</li><li>ripla-lookup-close</li><li>ripla-label</li><li>ripla-value</li><li>ripla-value-emphasized</li></ul><p class="p">See the <a href="https://github.com/aktion-hip/ripla/blob/master/org.ripla.demo.theme/VAADIN/themes/org.ripla.demo.skin/styles.css" title="" target="_blank">Demo skin's stylesheet</a> for an example.</p></section>
+  <section>
+  <h1>Style Bundle</h1>
+  <p> The main visual aspects of a skin is provided by its style sheet (css). This style sheet has to be provided by a bundle fragment whose  fragment host is <span class="underline">com.vaadin</span>. See <a class="link" title="Ripla Skins" target="_self" href="../../impl/skin">Ripla Skins</a> for more information.</p>
+
+<p>The Ripla application defines a list of styles for the various visual components it uses. These styles can be used in the style sheet:</p>
+
+<ul class="disc"><li>ripla-window</li><li>ripla-main</li><li>ripla-body</li><li>ripla-content</li><li>ripla-split</li><li>ripla-sidebar</li><li>ripla-menu</li><li>ripla-menubar</li><li>ripla-menu-item</li><li>ripla-menu-active</li><li>ripla-toolbar</li><li>ripla-toolbar-label</li><li>ripla-contextmenu</li><li>ripla-contextmenu-item</li><li>ripla-header</li><li>ripla-header-text</li><li>ripla-footer</li><li>ripla-footer-text</li><li>ripla-login-form</li><li>ripla-form</li><li>ripla-buttons</li><li>ripla-input</li><li>ripla-select</li><li>ripla-help</li><li>ripla-view</li><li>ripla-language-select</li><li>ripla-lookup</li><li>ripla-lookup-close</li><li>ripla-label</li><li>ripla-value</li><li>ripla-value-emphasized</li></ul>
+
+<p>See the <a class="link" title="" target="_blank" href="https://github.com/aktion-hip/ripla/blob/master/org.ripla.demo.theme/VAADIN/themes/org.ripla.demo.skin/styles.css">Demo skin's stylesheet</a> for an example.</p>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

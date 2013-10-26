@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>The Use Case's Main Menu</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href="../.." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="mainmenu">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,64 +38,55 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0 selected">
-        <a href="../../impl"
-           class="onbranch" title="Create Application">Create Application</a>
+        <a href="../../impl" title="Create Application" class="onbranch">Create Application</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1">
-        <a href="../../impl/app"
-           title="Create an Application Bundle">Create an Application Bundle</a>
+        <a href="../../impl/app" title="Create an Application Bundle">Create an Application Bundle</a>
         
       </li>
     
     
       <li class="level-1 selected">
-        <a href="../../impl/usecase"
-           class="onbranch" title="Use Case Bundle">Use Case Bundle</a>
+        <a href="../../impl/usecase" title="Use Case Bundle" class="onbranch">Use Case Bundle</a>
         
           
             <ul class="navigation-level-2">
     
       <li class="level-2">
-        <a href="../../impl/usecase/usecase.html"
-           title="Service Provider">Service Provider</a>
+        <a href="../../impl/usecase/usecase.html" title="Service Provider">Service Provider</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/ds.html"
-           title="Component Description">Component Description</a>
+        <a href="../../impl/usecase/ds.html" title="Component Description">Component Description</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/controller.html"
-           title="Controller Class">Controller Class</a>
+        <a href="../../impl/usecase/controller.html" title="Controller Class">Controller Class</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/viewcomponent.html"
-           title="View Component">View Component</a>
+        <a href="../../impl/usecase/viewcomponent.html" title="View Component">View Component</a>
         
       </li>
     
     
       <li class="level-2 selected">
-        <a href="../../impl/usecase/mainmenu.html"
-           class="selected" title="Main Menu">Main Menu</a>
+        <a href="../../impl/usecase/mainmenu.html" title="Main Menu" class="selected">Main Menu</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/contextmenu.html"
-           title="Context Menu">Context Menu</a>
+        <a href="../../impl/usecase/contextmenu.html" title="Context Menu">Context Menu</a>
         
       </li>
     
@@ -135,8 +97,7 @@
     
     
       <li class="level-1">
-        <a href="../../impl/skin"
-           title="Ripla Skins">Ripla Skins</a>
+        <a href="../../impl/skin" title="Ripla Skins">Ripla Skins</a>
         
       </li>
     
@@ -147,22 +108,19 @@
     
     
       <li class="level-0">
-        <a href="../../extend"
-           title="Extension Points">Extension Points</a>
+        <a href="../../extend" title="Extension Points">Extension Points</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -172,18 +130,28 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">The Use Case's Main Menu</h2><p class="p"> The following snippet shows how to create a menu for the application's main menu bar:</p><pre class="pre">private IMenuItem createMenu() {
-    final RiplaMenuComposite outMenu = new RiplaMenuComposite("Widgets", 10);
-    outMenu.setControllerName(UseCaseHelper.createFullyQualifiedControllerName(InputWidgetsController.class));
-    outMenu.setPermission(Constants.PERMISSION_INPUT_WIDGETS);
-    RiplaMenuComposite lSubMenu = new RiplaMenuComposite("Button Widgets", 10);
-    lSubMenu.setControllerName(UseCaseHelper.createFullyQualifiedControllerName(ButtonWidgetsController.class));
-    outMenu.add(lSubMenu);
-    lSubMenu = new RiplaMenuComposite("Selection Widgets", 20);
-    lSubMenu.setControllerName(UseCaseHelper.createFullyQualifiedControllerName(SelectionWidgetsController.class));
-    outMenu.add(lSubMenu);
-    return outMenu;
-}</pre><p class="p">The menu created (implementing the interface <span class="underline">org.ripla.web.interfaces.IMenuItem</span>) is a composite, i.e. a tree structure with arbitrary nesting levels. In the example above, the menu has a root node displaying the label "Widgets" in the application's main menu. The menu has a submenu containing two elements (with the labels "Button Widgets" and "Selection Widgets") which is displayed when the user hovers over the menu's root node. <br /></p><p class="p">Each node in the menu has to know which controller has to be activated when the user clicks the menu item. The mapping is done by the method <span class="underline">org.ripla.web.menu.RiplaMenuItem.setControllerName(inControllerName)</span>. In addition, the programmer can set a permission. Thus, the application will hide menu entries if the user doesn't have sufficient permissions.<br /></p></section>
+  <section>
+  <h1>The Use Case's Main Menu</h1>
+  <p> The following snippet shows how to create a menu for the application's main menu bar:</p>
+
+<pre>private IMenuItem createMenu() {
+&#160;&#160;&#160; final RiplaMenuComposite outMenu = new RiplaMenuComposite("Widgets", 10);
+&#160;&#160;&#160; outMenu.setControllerName(UseCaseHelper.createFullyQualifiedControllerName(InputWidgetsController.class));
+&#160;&#160;&#160; outMenu.setPermission(Constants.PERMISSION_INPUT_WIDGETS);
+&#160;&#160;&#160; RiplaMenuComposite lSubMenu = new RiplaMenuComposite("Button Widgets", 10);
+&#160;&#160;&#160; lSubMenu.setControllerName(UseCaseHelper.createFullyQualifiedControllerName(ButtonWidgetsController.class));
+&#160;&#160;&#160; outMenu.add(lSubMenu);
+&#160;&#160;&#160; lSubMenu = new RiplaMenuComposite("Selection Widgets", 20);
+&#160;&#160;&#160; lSubMenu.setControllerName(UseCaseHelper.createFullyQualifiedControllerName(SelectionWidgetsController.class));
+&#160;&#160;&#160; outMenu.add(lSubMenu);
+&#160;&#160;&#160; return outMenu;
+}</pre>
+
+<p>The menu created (implementing the interface <span class="underline">org.ripla.web.interfaces.IMenuItem</span>) is a composite, i.e. a tree structure with arbitrary nesting levels. In the example above, the menu has a root node displaying the label "Widgets" in the application's main menu. The menu has a submenu containing two elements (with the labels "Button Widgets" and "Selection Widgets") which is displayed when the user hovers over the menu's root node. <br></p>
+
+<p>Each node in the menu has to know which controller has to be activated when the user clicks the menu item. The mapping is done by the method <span class="underline">org.ripla.web.menu.RiplaMenuItem.setControllerName(inControllerName)</span>. In addition, the programmer can set a permission. Thus, the application will hide menu entries if the user doesn't have sufficient permissions.<br></p>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>User Administration Service</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href="../.." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="index">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,65 +38,55 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0">
-        <a href="../../impl"
-           title="Create Application">Create Application</a>
+        <a href="../../impl" title="Create Application">Create Application</a>
         
       </li>
     
     
       <li class="level-0 selected">
-        <a href="../../extend"
-           class="onbranch" title="Extension Points">Extension Points</a>
+        <a href="../../extend" title="Extension Points" class="onbranch">Extension Points</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1">
-        <a href="../../extend/usecase"
-           title="Use Case Service">Use Case Service</a>
+        <a href="../../extend/usecase" title="Use Case Service">Use Case Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/skin"
-           title="Skin Service">Skin Service</a>
+        <a href="../../extend/skin" title="Skin Service">Skin Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/toolbar"
-           title="Toolbar Service">Toolbar Service</a>
+        <a href="../../extend/toolbar" title="Toolbar Service">Toolbar Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/extendible"
-           title="Extendible Menu Service">Extendible Menu Service</a>
+        <a href="../../extend/extendible" title="Extendible Menu Service">Extendible Menu Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/permission"
-           title="Permission Service">Permission Service</a>
+        <a href="../../extend/permission" title="Permission Service">Permission Service</a>
         
       </li>
     
     
       <li class="level-1 selected">
-        <a href="../../extend/useadmin"
-           class="onbranch"
-           title="User Administration Service">User Administration Service</a>
+        <a href="../../extend/useadmin" title="User Administration Service" class="onbranch">User Administration Service</a>
         
           
             <ul class="navigation-level-2">
     
       <li class="level-2">
-        <a href="../../extend/useadmin/userstore.html"
-           title="User Store">User Store</a>
+        <a href="../../extend/useadmin/userstore.html" title="User Store">User Store</a>
         
       </li>
     
@@ -141,15 +102,13 @@
     
     
       <li class="level-0">
-        <a href="../../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -159,28 +118,70 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">User Administration Service</h2><p class="p">If you want to protect the access to resources managed by your application, you need a user administration. The aim of a user administration is to define and manage <em>roles</em>, <em>users</em> and <em>groups</em>. Ripla provides the <span class="underline">org.ripla.useradmin</span> bundle for user administration. This bundle is an implementation of the OSGi user admin service (see <strong>OSGi Service Compendium, 107</strong>). </p><p class="p">If a user logs into the application, he gets a role based on his membership in groups. Using the <a href="../../extend/permission" title="Permission Service" target="_self">Ripla Permission Service</a>, controllers can restrict the access to the resources they control based on permissions they define. If a logged in user is member of a group that is member of the permission group controlling the resource, that user is allowed to access the specified resource.<br /></p><p class="p">See the Demo application as an example. The Demo application creates two users: <em>admin</em> and <em>user</em>. In addition, the application creates a user group <em>ripla.admin.group</em> and adds the <em>admin</em> user as required member to this group. The Configuration use case bundle creates a permission entry with a permission group <em>config.skin</em> and declares the user group <em>ripla.admin.group</em> as basic member of this permission group (see <a href="../../extend/permission" title="Permission Service" target="_self">Permission Service</a>). Thus, every member of <em>ripla.admin.group</em> is allowed to access the resources that require the <em>config.skin</em> permission. Because <em>admin</em> is the only member of <em>ripla.admin.group</em>, the select skin configuration is available only to the user that logs in as <em>admin</em>.</p><table class="silvatable datagrid" cellspacing="0" cellpadding="3"><col width="33%" /><col width="33%" /><col width="33%" /><tr class="odd"><th>﻿User groups \ Users</th><th><em>﻿admin</em></th><th><em>﻿user</em></th></tr><tr class="even"><th>﻿<em>ripla.admin.group</em></th><td class="align-left"><span class="underline">﻿required</span></td><td class="align-left">﻿</td></tr></table><table class="silvatable datagrid" cellspacing="0" cellpadding="3"><col width="50%" /><col width="50%" /><tr class="odd"><th>﻿Permission groups \ User groups<br /></th><th>﻿<em>ripla.admin.group</em></th></tr><tr class="even"><th>﻿<em>config.skin</em></th><td class="align-left"><span class="underline">﻿basic</span></td></tr></table><p class="p">The bundle defining the permission (in this example the Configuration use case) has to know about the available user 
-groups for that it can link the permission to the user administration.</p><h4 class="heading">Enabling User Administration</h4><p class="p">The <span class="underline">org.ripla.useradmin</span> bundle does not contain an OSGi component description, thus, it does not register itself as implementation and provider for the <span class="underline">org.osgi.service.useradmin.UserAdmin</span> service.To enable user administraion, you have to create a bundle that does the following:</p><p class="p">1. Import the package <span class="underline">org.ripla.useradmin.admin</span>.</p><p class="p">2. Create a class that implements <span class="underline">org.osgi.service.useradmin.UserAdmin</span> and extends <span class="underline">org.ripla.useradmin.admin.RiplaUserAdmin</span>. E.g.:</p><pre class="pre">public class DemoUserAdmin extends RiplaUserAdmin implements UserAdmin {
-    public DemoUserAdmin() throws Exception {
-        super();
-    }
+  <section>
+  <h1>User Administration Service</h1>
+  <p>If you want to protect the access to resources managed by your application, you need a user administration. The aim of a user administration is to define and manage <em>roles</em>, <em>users</em> and <em>groups</em>. Ripla provides the <span class="underline">org.ripla.useradmin</span> bundle for user administration. This bundle is an implementation of the OSGi user admin service (see <strong>OSGi Service Compendium, 107</strong>). </p>
+
+<p>If a user logs into the application, he gets a role based on his membership in groups. Using the <a class="link" title="Permission Service" target="_self" href="../../extend/permission">Ripla Permission Service</a>, controllers can restrict the access to the resources they control based on permissions they define. If a logged in user is member of a group that is member of the permission group controlling the resource, that user is allowed to access the specified resource.<br></p>
+
+<p>See the Demo application as an example. The Demo application creates two users: <em>admin</em> and <em>user</em>. In addition, the application creates a user group <em>ripla.admin.group</em> and adds the <em>admin</em> user as required member to this group. The Configuration use case bundle creates a permission entry with a permission group <em>config.skin</em> and declares the user group <em>ripla.admin.group</em> as basic member of this permission group (see <a class="link" title="Permission Service" target="_self" href="../../extend/permission">Permission Service</a>). Thus, every member of <em>ripla.admin.group</em> is allowed to access the resources that require the <em>config.skin</em> permission. Because <em>admin</em> is the only member of <em>ripla.admin.group</em>, the select skin configuration is available only to the user that logs in as <em>admin</em>.</p>
+
+<table class="silvatable datagrid"><col><col><col><tr class="odd"><th>&#65279;User groups \ Users</th><th><em>&#65279;admin</em></th><th><em>&#65279;user</em></th></tr><tr class="even"><th>&#65279;<em>ripla.admin.group</em></th><td class="align-L"><span class="underline">&#65279;required</span></td><td class="align-L">&#65279;</td></tr></table>
+
+<table class="silvatable datagrid"><col><col><tr class="odd"><th>&#65279;Permission groups \ User groups<br></th><th>&#65279;<em>ripla.admin.group</em></th></tr><tr class="even"><th>&#65279;<em>config.skin</em></th><td class="align-L"><span class="underline">&#65279;basic</span></td></tr></table>
+
+<p>The bundle defining the permission (in this example the Configuration use case) has to know about the available user 
+groups for that it can link the permission to the user administration.</p>
+
+<h3>Enabling User Administration</h3>
+
+<p>The <span class="underline">org.ripla.useradmin</span> bundle does not contain an OSGi component description, thus, it does not register itself as implementation and provider for the <span class="underline">org.osgi.service.useradmin.UserAdmin</span> service.To enable user administraion, you have to create a bundle that does the following:</p>
+
+<p>1. Import the package <span class="underline">org.ripla.useradmin.admin</span>.</p>
+
+<p>2. Create a class that implements <span class="underline">org.osgi.service.useradmin.UserAdmin</span> and extends <span class="underline">org.ripla.useradmin.admin.RiplaUserAdmin</span>. E.g.:</p>
+
+<pre>public class DemoUserAdmin extends RiplaUserAdmin implements UserAdmin {
+&#160;&#160;&#160; public DemoUserAdmin() throws Exception {
+&#160;&#160;&#160; &#160;&#160;&#160; super();
+&#160;&#160;&#160; }
 }
-</pre><p class="p">3. Create a component description that declares the class created in <em>step 2</em> as implementation class. E.g.:</p><pre class="pre">&lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.demo.useradmin"&gt;
-   &lt;implementation class="org.ripla.demo.useradmin.internal.DemoUserAdmin"/&gt;
-   &lt;service&gt;
-      &lt;provide interface="org.osgi.service.useradmin.UserAdmin"/&gt;
-   &lt;/service&gt;
-   &lt;reference cardinality="1..n" interface="org.osgi.service.prefs.PreferencesService" bind="setPreferences" unbind="unsetPreferences" name="preferences" policy="dynamic"/&gt;
-&lt;/scr:component&gt;</pre><p class="p">4. Add the manifest header <span class="underline">Service-Component</span> to the bundles MANIFEST.MF:</p><pre class="pre">Service-Component: OSGI-INF/useradmin.xml</pre><p class="p">See the bundle <a href="https://github.com/aktion-hip/ripla/tree/master/org.ripla.demo.useradmin" title="" target="_blank"><span class="underline">org.ripla.demo.useradmin</span></a> as an example.</p><h4 class="heading">Permission Initialization</h4><p class="p"> To link the permissions registered at the permission service to the user administration, you have to ensure that all registered permissions are initialized. To do that, call <span class="underline">RiplaApplication.initializePermissions()</span>. This will create a permission group for each registered <span class="underline">
+</pre>
+
+<p>3. Create a component description that declares the class created in <em>step 2</em> as implementation class. E.g.:</p>
+
+<pre>&lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.demo.useradmin"&gt;
+&#160;&#160; &lt;implementation class="org.ripla.demo.useradmin.internal.DemoUserAdmin"/&gt;
+&#160;&#160; &lt;service&gt;
+&#160;&#160;&#160;&#160;&#160; &lt;provide interface="org.osgi.service.useradmin.UserAdmin"/&gt;
+&#160;&#160; &lt;/service&gt;
+&#160;&#160; &lt;reference cardinality="1..n" interface="org.osgi.service.prefs.PreferencesService" bind="setPreferences" unbind="unsetPreferences" name="preferences" policy="dynamic"/&gt;
+&lt;/scr:component&gt;</pre>
+
+<p>4. Add the manifest header <span class="underline">Service-Component</span> to the bundles MANIFEST.MF:</p>
+
+<pre>Service-Component: OSGI-INF/useradmin.xml</pre>
+
+<p>See the bundle <a class="link" title="" target="_blank" href="https://github.com/aktion-hip/ripla/tree/master/org.ripla.demo.useradmin"><span class="underline">org.ripla.demo.useradmin</span></a> as an example.</p>
+
+<h3>Permission Initialization</h3>
+
+<p> To link the permissions registered at the permission service to the user administration, you have to ensure that all registered permissions are initialized. To do that, call <span class="underline">RiplaApplication.initializePermissions()</span>. This will create a permission group for each registered <span class="underline">
 IPermissionEntry</span> and add the members defined in those permission 
-instances. </p><p class="p"> The best place to do this is your application class' method  that binds the user admin service to the application.E.g.:</p><pre class="pre">public class DemoApplication extends RiplaApplication {
+instances. </p>
+
+<p> The best place to do this is your application class' method  that binds the user admin service to the application.E.g.:</p>
+
+<pre>public class DemoApplication extends RiplaApplication {
 //...
-    public void setUserAdmin(final UserAdmin inUserAdmin) {
-        super.setUserAdmin(inUserAdmin);
-        Group lAdministrators = (Group) inUserAdmin.createRole("ripla.admin", Role.GROUP);
-        initializePermissions();
-    }
-}</pre></section>
+&#160;&#160;&#160; public void setUserAdmin(final UserAdmin inUserAdmin) {
+&#160;&#160;&#160; &#160;&#160;&#160; super.setUserAdmin(inUserAdmin);
+&#160;&#160;&#160; &#160;&#160;&#160; Group lAdministrators = (Group) inUserAdmin.createRole("ripla.admin", Role.GROUP);
+&#160;&#160;&#160; &#160;&#160;&#160; initializePermissions();
+&#160;&#160;&#160; }
+}</pre>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

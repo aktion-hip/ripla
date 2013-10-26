@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>Create an Application Bundle</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href="../.." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="index">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,44 +38,37 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0 selected">
-        <a href="../../impl"
-           class="onbranch" title="Create Application">Create Application</a>
+        <a href="../../impl" title="Create Application" class="onbranch">Create Application</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1 selected">
-        <a href="../../impl/app"
-           class="onbranch"
-           title="Create an Application Bundle">Create an Application Bundle</a>
+        <a href="../../impl/app" title="Create an Application Bundle" class="onbranch">Create an Application Bundle</a>
         
           
             <ul class="navigation-level-2">
     
       <li class="level-2">
-        <a href="../../impl/app/config.html"
-           title="Application Configuration">Application Configuration</a>
+        <a href="../../impl/app/config.html" title="Application Configuration">Application Configuration</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/app/body.html"
-           title="Application Layout">Application Layout</a>
+        <a href="../../impl/app/body.html" title="Application Layout">Application Layout</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/app/users.html"
-           title="Users and Permissions">Users and Permissions</a>
+        <a href="../../impl/app/users.html" title="Users and Permissions">Users and Permissions</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/app/workflow.html"
-           title="Configuration Workflow">Configuration Workflow</a>
+        <a href="../../impl/app/workflow.html" title="Configuration Workflow">Configuration Workflow</a>
         
       </li>
     
@@ -115,15 +79,13 @@
     
     
       <li class="level-1">
-        <a href="../../impl/usecase"
-           title="Use Case Bundle">Use Case Bundle</a>
+        <a href="../../impl/usecase" title="Use Case Bundle">Use Case Bundle</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../impl/skin"
-           title="Ripla Skins">Ripla Skins</a>
+        <a href="../../impl/skin" title="Ripla Skins">Ripla Skins</a>
         
       </li>
     
@@ -134,22 +96,19 @@
     
     
       <li class="level-0">
-        <a href="../../extend"
-           title="Extension Points">Extension Points</a>
+        <a href="../../extend" title="Extension Points">Extension Points</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -159,26 +118,58 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Create an Application Bundle</h2><h3 class="heading">The application class</h3><p class="p">The application’s main bundle is a bundle containing a class deriving from and extending <span class="underline">org.ripla.web.RiplaApplication</span>. Because <span class="underline">RiplaApplication</span> extends <span class="underline">com.vaadin.ui.UI</span>, your application becomes a <em>Vaadin</em> UI too.</p><p class="p"> In a
+  <section>
+  <h1>Create an Application Bundle</h1>
+  <h2>The application class</h2>
+
+<p>The application&#8217;s main bundle is a bundle containing a class deriving from and extending <span class="underline">org.ripla.web.RiplaApplication</span>. Because <span class="underline">RiplaApplication</span> extends <span class="underline">com.vaadin.ui.UI</span>, your application becomes a <em>Vaadin</em> UI too.</p>
+
+<p> In a
 minimal application, everything is done by default. Most probably, however, you
 want to override at least override
-				<a href="../../impl/app/config.html" title="Application Configuration" target="_self"><span class="underline">RiplaApplication.getAppConfiguration()</span></a>. This method returns a
+				<a class="link" title="Application Configuration" target="_self" href="../../impl/app/config.html"><span class="underline">RiplaApplication.getAppConfiguration()</span></a>. This method returns a
 				<span class="underline">org.ripla.interfaces.IAppConfiguration</span> object. With such an
 				object, you can configure your Ripla application (e.g. the ID of the
-				default skin, the welcome message etc.). See <a href="https://github.com/aktion-hip/ripla/blob/master/org.ripla.demo/src/org/ripla/demo/DemoApplication.java" title="" target="_blank">DemoApplication.java</a>
-				for an example. <br /></p><h3 class="heading">OSGi HttpService configuration</h3><p class="p">Ripla uses Vaadin 7 to render the web page, i.e. the user interface in the browser. Vaadin uses conventional servlet technology. To run Vaadin in a OSGi environment, Ripla uses <a href="http://lunifera.wordpress.com/vaadin-7-osgi-bridge/" title="" target="_blank">Lunifera.org</a> as bridge. <em>Lunifera.org</em> is leveraging the <a href="http://wiki.osgi.org/wiki/Declarative_Services" title="" target="_blank"><em>OSGi Declarative Services</em></a> model for registering servlets at an application container. Therefore, you have to write an OSGi component description. In this file, you have to specify your application component as factory component with <span class="underline">org.lunifera.web.vaadin.UI/my.UI</span> as factory name and
-			with your application class as implementation class. </p><p class="p">The following example <span class="underline">OSGI-INF/myapp.xml</span> specifies an application running e.g. as <a href="http://localhost:8080/myapp" title="" target="_self">http://localhost:8080/myapp</a>:
-			</p><pre class="pre">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+				default skin, the welcome message etc.). See <a class="link" title="" target="_blank" href="https://github.com/aktion-hip/ripla/blob/master/org.ripla.demo/src/org/ripla/demo/DemoApplication.java">DemoApplication.java</a>
+				for an example. <br></p>
+
+<h2>OSGi HttpService configuration</h2>
+
+<p>Ripla uses Vaadin 7 to render the web page, i.e. the user interface in the browser. Vaadin uses conventional servlet technology. To run Vaadin in a OSGi environment, Ripla uses <a class="link" title="" target="_blank" href="http://lunifera.wordpress.com/vaadin-7-osgi-bridge/">Lunifera.org</a> as bridge. <em>Lunifera.org</em> is leveraging the <a class="link" title="" target="_blank" href="http://wiki.osgi.org/wiki/Declarative_Services"><em>OSGi Declarative Services</em></a> model for registering servlets at an application container. Therefore, you have to write an OSGi component description. In this file, you have to specify your application component as factory component with <span class="underline">org.lunifera.web.vaadin.UI/my.UI</span> as factory name and
+			with your application class as implementation class.&#160;</p>
+
+<p>The following example <span class="underline">OSGI-INF/myapp.xml</span> specifies an application running e.g. as <a class="link" title="" target="_self" href="http://localhost:8080/myapp">http://localhost:8080/myapp</a>:
+			</p>
+
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" 
      factory="org.lunifera.web.vaadin.UI/org.example.MyApplication" immediate="false" name="org.example.ui"&gt;
    &lt;implementation class="org.example.MyApplication"/&gt;
-&lt;/scr:component&gt;</pre><p class="p">In addition, you have to write a configuration (with the name <span class="underline">lunifera.vaadin.application.factory_myapp.cfg</span>) e.g. in the <em>config</em> directory:</p><pre class="pre"># configuration to start a vaadin service
+&lt;/scr:component&gt;</pre>
+
+<p>In addition, you have to write a configuration (with the name <span class="underline">lunifera.vaadin.application.factory_myapp.cfg</span>) e.g. in the <em>config</em> directory:</p>
+
+<pre># configuration to start a vaadin service
 lunifera.web.vaadin.name=MyApp
 lunifera.web.vaadin.uialias=myapp
 lunifera.web.vaadin.widgetset=com.vaadin.DefaultWidgetSet
-</pre><p class="p">For that the context knows about the lunifera configuration, you have to add a reference to your MANIFEST.MF:</p><pre class="pre">Lunifera-Config: config
-</pre><h3 class="heading">Component description</h3><p class="p">The Ripla platform defines various extension points where you can dynamically plug in functionality. These extension points again use the <em>OSGi Declarative Services</em> approach. <span class="underline">RiplaApplication</span> is designed as consumer for all these services. Therefore, <span class="underline">RiplaApplication</span> contains the bind methods needed for that the service runtime can inject the service instances as soon as a bundle is registered providing an implementaion of such a service.</p><p class="p">By extending <span class="underline">RiplaApplication</span>, you don't have to bother about service injection. The only thing you have to do is to write an OSGi component description declaring your application class as implementation class for the services you want to consume. Else, the OSGi container won't inject the services into your application.<br /></p><p class="p">See <a href="https://github.com/aktion-hip/ripla/blob/master/org.ripla.demo/OSGI-INF/demo.xml" title="" target="_blank">OSGI-INF/demo.xml</a> for an example:
-		</p><pre class="pre">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</pre>
+
+<p>For that the context knows about the lunifera configuration, you have to add a reference to your MANIFEST.MF:</p>
+
+<pre>Lunifera-Config: config
+</pre>
+
+<h2>Component description</h2>
+
+<p>The Ripla platform defines various extension points where you can dynamically plug in functionality. These extension points again use the <em>OSGi Declarative Services</em> approach.&#160;<span class="underline">RiplaApplication</span> is designed as consumer for all these services. Therefore, <span class="underline">RiplaApplication</span> contains the bind methods needed for that the service runtime can inject the service instances as soon as a bundle is registered providing an implementaion of such a service.</p>
+
+<p>By extending <span class="underline">RiplaApplication</span>, you don't have to bother about service injection. The only thing you have to do is to write an OSGi component description declaring your application class as implementation class for the services you want to consume. Else, the OSGi container won't inject the services into your application.<br></p>
+
+<p>See <a class="link" title="" target="_blank" href="https://github.com/aktion-hip/ripla/blob/master/org.ripla.demo/OSGI-INF/demo.xml">OSGI-INF/demo.xml</a> for an example:
+		</p>
+
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" 
       factory="org.lunifera.web.vaadin.UI/org.ripla.web.demo.DemoApplication" immediate="false" name="org.ripla.web.demo.ui"&gt;
    &lt;implementation class="org.ripla.web.demo.DemoApplication"/&gt;
@@ -193,7 +184,17 @@ lunifera.web.vaadin.widgetset=com.vaadin.DefaultWidgetSet
    &lt;reference bind="setConfiAdmin" unbind="unsetConfiAdmin" cardinality="1..1" 
       interface="org.osgi.service.cm.ConfigurationAdmin" name="configAdmin" policy="static"/&gt;
 &lt;/scr:component&gt;
-</pre><p class="p">In this example, <span class="underline">org.ripla.web.demo.DemoApplication</span> is prepared to consume multiple implementations of the <span class="underline">org.ripla.web.services.IUseCase</span> service (to note only one). As soon as such an implementation is registered at the OSGi container, it will be injected using the method 				<span class="underline">RiplaApplication.addUseCase()</span>.</p><p class="p"><strong>Note</strong>: don't forget to add a <span class="underline">Service-Component</span> element to your bundle's <span class="underline">MANIFEST.MF</span>. E.g. for the demo example above:</p><pre class="pre">Service-Component: OSGI-INF/demo.xml</pre><p class="p"> Having implemented your application class and written the component description, you're ready to implement the <a href="../../impl/usecase" title="Create use case bundle" target="_self">use cases</a> providing your application's business logic.</p></section>
+</pre>
+
+<p>In this example, <span class="underline">org.ripla.web.demo.DemoApplication</span> is prepared to consume multiple implementations of the <span class="underline">org.ripla.web.services.IUseCase</span> service (to note only one). As soon as such an implementation is registered at the OSGi container, it will be injected using the method 				<span class="underline">RiplaApplication.addUseCase()</span>.</p>
+
+<p><strong>Note</strong>: don't forget to add a <span class="underline">Service-Component</span> element to your bundle's <span class="underline">MANIFEST.MF</span>. E.g. for the demo example above:</p>
+
+<pre>Service-Component: OSGI-INF/demo.xml</pre>
+
+<p> Having implemented your application class and written the component description, you're ready to implement the <a class="link" title="Create use case bundle" target="_self" href="../../impl/usecase">use cases</a> providing your application's business logic.</p>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>Main Menu IMenuItem</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href="../.." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="mainmenu">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,43 +38,37 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0">
-        <a href="../../impl"
-           title="Create Application">Create Application</a>
+        <a href="../../impl" title="Create Application">Create Application</a>
         
       </li>
     
     
       <li class="level-0 selected">
-        <a href="../../extend"
-           class="onbranch" title="Extension Points">Extension Points</a>
+        <a href="../../extend" title="Extension Points" class="onbranch">Extension Points</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1 selected">
-        <a href="../../extend/usecase"
-           class="onbranch" title="Use Case Service">Use Case Service</a>
+        <a href="../../extend/usecase" title="Use Case Service" class="onbranch">Use Case Service</a>
         
           
             <ul class="navigation-level-2">
     
       <li class="level-2">
-        <a href="../../extend/usecase/controller.html"
-           title="Controller Class">Controller Class</a>
+        <a href="../../extend/usecase/controller.html" title="Controller Class">Controller Class</a>
         
       </li>
     
     
       <li class="level-2 selected">
-        <a href="../../extend/usecase/mainmenu.html"
-           class="selected" title="Main Menu">Main Menu</a>
+        <a href="../../extend/usecase/mainmenu.html" title="Main Menu" class="selected">Main Menu</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../extend/usecase/contextmenu.html"
-           title="Context Menu">Context Menu</a>
+        <a href="../../extend/usecase/contextmenu.html" title="Context Menu">Context Menu</a>
         
       </li>
     
@@ -114,36 +79,31 @@
     
     
       <li class="level-1">
-        <a href="../../extend/skin"
-           title="Skin Service">Skin Service</a>
+        <a href="../../extend/skin" title="Skin Service">Skin Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/toolbar"
-           title="Toolbar Service">Toolbar Service</a>
+        <a href="../../extend/toolbar" title="Toolbar Service">Toolbar Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/extendible"
-           title="Extendible Menu Service">Extendible Menu Service</a>
+        <a href="../../extend/extendible" title="Extendible Menu Service">Extendible Menu Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/permission"
-           title="Permission Service">Permission Service</a>
+        <a href="../../extend/permission" title="Permission Service">Permission Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/useadmin"
-           title="User Administration Service">User Administration Service</a>
+        <a href="../../extend/useadmin" title="User Administration Service">User Administration Service</a>
         
       </li>
     
@@ -154,15 +114,13 @@
     
     
       <li class="level-0">
-        <a href="../../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -172,16 +130,36 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Main Menu IMenuItem</h2><p class="p"> The class implementing the <span class="underline">org.ripla.interfaces.IMenuItem</span> interface represents a composite structure:</p><pre class="pre">public interface IMenuItem extends IMenuElement {
-    int getPosition();
+  <section>
+  <h1>Main Menu IMenuItem</h1>
+  <p> The class implementing the <span class="underline">org.ripla.interfaces.IMenuItem</span> interface represents a composite structure:</p>
+
+<pre>public interface IMenuItem extends IMenuElement {
+&#160;&#160;&#160; int getPosition();
 }
-</pre><pre class="pre">public interface IMenuElement {
-    List&lt;IMenuItem&gt; getSubMenu();
-    String getLabel();
-    String getControllerName();
-    String getPermission();
+</pre>
+
+<pre>public interface IMenuElement {
+&#160;&#160;&#160; List&lt;IMenuItem&gt; getSubMenu();
+&#160;&#160;&#160; String getLabel();
+&#160;&#160;&#160; String getControllerName();
+&#160;&#160;&#160; String getPermission();
 }
-</pre><p class="p">The menu structure is defined in <span class="underline">IMenuElement.getSubMenu()</span>. Each <span class="underline">IMenuElement</span> node can act as parent for a sub menu tree. <br /></p><p class="p">The relative position of a menu element is defined by <span class="underline">IMenuItem.getPosition()</span>. The higher the position, the lower the item within the list of items of the same level. In the main menu bar, the menu node are placed in ascending order from left to right.<br /></p><p class="p"><span class="underline">IMenuElement.getLabel()</span> returns the label displayed by the menu item.</p><p class="p"><span class="underline">IMenuElement.getControllerName()</span> returns the (fully qualified) name of the controller activated when a user clicks on the menu item.</p><p class="p"><span class="underline">IMenuElement.getPermission()</span> controlles whether the menu item is displayed or not. If a user doesn't have the permission to display a view, the corresponding menu item has to be hidden to prevent the activation of the view's controller.</p><p class="p"><span class="underline">org.ripla.web.menu.RiplaMenuItem</span> is a leaf implementation of <span class="underline">IMenuItem</span> whereas <span class="underline">org.ripla.web.menu.RiplaMenuComposite</span> is a menu item implementation that can contain sub menus. See <a href="../../impl/usecase/mainmenu.html" title="The Use Case's Main Menu" target="_self">The Use Case's Main Menu</a> for an example how to create a main menu item with submenu.<br /></p></section>
+</pre>
+
+<p>The menu structure is defined in <span class="underline">IMenuElement.getSubMenu()</span>. Each <span class="underline">IMenuElement</span> node can act as parent for a sub menu tree. <br></p>
+
+<p>The relative position of a menu element is defined by <span class="underline">IMenuItem.getPosition()</span>. The higher the position, the lower the item within the list of items of the same level. In the main menu bar, the menu node are placed in ascending order from left to right.<br></p>
+
+<p><span class="underline">IMenuElement.getLabel()</span> returns the label displayed by the menu item.</p>
+
+<p><span class="underline">IMenuElement.getControllerName()</span> returns the (fully qualified) name of the controller activated when a user clicks on the menu item.</p>
+
+<p><span class="underline">IMenuElement.getPermission()</span> controlles whether the menu item is displayed or not. If a user doesn't have the permission to display a view, the corresponding menu item has to be hidden to prevent the activation of the view's controller.</p>
+
+<p><span class="underline">org.ripla.web.menu.RiplaMenuItem</span> is a leaf implementation of <span class="underline">IMenuItem</span> whereas <span class="underline">org.ripla.web.menu.RiplaMenuComposite</span> is a menu item implementation that can contain sub menus. See <a class="link" title="The Use Case's Main Menu" target="_self" href="../../impl/usecase/mainmenu">The Use Case's Main Menu</a> for an example how to create a main menu item with submenu.<br></p>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

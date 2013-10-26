@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>OSGi Component Description</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href="../.." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="ds">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,64 +38,55 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0 selected">
-        <a href="../../impl"
-           class="onbranch" title="Create Application">Create Application</a>
+        <a href="../../impl" title="Create Application" class="onbranch">Create Application</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1">
-        <a href="../../impl/app"
-           title="Create an Application Bundle">Create an Application Bundle</a>
+        <a href="../../impl/app" title="Create an Application Bundle">Create an Application Bundle</a>
         
       </li>
     
     
       <li class="level-1 selected">
-        <a href="../../impl/usecase"
-           class="onbranch" title="Use Case Bundle">Use Case Bundle</a>
+        <a href="../../impl/usecase" title="Use Case Bundle" class="onbranch">Use Case Bundle</a>
         
           
             <ul class="navigation-level-2">
     
       <li class="level-2">
-        <a href="../../impl/usecase/usecase.html"
-           title="Service Provider">Service Provider</a>
+        <a href="../../impl/usecase/usecase.html" title="Service Provider">Service Provider</a>
         
       </li>
     
     
       <li class="level-2 selected">
-        <a href="../../impl/usecase/ds.html"
-           class="selected" title="Component Description">Component Description</a>
+        <a href="../../impl/usecase/ds.html" title="Component Description" class="selected">Component Description</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/controller.html"
-           title="Controller Class">Controller Class</a>
+        <a href="../../impl/usecase/controller.html" title="Controller Class">Controller Class</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/viewcomponent.html"
-           title="View Component">View Component</a>
+        <a href="../../impl/usecase/viewcomponent.html" title="View Component">View Component</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/mainmenu.html"
-           title="Main Menu">Main Menu</a>
+        <a href="../../impl/usecase/mainmenu.html" title="Main Menu">Main Menu</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/contextmenu.html"
-           title="Context Menu">Context Menu</a>
+        <a href="../../impl/usecase/contextmenu.html" title="Context Menu">Context Menu</a>
         
       </li>
     
@@ -135,8 +97,7 @@
     
     
       <li class="level-1">
-        <a href="../../impl/skin"
-           title="Ripla Skins">Ripla Skins</a>
+        <a href="../../impl/skin" title="Ripla Skins">Ripla Skins</a>
         
       </li>
     
@@ -147,22 +108,19 @@
     
     
       <li class="level-0">
-        <a href="../../extend"
-           title="Extension Points">Extension Points</a>
+        <a href="../../extend" title="Extension Points">Extension Points</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -172,13 +130,25 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">OSGi Component Description</h2><p class="p"> The following XML shows an example of a component description registering a use case as OSGi declarative service at the container's service registry:<br /></p><pre class="pre">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+  <section>
+  <h1>OSGi Component Description</h1>
+  <p> The following XML shows an example of a component description registering a use case as OSGi declarative service at the container's service registry:<br></p>
+
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ripla.web.demo.widgets.usecase"&gt;
-   &lt;implementation class="org.ripla.web.demo.widgets.scr.UseCaseComponent"/&gt;
-   &lt;service&gt;
-      &lt;provide interface="org.ripla.web.services.IUseCase"/&gt;
-   &lt;/service&gt;
-&lt;/scr:component&gt;</pre><p class="p">This component description states that the class <span class="underline">org.ripla.demo.widgets.scr.UseCaseComponent</span> is implementing the <span class="underline">org.ripla.web.services.IUseCase</span> service. This service will be registered as <span class="underline">org.ripla.demo.widgets.usecase</span>.</p><p class="p">If you named this component description <span class="underline">OSGI-INF/useCase.xml</span>, you have to add the following statement to the bundle's <span class="underline">MANIFEST.MF</span>:</p><pre class="pre">Service-Component: OSGI-INF/useCase.xml</pre></section>
+&#160;&#160; &lt;implementation class="org.ripla.web.demo.widgets.scr.UseCaseComponent"/&gt;
+&#160;&#160; &lt;service&gt;
+&#160;&#160;&#160;&#160;&#160; &lt;provide interface="org.ripla.web.services.IUseCase"/&gt;
+&#160;&#160; &lt;/service&gt;
+&lt;/scr:component&gt;</pre>
+
+<p>This component description states that the class <span class="underline">org.ripla.demo.widgets.scr.UseCaseComponent</span> is implementing the <span class="underline">org.ripla.web.services.IUseCase</span> service. This service will be registered as <span class="underline">org.ripla.demo.widgets.usecase</span>.</p>
+
+<p>If you named this component description <span class="underline">OSGI-INF/useCase.xml</span>, you have to add the following statement to the bundle's <span class="underline">MANIFEST.MF</span>:</p>
+
+<pre>Service-Component: OSGI-INF/useCase.xml</pre>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

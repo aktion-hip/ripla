@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>Use Case Controller Class</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href="../.." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="controller">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,64 +38,55 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0 selected">
-        <a href="../../impl"
-           class="onbranch" title="Create Application">Create Application</a>
+        <a href="../../impl" title="Create Application" class="onbranch">Create Application</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1">
-        <a href="../../impl/app"
-           title="Create an Application Bundle">Create an Application Bundle</a>
+        <a href="../../impl/app" title="Create an Application Bundle">Create an Application Bundle</a>
         
       </li>
     
     
       <li class="level-1 selected">
-        <a href="../../impl/usecase"
-           class="onbranch" title="Use Case Bundle">Use Case Bundle</a>
+        <a href="../../impl/usecase" title="Use Case Bundle" class="onbranch">Use Case Bundle</a>
         
           
             <ul class="navigation-level-2">
     
       <li class="level-2">
-        <a href="../../impl/usecase/usecase.html"
-           title="Service Provider">Service Provider</a>
+        <a href="../../impl/usecase/usecase.html" title="Service Provider">Service Provider</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/ds.html"
-           title="Component Description">Component Description</a>
+        <a href="../../impl/usecase/ds.html" title="Component Description">Component Description</a>
         
       </li>
     
     
       <li class="level-2 selected">
-        <a href="../../impl/usecase/controller.html"
-           class="selected" title="Controller Class">Controller Class</a>
+        <a href="../../impl/usecase/controller.html" title="Controller Class" class="selected">Controller Class</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/viewcomponent.html"
-           title="View Component">View Component</a>
+        <a href="../../impl/usecase/viewcomponent.html" title="View Component">View Component</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/mainmenu.html"
-           title="Main Menu">Main Menu</a>
+        <a href="../../impl/usecase/mainmenu.html" title="Main Menu">Main Menu</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/contextmenu.html"
-           title="Context Menu">Context Menu</a>
+        <a href="../../impl/usecase/contextmenu.html" title="Context Menu">Context Menu</a>
         
       </li>
     
@@ -135,8 +97,7 @@
     
     
       <li class="level-1">
-        <a href="../../impl/skin"
-           title="Ripla Skins">Ripla Skins</a>
+        <a href="../../impl/skin" title="Ripla Skins">Ripla Skins</a>
         
       </li>
     
@@ -147,22 +108,19 @@
     
     
       <li class="level-0">
-        <a href="../../extend"
-           title="Extension Points">Extension Points</a>
+        <a href="../../extend" title="Extension Points">Extension Points</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -172,24 +130,36 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Use Case Controller Class</h2><p class="p"> The following snippet shows an example of a use case controller:</p><pre class="pre">@UseCaseController
-public class InputWidgetsController extends AbstractController {
-    @Override
-    protected String needsPermission() {
-        return Constants.PERMISSION_INPUT_WIDGETS;
-    }
-    @Override
-    protected Component runChecked() throws RiplaException {
-        loadContextMenu(Constants.CONTEXT_MENU_SET_WIDGETS);
+  <section>
+  <h1>Use Case Controller Class</h1>
+  <p> The following snippet shows an example of a use case controller:</p>
 
-        return new InputWidgetsView();
-    }
+<pre>@UseCaseController
+public class InputWidgetsController extends AbstractController {
+&#160;&#160;&#160; @Override
+&#160;&#160;&#160; protected String needsPermission() {
+&#160;&#160;&#160; &#160;&#160;&#160; return Constants.PERMISSION_INPUT_WIDGETS;
+&#160;&#160;&#160; }
+&#160;&#160;&#160; @Override
+&#160;&#160;&#160; protected Component runChecked() throws RiplaException {
+&#160;&#160;&#160; &#160;&#160;&#160; loadContextMenu(Constants.CONTEXT_MENU_SET_WIDGETS);
+
+&#160;&#160;&#160; &#160;&#160;&#160; return new InputWidgetsView();
+&#160;&#160;&#160; }
 }
-</pre><p class="p">Because <span class="underline">org.ripla.web.controllers.AbstractController</span> implements <span class="underline">org.ripla.web.interfaces.IPluggable</span>, this controller implements the <span class="underline">IPluggable</span> interface implicitely and, therefore, is an eligible return value for <span class="underline">IUseCase.getControllerClasses()</span> and <span class="underline">IUseCase.getControllerSet()</span>. However, to be accepted as Ripla controller, the class has additionally to be annotated with <span class="underline">@UseCaseController</span>.</p><p class="p">Before the controller returns the view, it checks the user's permissions. Permission
+</pre>
+
+<p>Because <span class="underline">org.ripla.web.controllers.AbstractController</span> implements <span class="underline">org.ripla.web.interfaces.IPluggable</span>, this controller implements the <span class="underline">IPluggable</span> interface implicitely and, therefore, is an eligible return value for <span class="underline">IUseCase.getControllerClasses()</span> and <span class="underline">IUseCase.getControllerSet()</span>. However, to be accepted as Ripla controller, the class has additionally to be annotated with <span class="underline">@UseCaseController</span>.</p>
+
+<p>Before the controller returns the view, it checks the user's permissions. Permission
 checking is done by returning the permission (i.e. a String) the user needs in the
 method <span class="underline">Controller.needsPermission()</span>. If the application
-has a <em>UserAmin</em> installed, the controller can ask the <em>UserAdmin</em>’s authorization
-instance whether the actual user has the required permission. To allow an unrestricted access to the view, <span class="underline">Controller.needsPermission()</span> can return an empty string.</p><p class="p">The controller's main method is <span class="underline">Controller.runChecked()</span>. In the example snippet, the context menu is loaded and the view is prepared and returned. This method is the place for the use case's business logic as well. For example, the controller may look up a data set and prepare the retrieved data for that it can be displayed in the view returned.<br /></p></section>
+has a <em>UserAmin</em> installed, the controller can ask the <em>UserAdmin</em>&#8217;s authorization
+instance whether the actual user has the required permission. To allow an unrestricted access to the view, <span class="underline">Controller.needsPermission()</span> can return an empty string.</p>
+
+<p>The controller's main method is <span class="underline">Controller.runChecked()</span>. In the example snippet, the context menu is loaded and the view is prepared and returned. This method is the place for the use case's business logic as well. For example, the controller may look up a data set and prepare the retrieved data for that it can be displayed in the view returned.<br></p>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

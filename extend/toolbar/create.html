@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>Creating Toolbar Items</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href="../.." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="create">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,50 +38,43 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0">
-        <a href="../../impl"
-           title="Create Application">Create Application</a>
+        <a href="../../impl" title="Create Application">Create Application</a>
         
       </li>
     
     
       <li class="level-0 selected">
-        <a href="../../extend"
-           class="onbranch" title="Extension Points">Extension Points</a>
+        <a href="../../extend" title="Extension Points" class="onbranch">Extension Points</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1">
-        <a href="../../extend/usecase"
-           title="Use Case Service">Use Case Service</a>
+        <a href="../../extend/usecase" title="Use Case Service">Use Case Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/skin"
-           title="Skin Service">Skin Service</a>
+        <a href="../../extend/skin" title="Skin Service">Skin Service</a>
         
       </li>
     
     
       <li class="level-1 selected">
-        <a href="../../extend/toolbar"
-           class="onbranch" title="Toolbar Service">Toolbar Service</a>
+        <a href="../../extend/toolbar" title="Toolbar Service" class="onbranch">Toolbar Service</a>
         
           
             <ul class="navigation-level-2">
     
       <li class="level-2 selected">
-        <a href="../../extend/toolbar/create.html"
-           class="selected" title="Creating Toolbar Items">Creating Toolbar Items</a>
+        <a href="../../extend/toolbar/create.html" title="Creating Toolbar Items" class="selected">Creating Toolbar Items</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../extend/toolbar/listening.html"
-           title="Toolbar Events">Toolbar Events</a>
+        <a href="../../extend/toolbar/listening.html" title="Toolbar Events">Toolbar Events</a>
         
       </li>
     
@@ -121,22 +85,19 @@
     
     
       <li class="level-1">
-        <a href="../../extend/extendible"
-           title="Extendible Menu Service">Extendible Menu Service</a>
+        <a href="../../extend/extendible" title="Extendible Menu Service">Extendible Menu Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/permission"
-           title="Permission Service">Permission Service</a>
+        <a href="../../extend/permission" title="Permission Service">Permission Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/useadmin"
-           title="User Administration Service">User Administration Service</a>
+        <a href="../../extend/useadmin" title="User Administration Service">User Administration Service</a>
         
       </li>
     
@@ -147,15 +108,13 @@
     
     
       <li class="level-0">
-        <a href="../../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -165,10 +124,18 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Creating Toolbar Items</h2><p class="p"> The toolbar item component, which is a Vaadin component, can be created either by <span class="underline">IToolbarItem.getComponent()</span> or by <span class="underline">IToolbarItem.getCreator()</span>. <span class="underline">IToolbarItem.getComponent()</span> returns the component directly whereas <span class="underline">IToolbarItem.getCreator()</span> returns a toolbar item factory <span class="underline">org.ripla.web.interfaces.IToolbarItemCreator</span>:</p><pre class="pre">public interface IToolbarItemCreator {
-    Component createToolbarItem(RiplaApplication inApplication, User inUser);    
+  <section>
+  <h1>Creating Toolbar Items</h1>
+  <p> The toolbar item component, which is a Vaadin component, can be created either by <span class="underline">IToolbarItem.getComponent()</span> or by <span class="underline">IToolbarItem.getCreator()</span>. <span class="underline">IToolbarItem.getComponent()</span> returns the component directly whereas <span class="underline">IToolbarItem.getCreator()</span> returns a toolbar item factory <span class="underline">org.ripla.web.interfaces.IToolbarItemCreator</span>:</p>
+
+<pre>public interface IToolbarItemCreator {
+&#160;&#160;&#160; Component createToolbarItem(RiplaApplication inApplication, User inUser);&#160;&#160;&#160; 
 }
-</pre><p class="p">The aim of the latter approach is that using the factory, item creation is done by the method <span class="underline">IToolbarItemCreator.createToolbarItem()</span> which receives an instance of the Ripla application and a user instance. Thus, item creation can be done depending on the application's state and/or the user's permission.<br /></p></section>
+</pre>
+
+<p>The aim of the latter approach is that using the factory, item creation is done by the method <span class="underline">IToolbarItemCreator.createToolbarItem()</span> which receives an instance of the Ripla application and a user instance. Thus, item creation can be done depending on the application's state and/or the user's permission.<br></p>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

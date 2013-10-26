@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>Create Use Case Bundle</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href="../.." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="index">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,64 +38,55 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0 selected">
-        <a href="../../impl"
-           class="onbranch" title="Create Application">Create Application</a>
+        <a href="../../impl" title="Create Application" class="onbranch">Create Application</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1">
-        <a href="../../impl/app"
-           title="Create an Application Bundle">Create an Application Bundle</a>
+        <a href="../../impl/app" title="Create an Application Bundle">Create an Application Bundle</a>
         
       </li>
     
     
       <li class="level-1 selected">
-        <a href="../../impl/usecase"
-           class="onbranch" title="Use Case Bundle">Use Case Bundle</a>
+        <a href="../../impl/usecase" title="Use Case Bundle" class="onbranch">Use Case Bundle</a>
         
           
             <ul class="navigation-level-2">
     
       <li class="level-2">
-        <a href="../../impl/usecase/usecase.html"
-           title="Service Provider">Service Provider</a>
+        <a href="../../impl/usecase/usecase.html" title="Service Provider">Service Provider</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/ds.html"
-           title="Component Description">Component Description</a>
+        <a href="../../impl/usecase/ds.html" title="Component Description">Component Description</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/controller.html"
-           title="Controller Class">Controller Class</a>
+        <a href="../../impl/usecase/controller.html" title="Controller Class">Controller Class</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/viewcomponent.html"
-           title="View Component">View Component</a>
+        <a href="../../impl/usecase/viewcomponent.html" title="View Component">View Component</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/mainmenu.html"
-           title="Main Menu">Main Menu</a>
+        <a href="../../impl/usecase/mainmenu.html" title="Main Menu">Main Menu</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/usecase/contextmenu.html"
-           title="Context Menu">Context Menu</a>
+        <a href="../../impl/usecase/contextmenu.html" title="Context Menu">Context Menu</a>
         
       </li>
     
@@ -135,8 +97,7 @@
     
     
       <li class="level-1">
-        <a href="../../impl/skin"
-           title="Ripla Skins">Ripla Skins</a>
+        <a href="../../impl/skin" title="Ripla Skins">Ripla Skins</a>
         
       </li>
     
@@ -147,22 +108,19 @@
     
     
       <li class="level-0">
-        <a href="../../extend"
-           title="Extension Points">Extension Points</a>
+        <a href="../../extend" title="Extension Points">Extension Points</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -172,13 +130,41 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Create Use Case Bundle</h2><p class="p"> A <em>use case bundle</em> is an OSGi bundle containing both the logic as well as all the UI resources to handle a use case within the application. In the Demo application, there are two use cases implemented. The <em>Demonstrate Vaadin Widgets</em> use case and the <em>Application Configuration</em> use case.</p><p class="p">A use case bundle plugs technically into the Ripla platform by providing an implementation of the <span class="underline">org.ripla.web.services.IUseCase</span> service. The visual entry point of a use case is an entry in the main menu.</p><img src="../../impl/main_menu" alt="Main menu (Demo application)" class="float-left" /><p class="annotation">The Demo application's main menu displaying the entry points for two use cases.</p><p class="p">When the user hovers over the menu entry, the menu's structure is displayed and the user can click an entry in the pulldown menu.</p><p class="p">The Ripla platform leverages the <em>model-view-controller</em> (<em>MVC</em>) pattern. Clicking a menu item will call a <em>controller</em> which will eventually return a Vaadin <em>view</em> that is displayed in the applications main window. A view may have a context menu that allows to switch from the actual view to a different view suitable for the use case. Thus, the controller manages not only the view for the main menu, but the context menu too. The visual representation of this context menu is displayed in the sidebar panel.<br /></p><p class="p"> This behaviour is reflected by the <span class="underline">org.ripla.web.services.IUseCase</span> interface:</p><pre class="pre">public interface IUseCase {
-    Package getControllerClasses();    
-    IControllerSet getControllerSet();    
-    IMenuItem getMenu();   
-    IMenuSet[] getContextMenus();  
+  <section>
+  <h1>Create Use Case Bundle</h1>
+  <p> A <em>use case bundle</em> is an OSGi bundle containing both the logic as well as all the UI resources to handle a use case within the application. In the Demo application, there are two use cases implemented. The <em>Demonstrate Vaadin Widgets</em> use case and the <em>Application Configuration</em> use case.</p>
+
+<p>A use case bundle plugs technically into the Ripla platform by providing an implementation of the <span class="underline">org.ripla.web.services.IUseCase</span> service. The visual entry point of a use case is an entry in the main menu.</p>
+
+<div class="image float-left"><img alt="Main menu (Demo application)" height="40" width="178" src="../../impl/main_menu"></div>
+
+<p class="annotation">The Demo application's main menu displaying the entry points for two use cases.</p>
+
+<p>When the user hovers over the menu entry, the menu's structure is displayed and the user can click an entry in the pulldown menu.</p>
+
+<p>The Ripla platform leverages the <em>model-view-controller</em> (<em>MVC</em>) pattern. Clicking a menu item will call a <em>controller</em> which will eventually return a Vaadin <em>view</em> that is displayed in the applications main window. A view may have a context menu that allows to switch from the actual view to a different view suitable for the use case. Thus, the controller manages not only the view for the main menu, but the context menu too. The visual representation of this context menu is displayed in the sidebar panel.<br></p>
+
+<p> This behaviour is reflected by the <span class="underline">org.ripla.web.services.IUseCase</span> interface:</p>
+
+<pre>public interface IUseCase {
+&#160;&#160;&#160; Package getControllerClasses();&#160;&#160;&#160; 
+&#160;&#160;&#160; IControllerSet getControllerSet();&#160;&#160;&#160; 
+&#160;&#160;&#160; IMenuItem getMenu();&#160;&#160; 
+&#160;&#160;&#160; IMenuSet[] getContextMenus();&#160; 
 }
-</pre><p class="p">The method <span class="underline">IUseCase.getControllerClasses()</span> returns the package containing the use case's controller classes. A <em>Ripla controller</em> is a Java class implementing the <span class="underline">org.ripla.web.interfaces.IPluggable</span> interface and annotated with the class annotation <span class="underline">org.ripla.annotations.UseCaseController</span>. To make use case development easier, controller classes should extend <span class="underline">org.ripla.web.controllers.AbstractController</span> which provides basic functionality useful for all controllers. If <span class="underline">IUseCase.getControllerClasses()</span> returns a value not null, the application scans the whole package returned for controller classes and registers them at the application's controller manager. An alternative approach is provided by the <span class="underline">IUseCase.getControllerSet()</span> method. In this case, the use case implementer has to specify the controller classes in the <span class="underline">org.ripla.interfaces.IControllerSet</span> returned.</p><p class="p"> The method <span class="underline">IUseCase.getMenu()</span> returns the composite defining the use case's menu for the application's menu bar.</p><p class="p">The method <span class="underline">IUseCase.getContextMenus()</span> returns an array containing <span class="underline">org.ripla.web.interfaces.IMenuSet</span> instances. Each of these instances is identified by a set ID and contains a list of context menu items (<span class="underline">org.ripla.web.interfaces.IContextMenuItem</span>). If a controller wants to display a context menu (i.e. a set of context menu items), the only thing it has to do is to call the set with its set ID.</p><p class="p"> This description suggest the following steps to create a use case bundle for a Ripla application:</p><ol class="decimal"><li><a href="../../impl/usecase/usecase.html" title="Use Case Service Provider" target="_self">Implement the use case service provider class</a>, i.e. the class implementing the <span class="underline">org.ripla.web.services.IUseCase</span> interface.</li><li><a href="../../impl/usecase/ds.html" title="OSGi Component Description" target="_self">Write the OSGi component description</a> for that the OSGi container running the application can register the bundle as OSGi declarative service at the service registry.</li><li><a href="../../impl/usecase/controller.html" title="Use Case Controller Class" target="_self">Implement the use case controller classes</a> by writing Java classes extending <span class="underline">org.ripla.web.controllers.AbstractController</span> annotated with <span class="underline">@UseCaseController</span>.</li><li><a href="../../impl/usecase/viewcomponent.html" title="View Component" target="_self">Implement the view components</a> the controllers return. A view class is a Vaadin component (<span class="underline">com.vaadin.ui.Component</span>), usually it extends <span class="underline">com.vaadin.ui.CustomComponent</span>.</li><li><a href="../../impl/usecase/mainmenu.html" title="The Use Case's Main Menu" target="_self">Implement the use case's menu</a> entry and menu structure for the application's main menu bar.</li><li><a href="../../impl/usecase/contextmenu.html" title="The Context Menu" target="_self">Implement the set of context menus</a> useful for the use case.</li></ol></section>
+</pre>
+
+<p>The method <span class="underline">IUseCase.getControllerClasses()</span> returns the package containing the use case's controller classes. A <em>Ripla controller</em> is a Java class implementing the <span class="underline">org.ripla.web.interfaces.IPluggable</span> interface and annotated with the class annotation <span class="underline">org.ripla.annotations.UseCaseController</span>. To make use case development easier, controller classes should extend <span class="underline">org.ripla.web.controllers.AbstractController</span> which provides basic functionality useful for all controllers. If <span class="underline">IUseCase.getControllerClasses()</span> returns a value not null, the application scans the whole package returned for controller classes and registers them at the application's controller manager. An alternative approach is provided by the <span class="underline">IUseCase.getControllerSet()</span> method. In this case, the use case implementer has to specify the controller classes in the <span class="underline">org.ripla.interfaces.IControllerSet</span> returned.</p>
+
+<p> The method <span class="underline">IUseCase.getMenu()</span> returns the composite defining the use case's menu for the application's menu bar.</p>
+
+<p>The method <span class="underline">IUseCase.getContextMenus()</span> returns an array containing <span class="underline">org.ripla.web.interfaces.IMenuSet</span> instances. Each of these instances is identified by a set ID and contains a list of context menu items (<span class="underline">org.ripla.web.interfaces.IContextMenuItem</span>). If a controller wants to display a context menu (i.e. a set of context menu items), the only thing it has to do is to call the set with its set ID.</p>
+
+<p> This description suggest the following steps to create a use case bundle for a Ripla application:</p>
+
+<ol class="decimal"><li><a class="link" title="Use Case Service Provider" target="_self" href="../../impl/usecase/usecase.html">Implement the use case service provider class</a>, i.e. the class implementing the <span class="underline">org.ripla.web.services.IUseCase</span> interface.</li><li><a class="link" title="OSGi Component Description" target="_self" href="../../impl/usecase/ds.html">Write the OSGi component description</a> for that the OSGi container running the application can register the bundle as OSGi declarative service at the service registry.</li><li><a class="link" title="Use Case Controller Class" target="_self" href="../../impl/usecase/controller.html">Implement the use case controller classes</a> by writing Java classes extending <span class="underline">org.ripla.web.controllers.AbstractController</span> annotated with <span class="underline">@UseCaseController</span>.</li><li><a class="link" title="View Component" target="_self" href="../../impl/usecase/viewcomponent.html">Implement the view components</a> the controllers return. A view class is a Vaadin component (<span class="underline">com.vaadin.ui.Component</span>), usually it extends <span class="underline">com.vaadin.ui.CustomComponent</span>.</li><li><a class="link" title="The Use Case's Main Menu" target="_self" href="../../impl/usecase/mainmenu.html">Implement the use case's menu</a> entry and menu structure for the application's main menu bar.</li><li><a class="link" title="The Context Menu" target="_self" href="../../impl/usecase/contextmenu.html">Implement the set of context menus</a> useful for the use case.</li></ol>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

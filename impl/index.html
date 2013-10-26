@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>Developing a Ripla application</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href=".." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="index">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,29 +38,25 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0 selected">
-        <a href="../impl"
-           class="onbranch" title="Create Application">Create Application</a>
+        <a href="../impl" title="Create Application" class="onbranch">Create Application</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1">
-        <a href="../impl/app"
-           title="Create an Application Bundle">Create an Application Bundle</a>
+        <a href="../impl/app" title="Create an Application Bundle">Create an Application Bundle</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../impl/usecase"
-           title="Use Case Bundle">Use Case Bundle</a>
+        <a href="../impl/usecase" title="Use Case Bundle">Use Case Bundle</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../impl/skin"
-           title="Ripla Skins">Ripla Skins</a>
+        <a href="../impl/skin" title="Ripla Skins">Ripla Skins</a>
         
       </li>
     
@@ -100,22 +67,19 @@
     
     
       <li class="level-0">
-        <a href="../extend"
-           title="Extension Points">Extension Points</a>
+        <a href="../extend" title="Extension Points">Extension Points</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -125,9 +89,17 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Developing a Ripla application</h2><p class="p">To create a Ripla application, you have to do the following steps:</p><ol class="decimal"><li><a href="../impl/app" title="Create an Application Bundle" target="_self">Create an application bundle</a> containing the application's main class which has to extend <span class="underline">org.ripla.web.RiplaApplication</span>.</li><li><a href="../impl/usecase" title="Create use case bundle" target="_self">Create at least one use case bundle</a> containing a use case service implementation (i.e. a class implementing the <span class="underline">org.ripla.web.services.IUseCase</span> interface) as well as the use case's resources, i.e. views and controllers.</li><li><a href="../impl/skin" title="Ripla Skins" target="_self">Create
+  <section>
+  <h1>Developing a Ripla application</h1>
+  <p>To create a Ripla application, you have to do the following steps:</p>
+
+<ol class="decimal"><li><a class="link" title="Create an Application Bundle" target="_self" href="../impl/app">Create an application bundle</a> containing the application's main class which has to extend <span class="underline">org.ripla.web.RiplaApplication</span>.</li><li><a class="link" title="Create use case bundle" target="_self" href="../impl/usecase">Create at least one use case bundle</a> containing a use case service implementation (i.e. a class implementing the <span class="underline">org.ripla.web.services.IUseCase</span> interface) as well as the use case's resources, i.e. views and controllers.</li><li><a class="link" title="Ripla Skins" target="_self" href="../impl/skin">Create
  a bundle fragment</a> containing the layout resources, i.e. style sheets 
-and images for the layout you want to use for your application.</li><li><a href="../impl/skin" title="Ripla Skins" target="_self">Create a skin bundle</a> for your application, i.e. a component containing the service provider for <span class="underline">org.ripla.web.services.ISkin</span> and referencing the skin bundle fragment.</li><li>Collect other OSGi bundles you need for the application's business or persistence layer (e.g. service providers for the <span class="underline">org.osgi.service.jdbc.DataSourceFactory</span> service).</li></ol><p class="p"> <strong>Note</strong>: throughout this document, the term bundle stands for OSGi bundle.</p></section>
+and images for the layout you want to use for your application.</li><li><a class="link" title="Ripla Skins" target="_self" href="../impl/skin">Create a skin bundle</a> for your application, i.e. a component containing the service provider for <span class="underline">org.ripla.web.services.ISkin</span> and referencing the skin bundle fragment.</li><li>Collect other OSGi bundles you need for the application's business or persistence layer (e.g. service providers for the <span class="underline">org.osgi.service.jdbc.DataSourceFactory</span> service).</li></ol>
+
+<p> <strong>Note</strong>: throughout this document, the term bundle stands for OSGi bundle.</p>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>User Store</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href="../.." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="userstore">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,65 +38,55 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0">
-        <a href="../../impl"
-           title="Create Application">Create Application</a>
+        <a href="../../impl" title="Create Application">Create Application</a>
         
       </li>
     
     
       <li class="level-0 selected">
-        <a href="../../extend"
-           class="onbranch" title="Extension Points">Extension Points</a>
+        <a href="../../extend" title="Extension Points" class="onbranch">Extension Points</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1">
-        <a href="../../extend/usecase"
-           title="Use Case Service">Use Case Service</a>
+        <a href="../../extend/usecase" title="Use Case Service">Use Case Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/skin"
-           title="Skin Service">Skin Service</a>
+        <a href="../../extend/skin" title="Skin Service">Skin Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/toolbar"
-           title="Toolbar Service">Toolbar Service</a>
+        <a href="../../extend/toolbar" title="Toolbar Service">Toolbar Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/extendible"
-           title="Extendible Menu Service">Extendible Menu Service</a>
+        <a href="../../extend/extendible" title="Extendible Menu Service">Extendible Menu Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/permission"
-           title="Permission Service">Permission Service</a>
+        <a href="../../extend/permission" title="Permission Service">Permission Service</a>
         
       </li>
     
     
       <li class="level-1 selected">
-        <a href="../../extend/useadmin"
-           class="onbranch"
-           title="User Administration Service">User Administration Service</a>
+        <a href="../../extend/useadmin" title="User Administration Service" class="onbranch">User Administration Service</a>
         
           
             <ul class="navigation-level-2">
     
       <li class="level-2 selected">
-        <a href="../../extend/useadmin/userstore.html"
-           class="selected" title="User Store">User Store</a>
+        <a href="../../extend/useadmin/userstore.html" title="User Store" class="selected">User Store</a>
         
       </li>
     
@@ -141,15 +102,13 @@
     
     
       <li class="level-0">
-        <a href="../../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -159,17 +118,29 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">User Store</h2><p class="p"> In the case of the Demo application, the user admin implementation uses the <em>OSGi Preferences Service</em>
+  <section>
+  <h1>User Store</h1>
+  <p> In the case of the Demo application, the user admin implementation uses the <em>OSGi Preferences Service</em>
  to store the roles, users and groups needed by the application. If you 
 prefer to store the user and group information in a database, you can 
 provide your own user admin implementation based on the Ripla user 
-admin. To do so, you can extend <span class="underline">org.ripla.useradmin.admin.RiplaUserAdmin</span> and override the method <span class="underline">RiplaUserAdmin.createUserAdminStore()</span> to provide your implementation of the user store. E.g.:</p><pre class="pre">public class MyUserAdmin extends RiplaUserAdmin {
-    protected IUserAdminStore createUserAdminStore() {
-        return new MyUsersInDB();
-    }
+admin. To do so, you can extend <span class="underline">org.ripla.useradmin.admin.RiplaUserAdmin</span> and override the method <span class="underline">RiplaUserAdmin.createUserAdminStore()</span> to provide your implementation of the user store. E.g.:</p>
+
+<pre>public class MyUserAdmin extends RiplaUserAdmin {
+&#160;&#160;&#160; protected IUserAdminStore createUserAdminStore() {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; return new MyUsersInDB();
+&#160;&#160;&#160; }
 //...
 }
-</pre><p class="p">The user store instance has to implement the interface <span class="underline">org.ripla.useradmin.interfaces.IUserAdminStore</span>.</p><p class="p">See <a href="../../extend/useadmin" title="User Administration Service" target="_self">User Admin Service</a> for the other steps to create a component description.</p><p class="p">Don't forget to load the user's into your application on demand. In the case of the Demo application, this is done in the action that binds the user admin service to the application. <br /></p></section>
+</pre>
+
+<p>The user store instance has to implement the interface <span class="underline">org.ripla.useradmin.interfaces.IUserAdminStore</span>.</p>
+
+<p>See <a class="link" title="User Administration Service" target="_self" href="../../extend/useadmin">User Admin Service</a> for the other steps to create a component description.</p>
+
+<p>Don't forget to load the user's into your application on demand. In the case of the Demo application, this is done in the action that binds the user admin service to the application. <br></p>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

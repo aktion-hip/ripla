@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>Ripla with Eclipse</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href=".." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="ripla_devel">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,36 +38,31 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0">
-        <a href="../impl"
-           title="Create Application">Create Application</a>
+        <a href="../impl" title="Create Application">Create Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../extend"
-           title="Extension Points">Extension Points</a>
+        <a href="../extend" title="Extension Points">Extension Points</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0 selected">
-        <a href="../downloads"
-           class="onbranch" title="Downloads">Downloads</a>
+        <a href="../downloads" title="Downloads" class="onbranch">Downloads</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1 selected">
-        <a href="../downloads/ripla_devel.html"
-           class="selected" title="Ripla with Eclipse">Ripla with Eclipse</a>
+        <a href="../downloads/ripla_devel.html" title="Ripla with Eclipse" class="selected">Ripla with Eclipse</a>
         
       </li>
     
@@ -111,22 +77,48 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Ripla with Eclipse</h2><p class="p">Steps to
-create the environment to develop <em>Ripla</em> bundles in Eclipse. <br /></p><h4 class="heading">1. Check out
-Ripla code with Git Repository Exploring</h4><p class="p">Git
-Repository Exploring -&gt; Clone Git Repository -&gt; URI -&gt; enter <a href="https://github.com/aktion-hip/ripla.git" title="" target="">https://github.com/aktion-hip/ripla.git</a> -&gt; choose master branch, clone
-repository in local directory</p><h4 class="heading">2. Import
-Ripla projects in Eclipse workspace</h4><p class="p">In Git Repository Exploring call context
-menu on project checked out -&gt; choose "Import Projects…" -&gt; "Import existing
-project", iterate steps for every project you want to import</p><h4 class="heading">3. Activate
-Ripla target </h4><ol class="decimal"><li>Download <em>org.ripla.target.zip</em> and extract its content in your file system.</li><li>Import the project extracted from <em>org.ripla.target.zip</em>: <em>File -&gt; Import... -&gt; Existing Projects into Workspace</em>.</li><li>Open the project <em>org.ripla.target</em> and open the file <em>ripla.target</em> within this project. This will display the target editor in your IDE.</li><li>Click the link <em>Set as Target Platform</em> in the<em> </em>upper
+  <section>
+  <h1>Ripla with Eclipse</h1>
+  <p>Steps to
+create the environment to develop <em>Ripla</em> bundles in Eclipse. <br></p>
+
+<h3>1. Check out
+Ripla code with Git Repository Exploring</h3>
+
+<p>Git
+Repository Exploring -&gt; Clone Git Repository -&gt; URI -&gt; enter <a class="link" title="" target="" href="https://github.com/aktion-hip/ripla.git">https://github.com/aktion-hip/ripla.git</a> -&gt; choose master branch, clone
+repository in local directory</p>
+
+<h3>2. Import
+Ripla projects in Eclipse workspace</h3>
+
+<p>In Git Repository Exploring call context
+menu on project checked out -&gt; choose "Import Projects&#8230;" -&gt; "Import existing
+project", iterate steps for every project you want to import</p>
+
+<h3>3. Activate
+Ripla target </h3>
+
+<ol class="decimal"><li>Download <em>org.ripla.target.zip</em> and extract its content in your file system.</li><li>Import the project extracted from <em>org.ripla.target.zip</em>: <em>File -&gt; Import... -&gt; Existing Projects into Workspace</em>.</li><li>Open the project <em>org.ripla.target</em> and open the file <em>ripla.target</em> within this project. This will display the target editor in your IDE.</li><li>Click the link <em>Set as Target Platform</em> in the<em> </em>upper
  right corner of the target editor. Thus, the Ripla target is activated 
-and you're prepared to start with Ripla programming!</li></ol><h4 class="heading">4. Import
-launch configuration</h4><p class="p">"Import…"
--&gt; "Launch Configurations", enter or select directory, select "Ripla-Demo.launch"</p><h4 class="heading">5. Start/Debug
-program in Eclipse</h4><p class="p">Debug -&gt; "Debug Configurations…" -&gt; OSGi Framework -&gt; select "Ripla-Demo" -&gt; button "Debug" starts the program in debug mode on port 8080 -&gt; <a href="http://localhost:8080/demo" title="" target="">http://localhost:8080/demo</a> <br />(<a href="http://localhost:8080/system/console" title="" target="">http://localhost:8080/system/console</a> for Felix Web Console)</p><p class="p">After
+and you're prepared to start with Ripla programming!</li></ol>
+
+<h3>4. Import
+launch configuration</h3>
+
+<p>"Import&#8230;"
+-&gt; "Launch Configurations", enter or select directory, select "Ripla-Demo.launch"</p>
+
+<h3>5. Start/Debug
+program in Eclipse</h3>
+
+<p>Debug -&gt; "Debug Configurations&#8230;" -&gt; OSGi Framework -&gt; select "Ripla-Demo" -&gt; button "Debug" starts the program in debug mode on port 8080 -&gt; <a class="link" title="" target="" href="http://localhost:8080/demo">http://localhost:8080/demo</a> <br>(<a class="link" title="" target="" href="http://localhost:8080/system/console">http://localhost:8080/system/console</a> for Felix Web Console)</p>
+
+<p>After
 having developed your own bundles for your Ripla application, you have to add
-them to the application’s launch configuration for that they are started.</p></section>
+them to the application&#8217;s launch configuration for that they are started.</p>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

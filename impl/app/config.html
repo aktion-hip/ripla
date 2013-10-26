@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>Application Configuration</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href="../.." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="config">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,45 +38,37 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0 selected">
-        <a href="../../impl"
-           class="onbranch" title="Create Application">Create Application</a>
+        <a href="../../impl" title="Create Application" class="onbranch">Create Application</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1 selected">
-        <a href="../../impl/app"
-           class="onbranch"
-           title="Create an Application Bundle">Create an Application Bundle</a>
+        <a href="../../impl/app" title="Create an Application Bundle" class="onbranch">Create an Application Bundle</a>
         
           
             <ul class="navigation-level-2">
     
       <li class="level-2 selected">
-        <a href="../../impl/app/config.html"
-           class="selected"
-           title="Application Configuration">Application Configuration</a>
+        <a href="../../impl/app/config.html" title="Application Configuration" class="selected">Application Configuration</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/app/body.html"
-           title="Application Layout">Application Layout</a>
+        <a href="../../impl/app/body.html" title="Application Layout">Application Layout</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/app/users.html"
-           title="Users and Permissions">Users and Permissions</a>
+        <a href="../../impl/app/users.html" title="Users and Permissions">Users and Permissions</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../impl/app/workflow.html"
-           title="Configuration Workflow">Configuration Workflow</a>
+        <a href="../../impl/app/workflow.html" title="Configuration Workflow">Configuration Workflow</a>
         
       </li>
     
@@ -116,15 +79,13 @@
     
     
       <li class="level-1">
-        <a href="../../impl/usecase"
-           title="Use Case Bundle">Use Case Bundle</a>
+        <a href="../../impl/usecase" title="Use Case Bundle">Use Case Bundle</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../impl/skin"
-           title="Ripla Skins">Ripla Skins</a>
+        <a href="../../impl/skin" title="Ripla Skins">Ripla Skins</a>
         
       </li>
     
@@ -135,22 +96,19 @@
     
     
       <li class="level-0">
-        <a href="../../extend"
-           title="Extension Points">Extension Points</a>
+        <a href="../../extend" title="Extension Points">Extension Points</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -160,13 +118,27 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Application Configuration</h2><p class="p">You can configure your application by overwriting <span class="underline">RiplaApplication.getAppConfiguration()</span>. This method returns a <span class="underline">org.ripla.web.interfaces.IAppConfiguration</span> object with the following interface:</p><pre class="pre">public interface IAppConfiguration {
-    IAuthenticator getLoginAuthenticator();
-    String getWelcome();
-    String getDftSkinID();
-    String getAppName();    
+  <section>
+  <h1>Application Configuration</h1>
+  <p>You can configure your application by overwriting <span class="underline">RiplaApplication.getAppConfiguration()</span>. This method returns a <span class="underline">org.ripla.web.interfaces.IAppConfiguration</span> object with the following interface:</p>
+
+<pre>public interface IAppConfiguration {
+&#160;&#160;&#160; IAuthenticator getLoginAuthenticator();
+&#160;&#160;&#160; String getWelcome();
+&#160;&#160;&#160; String getDftSkinID();
+    String getAppName();&#160;&#160;&#160; 
 }
-</pre><p class="p"><span class="underline">IAppConfiguration.getLoginAuthenticator()</span> returns the application's login authenticator (i.e. an instance of <span class="underline">org.ripla.web.interfaces.IAuthenticator</span>). This return value is only relevant if the application needs login.<br /></p><p class="p"><span class="underline">IAppConfiguration.getWelcome()</span> returns the welcome title displayed on the application's login page. This return value is only relevant if the application has a login page.<br /></p><p class="p"><span class="underline">IAppConfiguration.getDftSkinID()</span> returns the ID of the skin intended to be used by the application.<br /></p><p class="p"> <span class="underline">IAppConfiguration.getAppName()</span> returns the name of the application.<span class="underline"><br /></span></p></section>
+</pre>
+
+<p><span class="underline">IAppConfiguration.getLoginAuthenticator()</span> returns the application's login authenticator (i.e. an instance of <span class="underline">org.ripla.web.interfaces.IAuthenticator</span>). This return value is only relevant if the application needs login.<br></p>
+
+<p><span class="underline">IAppConfiguration.getWelcome()</span> returns the welcome title displayed on the application's login page. This return value is only relevant if the application has a login page.<br></p>
+
+<p><span class="underline">IAppConfiguration.getDftSkinID()</span> returns the ID of the skin intended to be used by the application.<br></p>
+
+<p> <span class="underline">IAppConfiguration.getAppName()</span> returns the name of the application.<span class="underline"><br></span></p>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

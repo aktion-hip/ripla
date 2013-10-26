@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>Controller Class</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href="../.." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="controller">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,43 +38,37 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0">
-        <a href="../../impl"
-           title="Create Application">Create Application</a>
+        <a href="../../impl" title="Create Application">Create Application</a>
         
       </li>
     
     
       <li class="level-0 selected">
-        <a href="../../extend"
-           class="onbranch" title="Extension Points">Extension Points</a>
+        <a href="../../extend" title="Extension Points" class="onbranch">Extension Points</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1 selected">
-        <a href="../../extend/usecase"
-           class="onbranch" title="Use Case Service">Use Case Service</a>
+        <a href="../../extend/usecase" title="Use Case Service" class="onbranch">Use Case Service</a>
         
           
             <ul class="navigation-level-2">
     
       <li class="level-2 selected">
-        <a href="../../extend/usecase/controller.html"
-           class="selected" title="Controller Class">Controller Class</a>
+        <a href="../../extend/usecase/controller.html" title="Controller Class" class="selected">Controller Class</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../extend/usecase/mainmenu.html"
-           title="Main Menu">Main Menu</a>
+        <a href="../../extend/usecase/mainmenu.html" title="Main Menu">Main Menu</a>
         
       </li>
     
     
       <li class="level-2">
-        <a href="../../extend/usecase/contextmenu.html"
-           title="Context Menu">Context Menu</a>
+        <a href="../../extend/usecase/contextmenu.html" title="Context Menu">Context Menu</a>
         
       </li>
     
@@ -114,36 +79,31 @@
     
     
       <li class="level-1">
-        <a href="../../extend/skin"
-           title="Skin Service">Skin Service</a>
+        <a href="../../extend/skin" title="Skin Service">Skin Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/toolbar"
-           title="Toolbar Service">Toolbar Service</a>
+        <a href="../../extend/toolbar" title="Toolbar Service">Toolbar Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/extendible"
-           title="Extendible Menu Service">Extendible Menu Service</a>
+        <a href="../../extend/extendible" title="Extendible Menu Service">Extendible Menu Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/permission"
-           title="Permission Service">Permission Service</a>
+        <a href="../../extend/permission" title="Permission Service">Permission Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../../extend/useadmin"
-           title="User Administration Service">User Administration Service</a>
+        <a href="../../extend/useadmin" title="User Administration Service">User Administration Service</a>
         
       </li>
     
@@ -154,15 +114,13 @@
     
     
       <li class="level-0">
-        <a href="../../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -172,15 +130,29 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Controller Class</h2><p class="p">The use case's control center is formed by the controller classes. A <em>Ripla controller</em> is a Java class implementing the <span class="underline">org.ripla.web.interfaces.IPluggable</span> interface and annotated with the class annotation <span class="underline">@org.ripla.web.annotations.UseCaseController</span>.</p><p class="p">To make use case development easier, controller classes should extend <span class="underline">org.ripla.web.controllers.AbstractController</span> which provides basic functionality useful for all controllers. By extending <span class="underline">AbstractController</span>, use case implementors can focus on the business logic as the only thing they have to do is to provide implementations for the abstract methods <span class="underline">AbstractController.needsPermission()</span> and <span class="underline">AbstractController.runChecked()</span>. See <a href="../../impl/usecase/controller.html" title="Use Case Controller Class" target="_self">Use Case Controller Class</a> for an example.<br /></p><p class="p">Ripla offers two methods how controller classes provided by a use case bundles are looked up. <span class="underline">IUseCase.getControllerClasses()</span> returns a package (<span class="underline">java.lang.Package</span>) within the use case bundle. The Ripla application will register all classes found in the specified package at the application's controller manager, provided they implement the <span class="underline">IPluggable</span> interface and are annoteted with <span class="underline">@UseCaseController</span>.</p><p class="p">An alternative approach is provided by the <span class="underline">IUseCase.getControllerSet()</span> method. In this case, the use case implementer has to specify the controller classes in the <span class="underline">org.ripla.web.interfaces.IControllerSet</span> returned.</p><pre class="pre">public interface IControllerSet {
-    IControllerConfiguration[] getControllerConfigurations();
+  <section>
+  <h1>Controller Class</h1>
+  <p>The use case's control center is formed by the controller classes. A <em>Ripla controller</em> is a Java class implementing the <span class="underline">org.ripla.web.interfaces.IPluggable</span> interface and annotated with the class annotation <span class="underline">@org.ripla.web.annotations.UseCaseController</span>.</p>
+
+<p>To make use case development easier, controller classes should extend <span class="underline">org.ripla.web.controllers.AbstractController</span> which provides basic functionality useful for all controllers. By extending <span class="underline">AbstractController</span>, use case implementors can focus on the business logic as the only thing they have to do is to provide implementations for the abstract methods <span class="underline">AbstractController.needsPermission()</span> and <span class="underline">AbstractController.runChecked()</span>. See <a class="link" title="Use Case Controller Class" target="_self" href="../../impl/usecase/controller">Use Case Controller Class</a> for an example.<br></p>
+
+<p>Ripla offers two methods how controller classes provided by a use case bundles are looked up. <span class="underline">IUseCase.getControllerClasses()</span> returns a package (<span class="underline">java.lang.Package</span>) within the use case bundle. The Ripla application will register all classes found in the specified package at the application's controller manager, provided they implement the <span class="underline">IPluggable</span> interface and are annoteted with <span class="underline">@UseCaseController</span>.</p>
+
+<p>An alternative approach is provided by the <span class="underline">IUseCase.getControllerSet()</span> method. In this case, the use case implementer has to specify the controller classes in the <span class="underline">org.ripla.web.interfaces.IControllerSet</span> returned.</p>
+
+<pre>public interface IControllerSet {
+&#160;&#160;&#160; IControllerConfiguration[] getControllerConfigurations();
 }
 
 public interface IControllerConfiguration {
-    Bundle getBundle();
-    String getControllerName();
+&#160;&#160;&#160; Bundle getBundle();
+&#160;&#160;&#160; String getControllerName();
 }
-</pre><p class="p"><span class="underline">IControllerSet.getControllerConfigurations()</span> returns an array of objects implementing the <span class="underline">org.ripla.web.interfaces.IControllerConfiguration</span> interface. The controller configuration has to specify the bundle providing the controller (<span class="underline">IControllerConfiguration.getBundle()</span>) and the (fully qualified) name of the controller class (<span class="underline">IControllerConfiguration.getControllerName()</span>). Again, the controller class specified this way has to implement the <span class="underline">IPluggable</span> interface.<br /></p></section>
+</pre>
+
+<p><span class="underline">IControllerSet.getControllerConfigurations()</span> returns an array of objects implementing the <span class="underline">org.ripla.web.interfaces.IControllerConfiguration</span> interface. The controller configuration has to specify the bundle providing the controller (<span class="underline">IControllerConfiguration.getBundle()</span>) and the (fully qualified) name of the controller class (<span class="underline">IControllerConfiguration.getControllerName()</span>). Again, the controller class specified this way has to implement the <span class="underline">IPluggable</span> interface.<br></p>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>

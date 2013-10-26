@@ -1,50 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../res/Products.RiplaLayout/styles.css" />
 
-
-    <title>Ripla</title>
+    <title>Ripla Extension Points</title>
+    
     <meta name="generator" content="Silva" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9" />
-    <meta name="description"
-          content="Rich Platform project for Java web applications." />
     
+    <link rel="shortcut icon" href="../res/silva.core.layout.porto/favicon.ico" />
 
-    <meta name="robots" content="all,follow" />
-  
-    <meta name="copyright" content="Code: Benno Luthiger, RelationWare" />      
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="index" title="Home"
-          href=".." />
-    
-
-  
-
-    <style media="all" type="text/css">
-      <!-- @import url("../res/resource.css"); -->
-    </style>
-
-    
-
-  
-
-
-
-    <!-- Injector for content-specific css/js inclusion -->
+    <!-- Injector for on-the-fly inclusion -->
     
 
 
-    <!-- 
-    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/@@absolute_url}/++resource++Products.RipalLayout/favicon.ico"/>
-     -->
   </head>
 
-  <body>
+  <body id="index">
     <div class="wrapper">
   <header>
     <h1 class="header">
@@ -67,57 +38,49 @@
   <ul id="navigation-menu" class="navigation-level-0">
     
       <li class="level-0">
-        <a href="../impl"
-           title="Create Application">Create Application</a>
+        <a href="../impl" title="Create Application">Create Application</a>
         
       </li>
     
     
       <li class="level-0 selected">
-        <a href="../extend"
-           class="onbranch" title="Extension Points">Extension Points</a>
+        <a href="../extend" title="Extension Points" class="onbranch">Extension Points</a>
         
           
             <ul class="navigation-level-1">
     
       <li class="level-1">
-        <a href="../extend/usecase"
-           title="Use Case Service">Use Case Service</a>
+        <a href="../extend/usecase" title="Use Case Service">Use Case Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../extend/skin"
-           title="Skin Service">Skin Service</a>
+        <a href="../extend/skin" title="Skin Service">Skin Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../extend/toolbar"
-           title="Toolbar Service">Toolbar Service</a>
+        <a href="../extend/toolbar" title="Toolbar Service">Toolbar Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../extend/extendible"
-           title="Extendible Menu Service">Extendible Menu Service</a>
+        <a href="../extend/extendible" title="Extendible Menu Service">Extendible Menu Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../extend/permission"
-           title="Permission Service">Permission Service</a>
+        <a href="../extend/permission" title="Permission Service">Permission Service</a>
         
       </li>
     
     
       <li class="level-1">
-        <a href="../extend/useadmin"
-           title="User Administration Service">User Administration Service</a>
+        <a href="../extend/useadmin" title="User Administration Service">User Administration Service</a>
         
       </li>
     
@@ -128,15 +91,13 @@
     
     
       <li class="level-0">
-        <a href="../demo"
-           title="Ripla Demo Application">Ripla Demo Application</a>
+        <a href="../demo" title="Ripla Demo Application">Ripla Demo Application</a>
         
       </li>
     
     
       <li class="level-0">
-        <a href="../downloads"
-           title="Downloads">Downloads</a>
+        <a href="../downloads" title="Downloads">Downloads</a>
         
       </li>
     
@@ -146,7 +107,17 @@
     </ul>    
   </sidebar>
   
-  <section><h2 class="heading">Ripla Extension Points</h2><p class="p">The Ripla platform defines various extension points where you can dynamically plug in functionality. These extension points are implemented using the <a href="http://wiki.osgi.org/wiki/Declarative_Services" title="" target="_blank"><em>OSGi Declarative Services</em></a> approach. A Ripla plug-in, therefore, is an OSGi bundle. Extending Ripla means that you have to write an OSGi component providing an implementation of a service defined by the Ripla platform.<br /></p><h3 class="heading">Ripla services</h3><p class="p">Here's the list of Ripla services you can write implementations for:<br /></p><dl class="dl"><dt><a href="../extend/usecase" title="Use Case Service" target="_self">org.ripla.web.services.IUseCase</a></dt><dd>the Ripla service to manage the configured use cases</dd><dt><a href="../extend/skin" title="Skin Service" target="_self">org.ripla.web.services.ISkinService</a></dt><dd>the Ripla service to manage skins</dd><dt><a href="../extend/toolbar" title="Toolbar Service" target="_self">org.ripla.web.services.IToolbarItem</a></dt><dd>the Ripla service to manage the entries for the application's toolbar</dd><dt><a href="../extend/extendible" title="Extendible Menu Service" target="_self">org.ripla.services.IExtendibleMenuContribution</a></dt><dd>the Ripla service to manage the menus for an extendible menu</dd><dt><a href="../extend/permission" title="Permission Service" target="_self">org.ripla.services.IPermissionEntry</a></dt><dd>the Ripla service to manage permission entries</dd><dt><a href="../extend/useadmin" title="User Administration Service" target="_self">org.osgi.service.useradmin.UserAdmin</a></dt><dd>the OSGi user admin service for user administration</dd></dl></section>
+  <section>
+  <h1>Ripla Extension Points</h1>
+  <p>The Ripla platform defines various extension points where you can dynamically plug in functionality. These extension points are implemented using the <a class="link" title="" target="_blank" href="http://wiki.osgi.org/wiki/Declarative_Services"><em>OSGi Declarative Services</em></a> approach. A Ripla plug-in, therefore, is an OSGi bundle. Extending Ripla means that you have to write an OSGi component providing an implementation of a service defined by the Ripla platform.<br></p>
+
+<h2>Ripla services</h2>
+
+<p>Here's the list of Ripla services you can write implementations for:<br></p>
+
+<dl class="dl"><dt><a class="link" title="Use Case Service" target="_self" href="../extend/usecase">org.ripla.web.services.IUseCase</a></dt><dd>the Ripla service to manage the configured use cases</dd><dt><a class="link" title="Skin Service" target="_self" href="../extend/skin">org.ripla.web.services.ISkinService</a></dt><dd>the Ripla service to manage skins</dd><dt><a class="link" title="Toolbar Service" target="_self" href="../extend/toolbar">org.ripla.web.services.IToolbarItem</a></dt><dd>the Ripla service to manage the entries for the application's toolbar</dd><dt><a class="link" title="Extendible Menu Service" target="_self" href="../extend/extendible">org.ripla.services.IExtendibleMenuContribution</a></dt><dd>the Ripla service to manage the menus for an extendible menu</dd><dt><a class="link" title="Permission Service" target="_self" href="../extend/permission">org.ripla.services.IPermissionEntry</a></dt><dd>the Ripla service to manage permission entries</dd><dt><a class="link" title="User Administration Service" target="_self" href="../extend/useadmin">org.osgi.service.useradmin.UserAdmin</a></dt><dd>the OSGi user admin service for user administration</dd></dl>
+
+</section>
 
   <footer>
     <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
