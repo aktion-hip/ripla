@@ -18,6 +18,7 @@ import org.osgi.service.useradmin.Authorization;
 import org.osgi.service.useradmin.Role;
 import org.osgi.service.useradmin.User;
 import org.osgi.service.useradmin.UserAdmin;
+import org.ripla.exceptions.NoControllerFoundException;
 import org.ripla.exceptions.RiplaException;
 import org.ripla.interfaces.IRiplaEventDispatcher;
 import org.ripla.interfaces.IRiplaEventDispatcher.Event;
@@ -26,6 +27,7 @@ import org.ripla.util.PreferencesHelper;
 import org.ripla.web.Constants;
 import org.ripla.web.exceptions.PermissionsNotSufficientException;
 import org.ripla.web.interfaces.IPluggable;
+import org.ripla.web.internal.services.UseCaseRegistry;
 import org.ripla.web.util.UseCaseHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -185,6 +187,36 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	protected final String createFullyQualifiedControllerName(
 			final Class<? extends IPluggable> inController) {
 		return UseCaseHelper.createFullyQualifiedControllerName(inController);
+	}
+
+	/**
+	 * Forwards the control to the specified controller.
+	 * 
+	 * @param inController
+	 *            {@link IPluggable} the controller to forward to
+	 * @return {@link Component} the component rendered by the forwarded
+	 *         controller
+	 * @throws NoControllerFoundException
+	 */
+	protected final Component forwardTo(
+			final Class<? extends IPluggable> inController)
+			throws NoControllerFoundException {
+		return forwardTo(createFullyQualifiedControllerName(inController));
+	}
+
+	/**
+	 * Forwards the control to the specified controller.
+	 * 
+	 * @param inControllerName
+	 *            String the fully qualified name of the controller
+	 * @return {@link Component} the component rendered by the forwarded
+	 *         controller
+	 * @throws NoControllerFoundException
+	 */
+	protected final Component forwardTo(final String inControllerName)
+			throws NoControllerFoundException {
+		return UseCaseRegistry.INSTANCE.getControllerManager().getContent(
+				inControllerName);
 	}
 
 	/**

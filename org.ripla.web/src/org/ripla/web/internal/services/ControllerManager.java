@@ -23,6 +23,7 @@ import org.ripla.interfaces.IControllerSet;
 import org.ripla.web.Constants;
 import org.ripla.web.interfaces.IPluggable;
 import org.ripla.web.internal.views.DefaultRiplaView;
+import org.ripla.web.util.ControllerStack;
 import org.ripla.web.util.UseCaseHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +72,11 @@ public final class ControllerManager {
 	private Component runController(final BundleClassLoader inLoader) {
 		try {
 			final IPluggable lController = inLoader.createLoader();
+			// manage user admin
 			lController.setUserAdmin(userAdmin);
+			// push controller to history
+			ControllerStack.getControllerStack().push(lController);
+			// manage menu activity settings
 			setActiveMenuItem(inLoader.getSymbolicName());
 			return lController.run();
 		}

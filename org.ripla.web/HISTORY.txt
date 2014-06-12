@@ -1,0 +1,15 @@
+HISTORY org.ripla.web
+=====================
+
+2.0.2 (2014/03/29)
+==================
+
+2014/04/04:
+    - org.ripla.web.controllers.AbstractController:
+        - Added method AbstractController.forwardTo().
+
+2014/03/29:
+    - org.ripla.web.controllers.ForwardController:
+        - Controller forwarding functionality.
+    - org.ripla.web.internal.services.ControllerManager / org.ripla.web.util.ControllerStack:
+        - Added controller stack to provide functionality to step back to previous view states.
