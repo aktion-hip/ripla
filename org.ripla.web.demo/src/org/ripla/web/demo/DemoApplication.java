@@ -23,6 +23,7 @@ import org.ripla.web.RiplaApplication;
 import org.ripla.web.demo.exp.Constants;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.server.Page;
 
 /**
  * The Demo application class.
@@ -33,6 +34,12 @@ import com.vaadin.annotations.Theme;
 @Theme("org.ripla.web.demo.skin")
 public class DemoApplication extends RiplaApplication {
 	private static final String APP_NAME = "Ripla Demo Application";
+
+	@Override
+	protected void beforeInitializeLayout() {
+		Page.getCurrent().setTitle(APP_NAME);
+		super.beforeInitializeLayout();
+	}
 
 	@Override
 	protected IAppConfiguration getAppConfiguration() {
@@ -80,6 +87,11 @@ public class DemoApplication extends RiplaApplication {
 			@Override
 			public String getAppName() {
 				return APP_NAME;
+			}
+
+			@Override
+			public String getMenuTagFilter() {
+				return null;
 			}
 		};
 	}

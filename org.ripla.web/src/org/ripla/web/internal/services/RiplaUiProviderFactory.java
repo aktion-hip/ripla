@@ -14,6 +14,7 @@ package org.ripla.web.internal.services;
 import org.lunifera.runtime.web.vaadin.osgi.common.CustomOSGiUiProvider;
 import org.lunifera.runtime.web.vaadin.osgi.common.IOSGiUiProviderFactory;
 
+import com.vaadin.server.RequestHandler;
 import com.vaadin.ui.UI;
 
 /**
@@ -27,11 +28,35 @@ import com.vaadin.ui.UI;
  */
 public class RiplaUiProviderFactory implements IOSGiUiProviderFactory {
 
+	private RequestHandler requestHandler;
+
 	@Override
 	public CustomOSGiUiProvider createUiProvider(
 			final String inVaadinApplication,
 			final Class<? extends UI> inUiClass) {
-		return new RiplaUIProvider(inVaadinApplication, inUiClass);
+		return new RiplaUIProvider(inVaadinApplication, inUiClass,
+				requestHandler);
+	}
+
+	/**
+	 * Applications can provide an application level <code>RequestHandler</code>
+	 * . Such a RequestHandler instance is bound here.
+	 * 
+	 * @param inRequestHandler
+	 *            {@link RequestHandler}
+	 */
+	public void setRequestHandler(RequestHandler inRequestHandler) {
+		requestHandler = inRequestHandler;
+	}
+
+	/**
+	 * Unbind the specified <code>RequestHandler</code>.
+	 * 
+	 * @param inRequestHandler
+	 *            {@link RequestHandler}
+	 */
+	public void ussetRequestHandler(RequestHandler inRequestHandler) {
+		requestHandler = null;
 	}
 
 }

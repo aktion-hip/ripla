@@ -62,6 +62,7 @@ import com.vaadin.ui.VerticalLayout;
  * Subclasses may override the following methods:
  * <ul>
  * <li><code>RiplaBody.{@link #initializeLayout()}</code></li>
+ * <li><code>RiplaBody.{@link #createToolbar()}</code></li>
  * <li><code>RiplaBody.{@link #createParametersForContextMenu()}</code></li>
  * <li><code>RiplaBody.{@link #setContextMenu(String)}</code></li>
  * <li><code>RiplaBody.{@link #afterMenuClick()}</code></li>
@@ -85,21 +86,25 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 	private final ISkin skin;
 	private final RiplaApplication application;
 
+	private String menuTagFilter;
 	private MenuBar menuBar;
 
 	/**
-	 * Private constructor.
+	 * Protected constructor.
 	 * 
 	 * @param inSkin
 	 *            {@link ISkin}
 	 * @param inApplication
 	 *            {@link RiplaApplication}
+	 * @param inMenuTagFilter
 	 */
-	private RiplaBody(final ISkin inSkin, final RiplaApplication inApplication) {
+	protected RiplaBody(final ISkin inSkin,
+			final RiplaApplication inApplication, String inMenuTagFilter) {
 		super();
 
 		skin = inSkin;
 		application = inApplication;
+		menuTagFilter = inMenuTagFilter;
 
 		setSizeFull();
 
@@ -117,11 +122,15 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 	 *            {@link ISkin}
 	 * @param inApplication
 	 *            {@link RiplaApplication}
+	 * @param inMenuTagFilter
+	 *            String a filter expression for the application's menu, e.g.
+	 *            <code>demo.*</code>.
 	 * @return {@link RiplaBody}
 	 */
 	public static RiplaBody createInstance(final ISkin inSkin,
-			final RiplaApplication inApplication) {
-		final RiplaBody outBody = new RiplaBody(inSkin, inApplication);
+			final RiplaApplication inApplication, String inMenuTagFilter) {
+		final RiplaBody outBody = new RiplaBody(inSkin, inApplication,
+				inMenuTagFilter);
 		outBody.initializeLayout();
 		return outBody;
 	}
@@ -226,8 +235,7 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 					try {
 						setContentView(getContentComponent(lAction
 								.getControllerName()));
-					}
-					catch (final NoControllerFoundException exc) {
+					} catch (final NoControllerFoundException exc) {
 						handleNoTaskFound(exc);
 					}
 				}
@@ -239,7 +247,8 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 		final Map<String, MenuItem> lMenuMap = new HashMap<String, MenuBar.MenuItem>();
 		for (final MenuFactory lFactory : UseCaseRegistry.INSTANCE.getMenus()) {
 			final MenuItem lItem = lFactory.createMenu(inMenuBar,
-					inSubMenuIcon, getMenuMap(), lCommand, lAuthorization);
+					inSubMenuIcon, getMenuMap(), lCommand, lAuthorization,
+					menuTagFilter);
 			lMenuMap.put(lFactory.getProviderSymbolicName(), lItem);
 		}
 		// we set the menu map to the session to access it later to mark the
@@ -277,7 +286,7 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 		return menuMap;
 	}
 
-	private Component createToolbar(final Label inSeparator) {
+	protected Component createToolbar(final Label inSeparator) {
 		final HorizontalLayout outToolbar = new HorizontalLayout();
 		outToolbar.setStyleName("ripla-toolbar"); //$NON-NLS-1$
 		outToolbar.setWidth("100%"); //$NON-NLS-1$

@@ -61,26 +61,44 @@ public final class ControllerManager {
 	 */
 	public Component getContent(final String inControllerName)
 			throws NoControllerFoundException {
+		return getContent(inControllerName, true);
+	}
+
+	/**
+	 * Loads the specified controller.
+	 * 
+	 * @param inControllerName
+	 *            String
+	 * @param inAdjustMenu
+	 *            boolean <code>true</code> if the application's menu has to be
+	 *            adjusted, <code>false</code> if not, e.g. in case of a lookup.
+	 * @return {@link Component}
+	 * @throws NoControllerFoundException
+	 */
+	public Component getContent(final String inControllerName,
+			boolean inAdjustMenu) throws NoControllerFoundException {
 		final BundleClassLoader lLoader = controllerMappingTable
 				.get(inControllerName);
 		if (lLoader == null) {
 			throw new NoControllerFoundException(inControllerName);
 		}
-		return runController(lLoader);
+		return runController(lLoader, inAdjustMenu);
 	}
 
-	private Component runController(final BundleClassLoader inLoader) {
+	private Component runController(final BundleClassLoader inLoader,
+			boolean inAdjustMenu) {
 		try {
 			final IPluggable lController = inLoader.createLoader();
 			// manage user admin
 			lController.setUserAdmin(userAdmin);
 			// push controller to history
 			ControllerStack.getControllerStack().push(lController);
-			// manage menu activity settings
-			setActiveMenuItem(inLoader.getSymbolicName());
+			if (inAdjustMenu) {
+				// manage menu activity settings
+				setActiveMenuItem(inLoader.getSymbolicName());
+			}
 			return lController.run();
-		}
-		catch (final Exception exc) {
+		} catch (final Exception exc) {
 			final Throwable lThrowable = exc;
 			// if (exc instanceof RiplaException) {
 			// lThrowable = ((RiplaException) exc).getRootCause();

@@ -63,6 +63,42 @@ public final class ExtendibleMenuMarker {
 		public String getMarkerID() {
 			return markerID;
 		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result
+					+ ((markerID == null) ? 0 : markerID.hashCode());
+			result = prime * result
+					+ ((type == null) ? 0 : type.name().hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (getClass() != obj.getClass()) {
+				return false;
+			}
+			Position other = (Position) obj;
+			if (markerID == null) {
+				if (other.markerID != null) {
+					return false;
+				}
+			} else if (!markerID.equals(other.markerID)) {
+				return false;
+			}
+			if (type.name() != other.type.name()) {
+				return false;
+			}
+			return true;
+		}
 	}
 
 }

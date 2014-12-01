@@ -55,12 +55,19 @@ public class MenuFactory implements Comparable<MenuFactory> {
 	 *            {@link Command} the Vaadin menu bar command
 	 * @param inAuthorization
 	 *            {@link Authorization} the authorization object
+	 * @param inMenuTagFilter
+	 *            String a filter expression for the application's menu, e.g.
+	 *            <code>demo.*</code>.
 	 * @return MenuItem the Vaadin menu item
 	 */
 	public MenuItem createMenu(final MenuBar inMenuBar, final Resource inIcon,
 			final Map<Integer, IMenuCommand> inMap, final Command inCommand,
-			final Authorization inAuthorization) {
+			final Authorization inAuthorization, String inMenuTagFilter) {
 		if (!checkPermissions(menu.getPermission(), inAuthorization)) {
+			return null;
+		}
+
+		if (!MenuFilter.checkTagFilter(inMenuTagFilter, menu.getTag())) {
 			return null;
 		}
 

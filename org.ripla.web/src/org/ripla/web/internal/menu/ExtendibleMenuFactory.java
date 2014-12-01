@@ -12,9 +12,13 @@ package org.ripla.web.internal.menu;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.useradmin.Authorization;
@@ -23,6 +27,7 @@ import org.ripla.interfaces.IMenuExtendible;
 import org.ripla.interfaces.IMenuItem;
 import org.ripla.services.IExtendibleMenuContribution;
 import org.ripla.util.ExtendibleMenuMarker;
+import org.ripla.util.ExtendibleMenuMarker.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +61,50 @@ public final class ExtendibleMenuFactory extends MenuFactory {
 			final Collection<IExtendibleMenuContribution> inContributions) {
 		super(inMenu);
 		menu = inMenu;
-		initializePositions(inMenu.getMarkers(), inContributions);
+		initializePositions(inMenu.getMarkers(), getSorted(inContributions));
+	}
+
+	private Collection<IExtendibleMenuContribution> getSorted(
+			Collection<IExtendibleMenuContribution> inContributions) {
+		// distribute all contributions to their positions
+		Map<ExtendibleMenuMarker.Position, List<IExtendibleMenuContribution>> helper = new HashMap<ExtendibleMenuMarker.Position, List<IExtendibleMenuContribution>>(
+				7);
+		for (IExtendibleMenuContribution lContribution : inContributions) {
+			Position lPosition = lContribution.getPosition();
+			List<IExtendibleMenuContribution> lPositionList = helper
+					.get(lPosition);
+			if (lPositionList == null) {
+				lPositionList = new ArrayList<IExtendibleMenuContribution>();
+				helper.put(lPosition, lPositionList);
+			}
+			lPositionList.add(lContribution);
+		}
+		// sort each position's list
+		ArrayList<IExtendibleMenuContribution> out = new ArrayList<IExtendibleMenuContribution>(
+				inContributions.size());
+		for (Entry<Position, List<IExtendibleMenuContribution>> lPositionSet : helper
+				.entrySet()) {
+			switch (lPositionSet.getKey().getType()) {
+			case APPEND:
+				out.addAll(getWithSort(lPositionSet.getValue(), true));
+				break;
+			case INSERT_BEFORE:
+				out.addAll(getWithSort(lPositionSet.getValue(), true));
+				break;
+			case INSERT_AFTER:
+				out.addAll(getWithSort(lPositionSet.getValue(), false));
+				break;
+			default:
+				out.addAll(getWithSort(lPositionSet.getValue(), true));
+			}
+		}
+		return out;
+	}
+
+	private List<IExtendibleMenuContribution> getWithSort(
+			List<IExtendibleMenuContribution> inToSort, boolean inAscending) {
+		Collections.sort(inToSort, new ContributionComparator(inAscending));
+		return inToSort;
 	}
 
 	private void initializePositions(final ExtendibleMenuMarker[] inMarkers,
@@ -68,15 +116,13 @@ public final class ExtendibleMenuFactory extends MenuFactory {
 			final ExtendibleMenuMarker.Position lPosition = lContribution
 					.getPosition();
 			switch (lPosition.getType()) {
-			case APPEND:
-				appendTo(lPosition.getMarkerID(), lContribution);
-				break;
 			case INSERT_BEFORE:
 				insert(lPosition.getMarkerID(), lContribution, 0);
 				break;
 			case INSERT_AFTER:
 				insert(lPosition.getMarkerID(), lContribution, 1);
 				break;
+			case APPEND:
 			default: // append
 				appendTo(lPosition.getMarkerID(), lContribution);
 			}
@@ -111,7 +157,7 @@ public final class ExtendibleMenuFactory extends MenuFactory {
 
 	private void appendTo(final String inMarkerID,
 			final IExtendibleMenuContribution inContribution) {
-		int i; // NOPMD by Luthiger on 09.09.12 23:37
+		int i; // NOPMD
 		final Iterator<IExtMenuItem> lItems = contributions.iterator();
 		for (i = 0; lItems.hasNext(); i++) {
 			final IExtMenuItem lItem = lItems.next();
@@ -137,8 +183,12 @@ public final class ExtendibleMenuFactory extends MenuFactory {
 	public MenuItem createMenu(final MenuBar inMenuBar,
 			final Resource inSubMenuIcon,
 			final Map<Integer, IMenuCommand> inMap, final Command inCommand,
-			final Authorization inAuthorization) {
+			final Authorization inAuthorization, String inMenuTagFilter) {
 		if (!checkPermissions(menu.getPermission(), inAuthorization)) {
+			return null;
+		}
+
+		if (!MenuFilter.checkTagFilter(inMenuTagFilter, menu.getTag())) {
 			return null;
 		}
 
@@ -184,6 +234,25 @@ public final class ExtendibleMenuFactory extends MenuFactory {
 	}
 
 	// --- inner classes ---
+
+	private static class ContributionComparator implements
+			Comparator<IExtendibleMenuContribution> {
+
+		private int ascending;
+
+		protected ContributionComparator(boolean inAscending) {
+			ascending = inAscending ? 1 : -1;
+		}
+
+		@Override
+		public int compare(IExtendibleMenuContribution inContribution1,
+				IExtendibleMenuContribution inContribution2) {
+			return ascending
+					* inContribution1.getLabel().compareTo(
+							inContribution2.getLabel());
+		}
+
+	}
 
 	private interface IExtMenuItem {
 		boolean isMarker();

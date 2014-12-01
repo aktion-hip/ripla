@@ -113,7 +113,7 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	protected final Locale getAppLocale() {
 		try {
 			VaadinSession.getCurrent().getLockInstance().lock();
-			return VaadinSession.getCurrent().getAttribute(Locale.class);
+			return VaadinSession.getCurrent().getLocale();
 		} finally {
 			VaadinSession.getCurrent().getLockInstance().unlock();
 		}
@@ -216,7 +216,7 @@ public abstract class AbstractController implements IPluggable { // NOPMD
 	protected final Component forwardTo(final String inControllerName)
 			throws NoControllerFoundException {
 		return UseCaseRegistry.INSTANCE.getControllerManager().getContent(
-				inControllerName);
+				inControllerName, false);
 	}
 
 	/**

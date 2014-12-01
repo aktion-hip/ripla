@@ -11,6 +11,9 @@
 
 package org.ripla.web.util;
 
+import org.ripla.interfaces.IMessages;
+import org.ripla.web.Activator;
+
 import com.vaadin.data.Validator;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.Sizeable.Unit;
@@ -33,6 +36,20 @@ public final class RiplaViewHelper {
 	 */
 	public static final String TMPL_TITLE = "<div class=\"%s\">%s</div>"; //$NON-NLS-1$
 	public static final String TMPL_WARNING = "<div class=\"vif-warning\">%s</div>"; //$NON-NLS-1$
+	
+	public enum ConversionType {
+		STRING_TO_NUMBER("errmsg.validation.no.number");
+		
+		private String msgKey;
+
+		ConversionType(String inMsgKey) {
+			msgKey = inMsgKey;
+		}
+		
+		public String getMsg(IMessages inMessages) {
+			return inMessages.getMessage(msgKey);
+		}
+	}
 
 	private RiplaViewHelper() {
 	}
@@ -78,6 +95,52 @@ public final class RiplaViewHelper {
 	/**
 	 * Helper method to create a text field.
 	 * 
+	 * @param inWidth
+	 *            int the field width (in pixels)
+	 * @return {@link TextField}
+	 */
+	public static TextField createTextField(final int inWidth) {
+		return prepareTextField(new TextField(), inWidth);
+	}
+	
+	/**
+	 * Helper method to create a text field with input validation.
+	 * 
+	 * @param inWidth
+	 *            int the field width (in pixels)
+	 * @param inValidator
+	 *            {@link Validator} the field's validator
+	 * @return {@link TextField}
+	 */
+	public static TextField createTextField(final int inWidth, final Validator inValidator) {
+		final TextField out = new TextField();
+		out.addValidator(inValidator);
+		return prepareTextField(out, inWidth);
+	}
+	
+	/**
+	 * Helper method to create a text field.
+	 * 
+	 * @param inWidth int the field width (in pixels)
+	 * @param inType {@link ConversionType} the conversion type (needed for the localized validation message)
+	 * @return {@link TextField}
+	 */
+	public static TextField createTextField(final int inWidth, final ConversionType inType) {
+		final TextField out = new TextField();
+		out.setConversionError(inType.getMsg(Activator.getMessages()));
+		return prepareTextField(out, inWidth);
+	}
+
+	private static TextField prepareTextField(final TextField inField,
+			final int inWidth) {
+		inField.setWidth(inWidth, Unit.PIXELS);
+		inField.setStyleName("ripla-input"); //$NON-NLS-1$
+		return inField;
+	}
+	
+	/**
+	 * Helper method to create a text field.
+	 * 
 	 * @param inContent
 	 *            String the text field's content
 	 * @param inWidth
@@ -93,9 +156,7 @@ public final class RiplaViewHelper {
 		if (inValidator != null) {
 			out.addValidator(inValidator);
 		}
-		out.setWidth(inWidth, Unit.PIXELS);
-		out.setStyleName("ripla-input"); //$NON-NLS-1$
-		return out;
+		return prepareTextField(out, inWidth);
 	}
 
 	/**

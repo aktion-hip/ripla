@@ -46,4 +46,9 @@ public abstract class AbstractExtendibleMenu implements IMenuExtendible {
 		return ""; //$NON-NLS-1$
 	}
 
+	@Override
+	public String getTag() {
+		return null;
+	}
+
 }

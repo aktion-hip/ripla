@@ -24,6 +24,7 @@ import org.ripla.interfaces.IMenuItem;
  * @author Luthiger
  */
 public abstract class AbstractExtendibleMenu implements IMenuExtendible {
+	private String menuTag;
 
 	/**
 	 * This implementation returns an empty list (i.e.
@@ -37,24 +38,29 @@ public abstract class AbstractExtendibleMenu implements IMenuExtendible {
 		return Collections.emptyList();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.ripla.web.interfaces.IMenuElement#getControllerName()
-	 */
 	@Override
 	public String getControllerName() { // NOPMD by Luthiger on 10.09.12 00:02
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.ripla.web.interfaces.IMenuElement#getPermission()
-	 */
 	@Override
 	public String getPermission() { // NOPMD by Luthiger on 10.09.12 00:02
 		return ""; //$NON-NLS-1$
+	}
+
+	@Override
+	public String getTag() {
+		return menuTag;
+	}
+
+	/**
+	 * Sets the tag for menu filtering.
+	 * 
+	 * @param inTag
+	 *            String the menu's tag
+	 */
+	public void setTag(String inTag) {
+		menuTag = inTag;
 	}
 
 }

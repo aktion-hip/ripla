@@ -28,6 +28,7 @@ public class RiplaMenuItem implements IMenuItem {
 	private transient int position;
 	private String controllerName;
 	private String permission;
+	private String menuTag;
 
 	/**
 	 * Constructor
@@ -66,6 +67,21 @@ public class RiplaMenuItem implements IMenuItem {
 	@Override
 	public int getPosition() {
 		return position;
+	}
+
+	@Override
+	public String getTag() {
+		return menuTag;
+	}
+
+	/**
+	 * Sets the tag for menu filtering.
+	 * 
+	 * @param inTag
+	 *            String the menu's tag
+	 */
+	public void setTag(String inTag) {
+		menuTag = inTag;
 	}
 
 	/**

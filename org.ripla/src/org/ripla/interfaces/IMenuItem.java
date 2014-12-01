@@ -23,4 +23,11 @@ public interface IMenuItem extends IMenuElement {
 	 */
 	int getPosition();
 
+	/**
+	 * @return String a tag for the menu for that the application can filter for
+	 *         menu items with specified tags. May be <code>null</code> (to fail
+	 *         every filter) or empty (to match every filter).
+	 */
+	String getTag();
+
 }

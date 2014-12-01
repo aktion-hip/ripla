@@ -2,10 +2,10 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Ripla Base Module
 Bundle-SymbolicName: org.ripla
-Bundle-Version: 1.0.1.qualifier
+Bundle-Version: 1.0.2.qualifier
 Bundle-Activator: org.ripla.Activator
 Bundle-Vendor: RelationWare
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: org.osgi.framework;version="1.3.0",
  org.osgi.service.cm;version="1.4.0",
  org.osgi.service.component;version="1.2.0",
@@ -17,7 +17,7 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.ripla;version="1.0.0",
  org.ripla.annotations;version="1.0.0",
  org.ripla.exceptions;version="1.0.0",
- org.ripla.interfaces;version="1.0.0",
- org.ripla.menu;version="1.0.0",
+ org.ripla.interfaces;version="1.1.0",
+ org.ripla.menu;version="1.1.0",
  org.ripla.services;version="1.0.0",
  org.ripla.util;version="1.0.0"

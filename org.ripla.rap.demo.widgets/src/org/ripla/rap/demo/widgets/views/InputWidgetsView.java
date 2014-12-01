@@ -19,6 +19,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.rap.widget.ckedit.CkEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -36,7 +37,6 @@ import org.ripla.rap.demo.widgets.data.Countries;
 import org.ripla.rap.demo.widgets.data.CountryBean;
 import org.ripla.rap.util.GridLayoutHelper;
 
-import com.eclipsesource.widgets.ckeditor.CKEditor;
 
 /**
  * The view to display the RAP input widgets.
@@ -110,7 +110,7 @@ public class InputWidgetsView extends AbstractWidgetsView {
 
 		createSubTitle(lCol2,
 				lMessages.getMessage("widgets.input.subtitle.rich.text"));
-		final CKEditor lEditor = new CKEditor(lCol2, SWT.BORDER);
+		final CkEditor lEditor = new CkEditor(lCol2, SWT.BORDER);
 		lLayoutData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		lLayoutData.heightHint = 250;
 		lEditor.setLayoutData(lLayoutData);

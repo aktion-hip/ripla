@@ -98,6 +98,11 @@ public class DemoApplication extends RiplaApplication {
 			public ResourceLoader getFaviconLoader() {
 				return LoaderUtil.getDftFavion();
 			}
+
+			@Override
+			public String getMenuTagFilter() {
+				return null;
+			}
 		};
 	}
 

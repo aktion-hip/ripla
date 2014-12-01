@@ -148,6 +148,11 @@ public class RiplaApplication implements ApplicationConfiguration {
 			public ResourceLoader getFaviconLoader() {
 				return LoaderUtil.getDftFavion();
 			}
+
+			@Override
+			public String getMenuTagFilter() {
+				return null;
+			}
 		};
 	}
 

@@ -4,4 +4,5 @@
    <service>
       <provide interface="org.lunifera.runtime.web.vaadin.osgi.common.IOSGiUiProviderFactory"/>
    </service>
+   <reference cardinality="0..1" bind="setRequestHandler" unbind="unsetRequestHandler" interface="com.vaadin.server.RequestHandler" name="RequestHandler" policy="static"/>
 </scr:component>

@@ -42,4 +42,12 @@ public interface IAppConfiguration {
 	 */
 	String getAppName();
 
+	/**
+	 * @return String a filter expression for the application's menu, e.g.
+	 *         <code>demo.*</code>. With this expression the application can
+	 *         filter all menu items with tags matching the filter expression.
+	 *         Can be <code>null</code> or empty to disable filtering.
+	 */
+	String getMenuTagFilter();
+
 }

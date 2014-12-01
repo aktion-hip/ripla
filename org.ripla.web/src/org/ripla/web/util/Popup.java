@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.ripla.web.util;
 
+import java.util.Collection;
+
 import org.ripla.web.Activator;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -25,7 +27,7 @@ import com.vaadin.ui.Window;
  * Usage:
  * 
  * <pre>
- * Popup.displayPopup(&quot;Look at this!&quot;, &quot;myComponent&quot;, 300, 600);
+ * Popup.displayPopup(&quot;Look at this!&quot;, &lt;myComponent>, 300, 600);
  * </pre>
  * 
  * @author Luthiger
@@ -53,6 +55,19 @@ public final class Popup {
 				inHeight);
 		UI.getCurrent().addWindow(lPopup);
 		lPopup.setPosition(50, 50);
+	}
+
+	/**
+	 * Convenience method: removes all existing popup windows.
+	 */
+	public static void removePopups() {
+		UI lCurrent = UI.getCurrent();
+		Collection<Window> lSubWindows = lCurrent.getWindows();
+		for (Window lSubWindow : lSubWindows) {
+			if (lSubWindow instanceof PopupWindow) {
+				lCurrent.removeWindow(lSubWindow);
+			}
+		}
 	}
 
 	// ---

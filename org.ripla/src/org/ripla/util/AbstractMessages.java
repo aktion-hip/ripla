@@ -11,10 +11,8 @@
 package org.ripla.util;
 
 import java.util.Locale;
-import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.ripla.interfaces.IMessages;
 
@@ -30,17 +28,10 @@ import org.ripla.interfaces.IMessages;
  * The messages returned by the concrete subclasses are localized using the
  * actual <code>Locale</code> handled by the application.
  * </p>
- * <p>
- * To speed up access to the resource bundles, this class uses a cache. This,
- * however, implies that there is only one instance of this class per OSGi
- * bundle. This can be achieved by accessing the messages instance through the
- * bundles <code>Activator</code> class.
- * </p>
  * 
  * @author Luthiger
  */
 public abstract class AbstractMessages implements IMessages {
-	private final transient Map<String, ResourceBundle> bundleCache = new ConcurrentHashMap<String, ResourceBundle>();
 
 	/**
 	 * Provides the bundle's classloader to load the bundle specific messages.
@@ -90,14 +81,7 @@ public abstract class AbstractMessages implements IMessages {
 	}
 
 	private ResourceBundle getBundle(final Locale inLocale) {
-		final String lLocale = inLocale.toString();
-		ResourceBundle outBundle = bundleCache.get(lLocale);
-		if (outBundle == null) {
-			outBundle = ResourceBundle.getBundle(getBaseName(), inLocale,
-					getLoader());
-			bundleCache.put(lLocale, outBundle);
-		}
-		return outBundle;
+		return ResourceBundle.getBundle(getBaseName(), inLocale, getLoader());
 	}
 
 }

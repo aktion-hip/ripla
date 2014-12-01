@@ -10,12 +10,16 @@
  ******************************************************************************/
 package org.ripla.web.util;
 
+import java.util.Iterator;
+
 import org.ripla.interfaces.IMessages;
 import org.ripla.web.Activator;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.server.UserError;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
@@ -84,7 +88,29 @@ public abstract class AbstractFormCreator {
 	 * @throws CommitException
 	 */
 	public void commit() throws CommitException {
-		binder.commit();
+		try {
+			binder.commit();
+		} catch (CommitException exc) {
+			// in an error case we set the error marker to all invalid fields
+			// which are required
+			Iterator<Field<?>> fields = binder.getFields().iterator();
+			while (fields.hasNext()) {
+				Field<?> field = fields.next();
+				if (field.isRequired() && !field.isValid()) {
+					((AbstractComponent) field)
+							.setComponentError(new UserError(""));
+				}
+				if (field.isRequired()) {
+					if (field.isValid()) {
+						((AbstractComponent) field).setComponentError(null);
+					} else {
+						((AbstractComponent) field)
+								.setComponentError(new UserError(""));
+					}
+				}
+			}
+			throw exc;
+		}
 	}
 
 	/**

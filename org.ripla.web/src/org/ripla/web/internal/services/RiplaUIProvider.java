@@ -13,6 +13,10 @@ package org.ripla.web.internal.services;
 import org.lunifera.runtime.web.vaadin.osgi.common.CustomOSGiUiProvider;
 import org.ripla.web.Constants;
 
+import com.vaadin.server.RequestHandler;
+import com.vaadin.server.ServiceException;
+import com.vaadin.server.SessionInitEvent;
+import com.vaadin.server.SessionInitListener;
 import com.vaadin.server.UICreateEvent;
 import com.vaadin.ui.UI;
 
@@ -25,6 +29,8 @@ import com.vaadin.ui.UI;
 @SuppressWarnings("serial")
 public class RiplaUIProvider extends CustomOSGiUiProvider {
 
+	private RequestHandler requestHandler;
+
 	/**
 	 * RiplaUIProvider constructor.
 	 * 
@@ -32,10 +38,13 @@ public class RiplaUIProvider extends CustomOSGiUiProvider {
 	 *            String
 	 * @param inUiClass
 	 *            Class&lt;? extends UI>
+	 * @param inRequestHandler
+	 *            {@link RequestHandler}
 	 */
 	public RiplaUIProvider(final String inVaadinApplication,
-			final Class<? extends UI> inUiClass) {
+			final Class<? extends UI> inUiClass, RequestHandler inRequestHandler) {
 		super(inVaadinApplication, inUiClass);
+		requestHandler = inRequestHandler;
 	}
 
 	@Override
@@ -45,6 +54,21 @@ public class RiplaUIProvider extends CustomOSGiUiProvider {
 		}
 		final String out = super.getTheme(inEvent);
 		return out == null ? Constants.DFT_SKIN_ID : out;
+	}
+
+	@SuppressWarnings("restriction")
+	@Override
+	public UI createInstance(UICreateEvent inEvent) {
+		inEvent.getService().addSessionInitListener(new SessionInitListener() {
+			@Override
+			public void sessionInit(SessionInitEvent inEvent)
+					throws ServiceException {
+				if (requestHandler != null) {
+					inEvent.getSession().addRequestHandler(requestHandler);
+				}
+			}
+		});
+		return super.createInstance(inEvent);
 	}
 
 }

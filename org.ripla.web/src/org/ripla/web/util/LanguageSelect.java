@@ -164,7 +164,12 @@ public final class LanguageSelect extends CustomComponent {
 
 	// ---
 
-	private static class LanguagesContainer extends
+	/**
+	 * Helper for the selection of languages.
+	 *
+	 * @author lbenno
+	 */
+	public static class LanguagesContainer extends
 			BeanItemContainer<LocaleAdapter> {
 		private LocaleAdapter activeLanguage;
 
@@ -172,7 +177,18 @@ public final class LanguageSelect extends CustomComponent {
 			super(LocaleAdapter.class);
 		}
 
-		protected static LanguagesContainer getLanguages(
+		/**
+		 * Factory method of the <code>LanguagesContainer</code>.<br />
+		 * Usage:
+		 * <code>LanguagesContainer.getLanguages(Constants.LANGUAGES, getSession().getLocale().getLanguage());</code>
+		 * 
+		 * @param inLanguages
+		 *            Locale[] the selection of available languages
+		 * @param inActiveLanguage
+		 *            String the ISO code of the active language.
+		 * @return {@link LanguagesContainer}
+		 */
+		public static LanguagesContainer getLanguages(
 				final Locale[] inLanguages, final String inActiveLanguage) {
 			final LanguagesContainer out = new LanguagesContainer();
 			for (final Locale lLocale : inLanguages) {
@@ -189,7 +205,12 @@ public final class LanguageSelect extends CustomComponent {
 			activeLanguage = inActiveLanguage;
 		}
 
-		protected LocaleAdapter getActiveLanguage() {
+		/**
+		 * Returns the active language instance.
+		 * 
+		 * @return {@link LocaleAdapter}
+		 */
+		public LocaleAdapter getActiveLanguage() {
 			return activeLanguage;
 		}
 	}

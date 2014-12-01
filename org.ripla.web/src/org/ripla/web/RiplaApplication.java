@@ -26,6 +26,7 @@ import org.ripla.services.IExtendibleMenuContribution;
 import org.ripla.services.IPermissionEntry;
 import org.ripla.util.PreferencesHelper;
 import org.ripla.web.controllers.RiplaBody;
+import org.ripla.web.interfaces.IBodyComponent;
 import org.ripla.web.internal.services.ConfigManager;
 import org.ripla.web.internal.services.PermissionHelper;
 import org.ripla.web.internal.services.RiplaEventDispatcher;
@@ -34,6 +35,7 @@ import org.ripla.web.internal.services.UseCaseRegistry;
 import org.ripla.web.internal.views.RiplaLogin;
 import org.ripla.web.services.ISkin;
 import org.ripla.web.util.RiplaRequestHandler;
+import org.ripla.web.util.RiplaRequestHandler.IRequestParameter;
 import org.ripla.web.util.ToolbarItemFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +45,6 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 
 /**
  * <p>
@@ -52,12 +53,14 @@ import com.vaadin.ui.Window;
  * <p>
  * Subclasses may override the following methods:<br />
  * <ul>
+ * <li>{@link #beforeInitializeLayout()}</li>
  * <li>{@link #getAppConfiguration()}</li>
- * <li>{@link #createBodyView(ISkin)}</li>
+ * <li>{@link #initBodyView(ISkin)}</li>
  * <li>{@link #createPreferencesHelper()}</li>
  * <li>{@link #beforeLogin()}</li>
  * <li>{@link #workflowExit()}</li>
  * <li>{@link #initializePermissions()}</li>
+ * <li>{@link #showAfterLogin(User)}</li>
  * </ul>
  * </p>
  * 
@@ -76,7 +79,6 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 	private RiplaEventDispatcher eventDispatcher;
 	private ToolbarItemFactory toolbarItemFactory;
 
-	private RiplaRequestHandler requestHandler;
 	private Layout bodyView;
 	private boolean initialized = false;
 
@@ -102,9 +104,18 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 		}
 		UseCaseRegistry.INSTANCE.registerContextMenus();
 		SkinRegistry.INSTANCE.setPreferences(preferences);
+		beforeInitializeLayout();
 		if (!initializeLayout(getAppConfiguration())) {
 			return;
 		}
+	}
+
+	/**
+	 * Hook for subclasses.<br />
+	 * This method is called before the application's layout is initialized.
+	 */
+	protected void beforeInitializeLayout() {
+		// doing nothing
 	}
 
 	private void setSessionPreferences(final PreferencesHelper inPreferences) {
@@ -172,6 +183,11 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 			public String getAppName() {
 				return APP_NAME;
 			}
+
+			@Override
+			public String getMenuTagFilter() {
+				return null;
+			}
 		};
 	}
 
@@ -186,7 +202,6 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 	private boolean initializeLayout(final IAppConfiguration inConfiguration) {
 		setStyleName("ripla-window"); //$NON-NLS-1$
 
-		requestHandler = setRequestHandler();
 		SkinRegistry.INSTANCE.setDefaultSkin(inConfiguration.getDftSkinID());
 		final ISkin lSkin = SkinRegistry.INSTANCE.getActiveSkin();
 
@@ -204,7 +219,7 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 		}
 
 		if (inConfiguration.getLoginAuthenticator() == null) {
-			bodyView.addComponent(createBodyView(lSkin));
+			bodyView.addComponent(initBodyView(lSkin));
 		} else {
 			bodyView.addComponent(createLoginView(inConfiguration, lSkin));
 		}
@@ -235,8 +250,6 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 	 * Hook for application configuration.<br />
 	 * Subclasses may override to plug in a configuration workflow.
 	 * 
-	 * @param inMain
-	 *            {@link Window} the application's main window
 	 * @param inWorkflowListener
 	 *            {@link IWorkflowListener} the listener of the application
 	 *            workflow configuration
@@ -247,17 +260,6 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 	 */
 	protected boolean beforeLogin(final IWorkflowListener inWorkflowListener) {
 		return true;
-	}
-
-	private RiplaRequestHandler setRequestHandler() {
-		final RiplaRequestHandler out = new RiplaRequestHandler();
-		try {
-			VaadinSession.getCurrent().getLockInstance().lock();
-			VaadinSession.getCurrent().addRequestHandler(out);
-		} finally {
-			VaadinSession.getCurrent().getLockInstance().unlock();
-		}
-		return out;
 	}
 
 	private Layout createBody() {
@@ -272,7 +274,7 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 	 */
 	public final void refreshBody() {
 		bodyView.removeAllComponents();
-		bodyView.addComponent(createBodyView(SkinRegistry.INSTANCE
+		bodyView.addComponent(initBodyView(SkinRegistry.INSTANCE
 				.getActiveSkin()));
 	}
 
@@ -285,7 +287,7 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 		final ISkin lSkin = SkinRegistry.INSTANCE.getActiveSkin();
 		final IAppConfiguration lConfiguration = getAppConfiguration();
 		if (lConfiguration.getLoginAuthenticator() == null) {
-			bodyView.addComponent(createBodyView(lSkin));
+			bodyView.addComponent(initBodyView(lSkin));
 		} else {
 			bodyView.addComponent(createLoginView(lConfiguration, lSkin));
 		}
@@ -302,28 +304,43 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 	}
 
 	/**
-	 * Creates the application's body view.<br />
-	 * Subclasses may override to provide their own body views.
-	 * <p>
 	 * This implementation creates an instance of {@link RiplaBody}, notifies
 	 * the event dispatcher about the new body component, calls the request
 	 * handler for that a requested view can be displayed in the main view and
 	 * then passes the new view back to the application.
-	 * </p>
 	 * 
 	 * @param inSkin
 	 *            {@link ISkin} the actual application skin
 	 * @return {@link Component} the application's body view
 	 */
-	protected Component createBodyView(final ISkin inSkin) {
-		final RiplaBody out = RiplaBody.createInstance(inSkin, this);
+	private Component initBodyView(final ISkin inSkin) {
+		final IBodyComponent out = createBodyView(inSkin);
 
 		eventDispatcher.setBodyComponent(out, this);
 
-		if (!requestHandler.process(out)) {
+		IRequestParameter requestParameter = RiplaRequestHandler
+				.getParameterFromSession();
+		if (requestParameter == null) {
 			out.showDefault();
+		} else {
+			if (!requestParameter.process(out)) {
+				out.showDefault();
+			}
 		}
-		return out;
+		return (Component) out;
+	}
+
+	/**
+	 * Creates the application's body view.<br />
+	 * Subclasses may override to provide their own body views.
+	 * 
+	 * @param inSkin
+	 *            {@link ISkin} the actual application skin
+	 * @return {@link IBodyComponent} the application's body view
+	 */
+	protected IBodyComponent createBodyView(final ISkin inSkin) {
+		return RiplaBody.createInstance(inSkin, this, getAppConfiguration()
+				.getMenuTagFilter());
 	}
 
 	/**
@@ -465,8 +482,7 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 	public <T extends Component> T createToolbarItem(final Class<T> inClass) {
 		try {
 			return toolbarItemFactory.createToolbarComponent(inClass);
-		}
-		catch (final Exception exc) {
+		} catch (final Exception exc) {
 			LOG.error("Error encountered while creating the toolbar item!", exc);
 		}
 		return null;
