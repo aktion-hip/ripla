@@ -116,13 +116,6 @@ public class RiplaGroup extends RiplaUser implements Group {
 		basicMembers = new ArrayList<Role>();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.osgi.service.useradmin.Group#addMember(org.osgi.service.useradmin
-	 * .Role)
-	 */
 	@Override
 	public boolean addMember(final Role inRole) {
 		if (!checkPre(inRole)) {
@@ -141,8 +134,7 @@ public class RiplaGroup extends RiplaUser implements Group {
 		if (inStore) {
 			try {
 				userAdmin.getUserAdminStore().addMember(this, inRole);
-			}
-			catch (final BackingStoreException exc) {
+			} catch (final BackingStoreException exc) {
 				return false;
 			}
 		}
@@ -150,13 +142,6 @@ public class RiplaGroup extends RiplaUser implements Group {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.osgi.service.useradmin.Group#addRequiredMember(org.osgi.service.useradmin
-	 * .Role)
-	 */
 	@Override
 	public boolean addRequiredMember(final Role inRole) {
 		if (!checkPre(inRole)) {
@@ -175,8 +160,7 @@ public class RiplaGroup extends RiplaUser implements Group {
 		if (inStore) {
 			try {
 				userAdmin.getUserAdminStore().addRequiredMember(this, inRole);
-			}
-			catch (final BackingStoreException exc) {
+			} catch (final BackingStoreException exc) {
 				return false;
 			}
 		}
@@ -184,13 +168,6 @@ public class RiplaGroup extends RiplaUser implements Group {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.osgi.service.useradmin.Group#removeMember(org.osgi.service.useradmin
-	 * .Role)
-	 */
 	@Override
 	public boolean removeMember(final Role inRole) {
 		if (!checkPre(inRole)) {
@@ -199,8 +176,7 @@ public class RiplaGroup extends RiplaUser implements Group {
 		synchronized (userAdmin) {
 			try {
 				userAdmin.getUserAdminStore().removeMember(this, inRole);
-			}
-			catch (final BackingStoreException exc) {
+			} catch (final BackingStoreException exc) {
 				return false;
 			}
 			((RiplaRole) inRole).removeImpliedRole(this);
@@ -217,21 +193,11 @@ public class RiplaGroup extends RiplaUser implements Group {
 		return inRole != null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.osgi.service.useradmin.Group#getMembers()
-	 */
 	@Override
 	public Role[] getMembers() {
 		return getMemers(basicMembers);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.osgi.service.useradmin.Group#getRequiredMembers()
-	 */
 	@Override
 	public Role[] getRequiredMembers() {
 		return getMemers(requiredMembers);
@@ -252,11 +218,6 @@ public class RiplaGroup extends RiplaUser implements Group {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.ripla.useradmin.admin.RiplaUser#getType()
-	 */
 	@Override
 	public int getType() {
 		userAdmin.checkAlive();
@@ -265,8 +226,7 @@ public class RiplaGroup extends RiplaUser implements Group {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	protected boolean isImpliedBy(final Role inRole,
-			final List<String> inCheckLoop) {
+	protected boolean isImpliedBy(final Role inRole, final List<String> inCheckLoop) {
 		if (inCheckLoop.contains(getName())) {
 			// we have a circular dependency
 			return false;
@@ -277,10 +237,8 @@ public class RiplaGroup extends RiplaUser implements Group {
 			return true;
 		}
 		inCheckLoop.add(getName());
-		final ArrayList<String> lRequiredCheckLoop = (ArrayList<String>) ((ArrayList<String>) inCheckLoop)
-				.clone();
-		final ArrayList<String> lBasicCheckLoop = (ArrayList<String>) ((ArrayList<String>) inCheckLoop)
-				.clone();
+		final ArrayList<String> lRequiredCheckLoop = (ArrayList<String>) ((ArrayList<String>) inCheckLoop).clone();
+		final ArrayList<String> lBasicCheckLoop = (ArrayList<String>) ((ArrayList<String>) inCheckLoop).clone();
 
 		// check to see if we imply all of the 0 or more required roles
 		Iterator<Role> lRoles = requiredMembers.iterator();
@@ -304,14 +262,9 @@ public class RiplaGroup extends RiplaUser implements Group {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.ripla.useradmin.admin.RiplaUser#toString()
-	 */
 	@Override
 	public String toString() {
-		return String.format("Group: ", getName());
+		return String.format("Group: %s", getName());
 	}
 
 }

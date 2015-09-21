@@ -34,10 +34,11 @@ import org.ripla.useradmin.internal.PropertiesHashtable;
  * </p>
  * <p>
  * Properties represent public information about the <tt>Role</tt> object that
- * can be read by anyone. Specific <a
- * href="../../../../org/osgi/service/useradmin/UserAdminPermission.html"
- * title="class in org.osgi.service.useradmin"><code>UserAdminPermission</code>
- * </a>objects are required to change a <tt>Role</tt> object's properties.
+ * can be read by anyone. Specific
+ * <a href="../../../../org/osgi/service/useradmin/UserAdminPermission.html"
+ * title="class in org.osgi.service.useradmin">
+ * <code>UserAdminPermission</code> </a>objects are required to change a
+ * <tt>Role</tt> object's properties.
  * </p>
  * <p>
  * <tt>Role</tt> object properties are <tt>Dictionary</tt> objects. Changes to
@@ -84,33 +85,18 @@ public class RiplaRole implements Role {
 		impliedRoles = new ArrayList<RiplaGroup>();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.osgi.service.useradmin.Role#getName()
-	 */
 	@Override
 	public String getName() {
 		userAdmin.checkAlive();
 		return name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.osgi.service.useradmin.Role#getType()
-	 */
 	@Override
 	public int getType() {
 		userAdmin.checkAlive();
 		return ROLE;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.osgi.service.useradmin.Role#getProperties()
-	 */
 	@Override
 	public Dictionary<String, Object> getProperties() {
 		userAdmin.checkAlive();
@@ -128,8 +114,7 @@ public class RiplaRole implements Role {
 		}
 	}
 
-	protected synchronized void destroy() { // NOPMD by Luthiger on 07.09.12
-											// 00:18
+	protected synchronized void destroy() { // NOPMD
 		exists = false;
 		final Iterator<RiplaGroup> lGroups = impliedRoles.iterator();
 		while (lGroups.hasNext()) {
@@ -142,8 +127,7 @@ public class RiplaRole implements Role {
 		impliedRoles = null; // NOPMD by Luthiger on 07.09.12 00:18
 	}
 
-	protected boolean isImpliedBy(final Role inRole,
-			final List<String> inCheckLoop) {
+	protected boolean isImpliedBy(final Role inRole, final List<String> inCheckLoop) {
 		if (inCheckLoop.contains(getName())) {
 			// we have a circular dependency
 			return false;
@@ -152,14 +136,9 @@ public class RiplaRole implements Role {
 		return getName().equals(Role.USER_ANYONE);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		return String.format("Role: ", getName());
+		return String.format("Role: %s", getName());
 	}
 
 }

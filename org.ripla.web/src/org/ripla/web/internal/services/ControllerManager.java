@@ -44,8 +44,7 @@ import com.vaadin.ui.MenuBar.MenuItem;
  * @author Luthiger
  */
 public final class ControllerManager {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ControllerManager.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ControllerManager.class);
 
 	private final transient Map<String, BundleClassLoader> controllerMappingTable = Collections
 			.synchronizedMap(new Hashtable<String, BundleClassLoader>());
@@ -59,8 +58,7 @@ public final class ControllerManager {
 	 *            String
 	 * @return {@link Component}
 	 */
-	public Component getContent(final String inControllerName)
-			throws NoControllerFoundException {
+	public Component getContent(final String inControllerName) throws NoControllerFoundException {
 		return getContent(inControllerName, true);
 	}
 
@@ -75,18 +73,15 @@ public final class ControllerManager {
 	 * @return {@link Component}
 	 * @throws NoControllerFoundException
 	 */
-	public Component getContent(final String inControllerName,
-			boolean inAdjustMenu) throws NoControllerFoundException {
-		final BundleClassLoader lLoader = controllerMappingTable
-				.get(inControllerName);
+	public Component getContent(final String inControllerName, boolean inAdjustMenu) throws NoControllerFoundException {
+		final BundleClassLoader lLoader = controllerMappingTable.get(inControllerName);
 		if (lLoader == null) {
 			throw new NoControllerFoundException(inControllerName);
 		}
 		return runController(lLoader, inAdjustMenu);
 	}
 
-	private Component runController(final BundleClassLoader inLoader,
-			boolean inAdjustMenu) {
+	private Component runController(final BundleClassLoader inLoader, boolean inAdjustMenu) {
 		try {
 			final IPluggable lController = inLoader.createLoader();
 			// manage user admin
@@ -114,8 +109,7 @@ public final class ControllerManager {
 		MenuItem lOldItem = null;
 		try {
 			lCurrentSession.getLockInstance().lock();
-			lOldItem = (MenuItem) lCurrentSession
-					.getAttribute(Constants.SA_ACTIVE_MENU);
+			lOldItem = (MenuItem) lCurrentSession.getAttribute(Constants.SA_ACTIVE_MENU);
 		} finally {
 			lCurrentSession.getLockInstance().unlock();
 		}
@@ -126,13 +120,11 @@ public final class ControllerManager {
 		Map<String, MenuItem> lMenuMap = null;
 		try {
 			lCurrentSession.getLockInstance().lock();
-			lMenuMap = (Map<String, MenuItem>) lCurrentSession
-					.getAttribute(Constants.SA_MENU_MAP);
+			lMenuMap = (Map<String, MenuItem>) lCurrentSession.getAttribute(Constants.SA_MENU_MAP);
 		} finally {
 			lCurrentSession.getLockInstance().unlock();
 		}
-		final MenuItem lNewItem = lMenuMap == null ? null : lMenuMap
-				.get(inBundleName);
+		final MenuItem lNewItem = lMenuMap == null ? null : lMenuMap.get(inBundleName);
 		if (lNewItem != null) {
 			lNewItem.setStyleName(Constants.CSS_ACTIVE_MENU);
 		}
@@ -151,15 +143,12 @@ public final class ControllerManager {
 	 *            {@link IControllerSet}
 	 */
 	public void addControllerSet(final IControllerSet inControllerSet) {
-		for (final IControllerConfiguration lControllerConfiguration : inControllerSet
-				.getControllerConfigurations()) {
+		for (final IControllerConfiguration lControllerConfiguration : inControllerSet.getControllerConfigurations()) {
 			final Bundle lBundle = lControllerConfiguration.getBundle();
-			final String lControllerName = lControllerConfiguration
-					.getControllerName();
-			controllerMappingTable.put(UseCaseHelper
-					.createFullyQualifiedControllerName(lBundle,
-							lControllerName), new BundleClassLoader( // NOPMD
-					lControllerName, lBundle));
+			final String lControllerName = lControllerConfiguration.getControllerName();
+			controllerMappingTable.put(UseCaseHelper.createFullyQualifiedControllerName(lBundle, lControllerName),
+					new BundleClassLoader( // NOPMD
+							lControllerName, lBundle));
 		}
 	}
 
@@ -170,17 +159,14 @@ public final class ControllerManager {
 	 *            {@link IControllerSet}
 	 */
 	public void removeControllerSet(final IControllerSet inControllerSet) {
-		for (final IControllerConfiguration lControllerConfiguration : inControllerSet
-				.getControllerConfigurations()) {
+		for (final IControllerConfiguration lControllerConfiguration : inControllerSet.getControllerConfigurations()) {
 			final Bundle lBundle = lControllerConfiguration.getBundle();
-			final String lControllerName = lControllerConfiguration
-					.getControllerName();
-			final BundleClassLoader lLoader = controllerMappingTable
-					.get(UseCaseHelper.createFullyQualifiedControllerName(
-							lBundle, lControllerName));
+			final String lControllerName = lControllerConfiguration.getControllerName();
+			final String lKey = UseCaseHelper.createFullyQualifiedControllerName(lBundle, lControllerName);
+			final BundleClassLoader lLoader = controllerMappingTable.get(lKey);
 			if (lLoader != null) {
 				lLoader.dispose();
-				controllerMappingTable.remove(lLoader);
+				controllerMappingTable.remove(lKey);
 			}
 		}
 	}
@@ -205,8 +191,7 @@ public final class ControllerManager {
 		private final transient String controllerName;
 		private transient Bundle bundle;
 
-		public BundleClassLoader(final String inControllerName,
-				final Bundle inBundle) {
+		public BundleClassLoader(final String inControllerName, final Bundle inBundle) {
 			controllerName = inControllerName;
 			bundle = inBundle;
 		}
@@ -219,8 +204,7 @@ public final class ControllerManager {
 		 * @throws InstantiationException
 		 * @throws IllegalAccessException
 		 */
-		public IPluggable createLoader() throws ClassNotFoundException,
-				InstantiationException, IllegalAccessException {
+		public IPluggable createLoader() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 			final Class<?> lClass = bundle.loadClass(controllerName);
 			return (IPluggable) lClass.newInstance();
 		}
