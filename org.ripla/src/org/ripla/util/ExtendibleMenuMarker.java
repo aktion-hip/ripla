@@ -68,10 +68,8 @@ public final class ExtendibleMenuMarker {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result
-					+ ((markerID == null) ? 0 : markerID.hashCode());
-			result = prime * result
-					+ ((type == null) ? 0 : type.name().hashCode());
+			result = prime * result + ((markerID == null) ? 0 : markerID.hashCode());
+			result = prime * result + ((type == null) ? 0 : type.name().hashCode());
 			return result;
 		}
 
@@ -94,7 +92,7 @@ public final class ExtendibleMenuMarker {
 			} else if (!markerID.equals(other.markerID)) {
 				return false;
 			}
-			if (type.name() != other.type.name()) {
+			if (!type.name().equals(other.type.name())) {
 				return false;
 			}
 			return true;
