@@ -52,11 +52,9 @@ import org.slf4j.LoggerFactory;
 public enum UseCaseRegistry {
 	INSTANCE;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(UseCaseRegistry.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UseCaseRegistry.class);
 
-	private final transient List<IUseCase> useCases = Collections
-			.synchronizedList(new ArrayList<IUseCase>());
+	private final transient List<IUseCase> useCases = Collections.synchronizedList(new ArrayList<IUseCase>());
 	private final transient Map<String, ExtendibleMenuHandler> extendibleMenus = Collections
 			.synchronizedMap(new HashMap<String, ExtendibleMenuHandler>());
 
@@ -64,9 +62,9 @@ public enum UseCaseRegistry {
 	private static final String PREFIX_BIN = "/bin/"; //$NON-NLS-1$
 	private static final String SUFFIX_CLASS = ".class"; //$NON-NLS-1$
 
+	private final transient PermissionHelper permissionHelper = new PermissionHelper();
 	private final transient ControllerManager controllerManager = new ControllerManager();
-	private final transient ContextMenuManager contextMenuManager = ContextMenuManager
-			.createInstance();
+	private final transient ContextMenuManager contextMenuManager = ContextMenuManager.createInstance();
 
 	private transient boolean automaticContextMenuRegistration = false;
 
@@ -89,6 +87,7 @@ public enum UseCaseRegistry {
 	 */
 	public void setUserAdmin(final UserAdmin inUserAdmin) {
 		controllerManager.setUserAdmin(inUserAdmin);
+		permissionHelper.setUserAdmin(inUserAdmin);
 	}
 
 	/**
@@ -109,8 +108,7 @@ public enum UseCaseRegistry {
 		useCases.add(inUseCase);
 		// register task classes
 		controllerManager.addControllerSet(inUseCase.getControllerSet());
-		controllerManager.addControllerSet(lookupControllers(
-				inUseCase.getControllerClasses(), inUseCase.getClass()));
+		controllerManager.addControllerSet(lookupControllers(inUseCase.getControllerClasses(), inUseCase.getClass()));
 
 		if (automaticContextMenuRegistration) {
 			registerContextMenus(inUseCase);
@@ -141,8 +139,8 @@ public enum UseCaseRegistry {
 	public void removeUseCase(final IUseCase inUseCase) {
 		useCases.remove(inUseCase);
 		controllerManager.removeControllerSet(inUseCase.getControllerSet());
-		controllerManager.removeControllerSet(lookupControllers(
-				inUseCase.getControllerClasses(), inUseCase.getClass()));
+		controllerManager
+				.removeControllerSet(lookupControllers(inUseCase.getControllerClasses(), inUseCase.getClass()));
 		for (final IMenuSet lMenuSet : inUseCase.getContextMenus()) {
 			contextMenuManager.removeContextMenuSet(lMenuSet);
 		}
@@ -157,14 +155,11 @@ public enum UseCaseRegistry {
 	 * @param inContribution
 	 *            {@link IExtendibleMenuContribution}
 	 */
-	public void registerMenuContribution(
-			final IExtendibleMenuContribution inContribution) {
+	public void registerMenuContribution(final IExtendibleMenuContribution inContribution) {
 		final String lMenuID = inContribution.getExtendibleMenuID();
-		final ExtendibleMenuHandler lExtendibleMenu = extendibleMenus
-				.get(lMenuID);
+		final ExtendibleMenuHandler lExtendibleMenu = extendibleMenus.get(lMenuID);
 		if (lExtendibleMenu == null) {
-			extendibleMenus.put(lMenuID, new ExtendibleMenuHandler(
-					inContribution));
+			extendibleMenus.put(lMenuID, new ExtendibleMenuHandler(inContribution));
 		} else {
 			lExtendibleMenu.addContribution(inContribution);
 		}
@@ -176,10 +171,8 @@ public enum UseCaseRegistry {
 	 * @param inContribution
 	 *            {@link IExtendibleMenuContribution}
 	 */
-	public void unregisterMenuContribution(
-			final IExtendibleMenuContribution inContribution) {
-		final ExtendibleMenuHandler lExtendibleMenu = extendibleMenus
-				.get(inContribution.getExtendibleMenuID());
+	public void unregisterMenuContribution(final IExtendibleMenuContribution inContribution) {
+		final ExtendibleMenuHandler lExtendibleMenu = extendibleMenus.get(inContribution.getExtendibleMenuID());
 		if (lExtendibleMenu != null) {
 			lExtendibleMenu.removeContribution(inContribution);
 		}
@@ -200,11 +193,9 @@ public enum UseCaseRegistry {
 			final IMenuItem lMenu = lUseCase.getMenu();
 			if (lMenu instanceof IMenuExtendible) {
 				final String lMenuID = ((IMenuExtendible) lMenu).getMenuID();
-				final ExtendibleMenuHandler lExtendibleMenu = extendibleMenus
-						.get(lMenuID);
+				final ExtendibleMenuHandler lExtendibleMenu = extendibleMenus.get(lMenuID);
 				if (lExtendibleMenu != null) {
-					outFactories.add(lExtendibleMenu
-							.getMenuFactory((IMenuExtendible) lMenu));
+					outFactories.add(lExtendibleMenu.getMenuFactory((IMenuExtendible) lMenu));
 				}
 			} else {
 				outFactories.add(new MenuFactory(lUseCase.getMenu())); // NOPMD
@@ -214,8 +205,7 @@ public enum UseCaseRegistry {
 		return outFactories;
 	}
 
-	private IControllerSet lookupControllers(final Package inControllerClasses,
-			final Class<?> inClass) {
+	private IControllerSet lookupControllers(final Package inControllerClasses, final Class<?> inClass) {
 		if (inControllerClasses == null) {
 			return new EmptyControllerSet();
 		}
@@ -223,23 +213,19 @@ public enum UseCaseRegistry {
 		final String lPackagName = inControllerClasses.getName();
 		final String lPath = lPackagName.replace(".", "/"); //$NON-NLS-1$ //$NON-NLS-2$
 		final Bundle lBundle = FrameworkUtil.getBundle(inClass);
-		Enumeration<?> lControllers = lBundle
-				.findEntries(
-						String.format("%s%s", PREFIX_BIN, lPath), "*" + SUFFIX_CLASS, false); //$NON-NLS-1$ //$NON-NLS-2$
+		Enumeration<?> lControllers = lBundle.findEntries(String.format("%s%s", PREFIX_BIN, lPath), "*" + SUFFIX_CLASS, //$NON-NLS-1$ //$NON-NLS-2$
+				false);
 		if (lControllers != null) {
 			return createControllerSet(lControllers, lBundle, PREFIX_BIN);
 		}
-		lControllers = lBundle
-				.findEntries(
-						String.format("%s%s", PREFIX_ROOT, lPath), "*" + SUFFIX_CLASS, false); //$NON-NLS-1$ //$NON-NLS-2$
+		lControllers = lBundle.findEntries(String.format("%s%s", PREFIX_ROOT, lPath), "*" + SUFFIX_CLASS, false); //$NON-NLS-1$ //$NON-NLS-2$
 		if (lControllers != null) {
 			return createControllerSet(lControllers, lBundle, PREFIX_ROOT);
 		}
 		return new EmptyControllerSet();
 	}
 
-	private IControllerSet createControllerSet(
-			final Enumeration<?> inControllers, final Bundle inBundle,
+	private IControllerSet createControllerSet(final Enumeration<?> inControllers, final Bundle inBundle,
 			final String inPrefix) {
 		final Collection<IControllerConfiguration> lControllerConfigurations = new ArrayList<IControllerConfiguration>();
 		while (inControllers.hasMoreElements()) {
@@ -253,27 +239,29 @@ public enum UseCaseRegistry {
 	}
 
 	@SuppressWarnings("unchecked")
-	private IControllerConfiguration createControllerConfiguration(
-			final URL inController, final Bundle inBundle, final String inPrefix) {
+	private IControllerConfiguration createControllerConfiguration(final URL inController, final Bundle inBundle,
+			final String inPrefix) {
 		final String lPath = inController.getPath();
-		final String lClassName = lPath.substring(inPrefix.length(),
-				lPath.length() - SUFFIX_CLASS.length()).replace("/", "."); //$NON-NLS-1$ //$NON-NLS-2$
+		final String lClassName = lPath.substring(inPrefix.length(), lPath.length() - SUFFIX_CLASS.length())
+				.replace("/", "."); //$NON-NLS-1$ //$NON-NLS-2$
 		try {
-			final Class<IPluggable> lClass = (Class<IPluggable>) inBundle
-					.loadClass(lClassName);
-			final Annotation lControllerAnnotations = lClass
-					.getAnnotation(UseCaseController.class);
+			final Class<IPluggable> lClass = (Class<IPluggable>) inBundle.loadClass(lClassName);
+			final Annotation lControllerAnnotations = lClass.getAnnotation(UseCaseController.class);
 			if (lControllerAnnotations != null) {
 				return new ControllerConfiguration(inBundle, lClassName);
 			}
-		}
-		catch (final ClassNotFoundException exc) { // NOPMD
-			// intentionally left empty
-		}
-		catch (final NoClassDefFoundError exc) { // NOPMD
+		} catch (ClassNotFoundException | NoClassDefFoundError exc) { // NOPMD
 			// intentionally left empty
 		}
 		return null;
+	}
+
+	/**
+	 * @return {@link PermissionHelper} the <code>PermissionHelper</code>
+	 *         instance
+	 */
+	public PermissionHelper getPermissionHelper() {
+		return permissionHelper;
 	}
 
 	// --- private classes ---
@@ -283,8 +271,7 @@ public enum UseCaseRegistry {
 
 		ControllerSet(final Collection<IControllerConfiguration> inControllers) {
 			controllers = new IControllerConfiguration[inControllers.size()];
-			final Iterator<IControllerConfiguration> lControllers = inControllers
-					.iterator();
+			final Iterator<IControllerConfiguration> lControllers = inControllers.iterator();
 			for (int i = 0; i < controllers.length; i++) {
 				controllers[i] = lControllers.next();
 			}
@@ -303,13 +290,11 @@ public enum UseCaseRegistry {
 		}
 	}
 
-	private static class ControllerConfiguration implements
-			IControllerConfiguration {
+	private static class ControllerConfiguration implements IControllerConfiguration {
 		private final transient Bundle bundle;
 		private final transient String controllerName;
 
-		ControllerConfiguration(final Bundle inBundle,
-				final String inControllerName) {
+		ControllerConfiguration(final Bundle inBundle, final String inControllerName) {
 			bundle = inBundle;
 			controllerName = inControllerName;
 		}

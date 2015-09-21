@@ -4,6 +4,20 @@ HISTORY org.ripla.web
 2.0.2 (2014/03/29)
 ==================
 
+2015/03/20:
+	- org.ripla.web.util.LanguageSelect:
+		- Made value change listener propagating the change to PreferencesHelper.
+		
+2015/03/13:
+	- org.ripla.web.RiplaApplication:
+		- Added RiplaApplication.getDftView() for that the application's layout can be accessed in a configuration workflow.
+	- org.ripla.web.util.Popup:
+		- Added Popup.newPopup() to create a popup using the builder pattern.
+
+2015/03/08:
+	- org.ripla.web.util.Popup:
+		- Made Popup.displayPopup() returning the created window instance.
+		
 2014/04/04:
     - org.ripla.web.controllers.AbstractController:
         - Added method AbstractController.forwardTo().

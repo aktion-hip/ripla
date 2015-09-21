@@ -32,17 +32,18 @@ import com.vaadin.server.Page;
  */
 @SuppressWarnings("serial")
 @Theme("org.ripla.web.demo.skin")
-public class DemoApplication extends RiplaApplication {
+public class DemoApplication extends RiplaApplication { // NOPMD
 	private static final String APP_NAME = "Ripla Demo Application";
 
 	@Override
 	protected void beforeInitializeLayout() {
 		Page.getCurrent().setTitle(APP_NAME);
+		setUpUsers();
 		super.beforeInitializeLayout();
 	}
 
 	@Override
-	protected IAppConfiguration getAppConfiguration() {
+	protected IAppConfiguration getAppConfiguration() { // NOPMD
 		return new IAppConfiguration() {
 			@Override
 			public String getWelcome() {
@@ -96,26 +97,27 @@ public class DemoApplication extends RiplaApplication {
 		};
 	}
 
-	@Override
-	public void setUserAdmin(final UserAdmin inUserAdmin) {
-		super.setUserAdmin(inUserAdmin);
+	private void setUpUsers() {
+		final UserAdmin lUserAdmin = getUserAdmin();
+		if (lUserAdmin != null) {
+			final User lAdmin = (User) lUserAdmin.createRole(
+					Constants.USER_NAME_ADMIN, Role.USER);
+			setNamePassword(lAdmin, Constants.USER_NAME_ADMIN,
+					Constants.USER_PW_ADMIN);
 
-		final User lAdmin = (User) inUserAdmin.createRole(
-				Constants.USER_NAME_ADMIN, Role.USER);
-		setNamePassword(lAdmin, Constants.USER_NAME_ADMIN,
-				Constants.USER_PW_ADMIN);
+			final User lUser = (User) lUserAdmin.createRole(
+					Constants.USER_NAME_USER, Role.USER);
+			setNamePassword(lUser, Constants.USER_NAME_USER,
+					Constants.USER_PW_USER);
 
-		final User lUser = (User) inUserAdmin.createRole(
-				Constants.USER_NAME_USER, Role.USER);
-		setNamePassword(lUser, Constants.USER_NAME_USER, Constants.USER_PW_USER);
-
-		final Group lAdministrators = (Group) inUserAdmin.createRole(
-				Constants.ADMIN_GROUP_NAME, Role.GROUP);
-		if (lAdministrators != null) {
-			lAdministrators.addRequiredMember(lAdmin);
-			lAdministrators.addMember(inUserAdmin.getRole(Role.USER_ANYONE));
+			final Group lAdministrators = (Group) lUserAdmin.createRole(
+					Constants.ADMIN_GROUP_NAME, Role.GROUP);
+			if (lAdministrators != null) {
+				lAdministrators.addRequiredMember(lAdmin);
+				lAdministrators.addMember(lUserAdmin.getRole(Role.USER_ANYONE));
+			}
+			initializePermissions();
 		}
-		initializePermissions();
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

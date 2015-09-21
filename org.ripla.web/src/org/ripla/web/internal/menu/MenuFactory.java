@@ -62,7 +62,7 @@ public class MenuFactory implements Comparable<MenuFactory> {
 	 */
 	public MenuItem createMenu(final MenuBar inMenuBar, final Resource inIcon,
 			final Map<Integer, IMenuCommand> inMap, final Command inCommand,
-			final Authorization inAuthorization, String inMenuTagFilter) {
+			final Authorization inAuthorization, final String inMenuTagFilter) {
 		if (!checkPermissions(menu.getPermission(), inAuthorization)) {
 			return null;
 		}
@@ -101,7 +101,7 @@ public class MenuFactory implements Comparable<MenuFactory> {
 		if (inAuthorization == null) {
 			return true;
 		}
-		if (inMenuPermission.length() > 0
+		if (!inMenuPermission.isEmpty()
 				&& !inAuthorization.hasRole(inMenuPermission)) {
 			return false;
 		}
@@ -174,7 +174,8 @@ public class MenuFactory implements Comparable<MenuFactory> {
 	}
 
 	/**
-	 * @return String the symbolic name of the bundle providing this menu
+	 * @return String the symbolic name of the bundle providing this menu, may
+	 *         be <code>null</code>
 	 */
 	public String getProviderSymbolicName() {
 		return menu.getControllerName().split("/")[0]; //$NON-NLS-1$

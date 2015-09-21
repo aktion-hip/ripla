@@ -62,12 +62,8 @@ public final class LanguageSelect extends CustomComponent {
 	 *            {@link User}
 	 */
 	public LanguageSelect(final PreferencesHelper inPreferences,
-			final ConfigManager inConfigManager, final User inUser) {
+			final ConfigManager inConfigManager, final User inUser) { // NOPMD
 		super();
-		// initialize language form prefs (1) or config admin (2)
-		// final String lActiveLanguage = inPreferences.getLocale(inUser,
-		// new Locale(inConfigManager.getLanguage())).getLanguage();
-
 		setStyleName("ripla-language-select"); //$NON-NLS-1$
 		setSizeUndefined();
 
@@ -98,6 +94,7 @@ public final class LanguageSelect extends CustomComponent {
 					VaadinSession.getCurrent().getLockInstance().unlock();
 				}
 				if (lOld != null && !lOld.equals(lNew)) {
+					inPreferences.setLocale(lNew, inUser);
 					try {
 						VaadinSession.getCurrent().getLockInstance().lock();
 						VaadinSession.getCurrent().setLocale(lNew);

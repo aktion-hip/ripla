@@ -86,7 +86,7 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 	private final ISkin skin;
 	private final RiplaApplication application;
 
-	private String menuTagFilter;
+	private final String menuTagFilter;
 	private MenuBar menuBar;
 
 	/**
@@ -98,8 +98,7 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 	 *            {@link RiplaApplication}
 	 * @param inMenuTagFilter
 	 */
-	protected RiplaBody(final ISkin inSkin,
-			final RiplaApplication inApplication, String inMenuTagFilter) {
+	protected RiplaBody(final ISkin inSkin, final RiplaApplication inApplication, final String inMenuTagFilter) {
 		super();
 
 		skin = inSkin;
@@ -127,10 +126,9 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 	 *            <code>demo.*</code>.
 	 * @return {@link RiplaBody}
 	 */
-	public static RiplaBody createInstance(final ISkin inSkin,
-			final RiplaApplication inApplication, String inMenuTagFilter) {
-		final RiplaBody outBody = new RiplaBody(inSkin, inApplication,
-				inMenuTagFilter);
+	public static RiplaBody createInstance(final ISkin inSkin, final RiplaApplication inApplication,
+			final String inMenuTagFilter) {
+		final RiplaBody outBody = new RiplaBody(inSkin, inApplication, inMenuTagFilter);
 		outBody.initializeLayout();
 		return outBody;
 	}
@@ -155,8 +153,7 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 		}
 
 		if (skin.hasMenuBar()) {
-			final Component lMenubar = createMenubar(skin.getMenuBarMedium(),
-					skin.getMenuBar(), skin.getSubMenuIcon());
+			final Component lMenubar = createMenubar(skin.getMenuBarMedium(), skin.getMenuBar(), skin.getSubMenuIcon());
 			layout.addComponent(lMenubar);
 		}
 
@@ -189,10 +186,9 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 		return sidebar;
 	}
 
-	private Component createMenubar(final HorizontalLayout inMenuBarMedium,
-			final HorizontalLayout inMenuBarLayout, final Resource inSubMenuIcon) {
-		final HorizontalLayout outComponent = inMenuBarMedium == null ? getDftMenuBarLayout()
-				: inMenuBarMedium;
+	private Component createMenubar(final HorizontalLayout inMenuBarMedium, final HorizontalLayout inMenuBarLayout,
+			final Resource inSubMenuIcon) {
+		final HorizontalLayout outComponent = inMenuBarMedium == null ? getDftMenuBarLayout() : inMenuBarMedium;
 
 		menuBar = new MenuBar();
 		menuBar.setAutoOpen(true);
@@ -223,18 +219,15 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 		return outLayout;
 	}
 
-	private void createMenu(final MenuBar inMenuBar,
-			final Resource inSubMenuIcon) {
+	private void createMenu(final MenuBar inMenuBar, final Resource inSubMenuIcon) {
 		final MenuBar.Command lCommand = new MenuBar.Command() {
 			@Override
 			public void menuSelected(final MenuItem inSelected) {
-				final IMenuCommand lAction = getMenuMap().get(
-						inSelected.getId());
+				final IMenuCommand lAction = getMenuMap().get(inSelected.getId());
 				afterMenuClick();
 				if (lAction != null) {
 					try {
-						setContentView(getContentComponent(lAction
-								.getControllerName()));
+						setContentView(getContentComponent(lAction.getControllerName()));
 					} catch (final NoControllerFoundException exc) {
 						handleNoTaskFound(exc);
 					}
@@ -242,21 +235,21 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 			}
 		};
 
-		final Authorization lAuthorization = UseCaseRegistry.INSTANCE
-				.getUserAdmin().getAuthorization(getUser());
+		final Authorization lAuthorization = UseCaseRegistry.INSTANCE.getUserAdmin().getAuthorization(getUser());
 		final Map<String, MenuItem> lMenuMap = new HashMap<String, MenuBar.MenuItem>();
 		for (final MenuFactory lFactory : UseCaseRegistry.INSTANCE.getMenus()) {
-			final MenuItem lItem = lFactory.createMenu(inMenuBar,
-					inSubMenuIcon, getMenuMap(), lCommand, lAuthorization,
+			final MenuItem lItem = lFactory.createMenu(inMenuBar, inSubMenuIcon, getMenuMap(), lCommand, lAuthorization,
 					menuTagFilter);
-			lMenuMap.put(lFactory.getProviderSymbolicName(), lItem);
+			final String lProviderName = lFactory.getProviderSymbolicName();
+			if (lProviderName != null) {
+				lMenuMap.put(lFactory.getProviderSymbolicName(), lItem);
+			}
 		}
 		// we set the menu map to the session to access it later to mark the
 		// active menu
 		try {
 			VaadinSession.getCurrent().getLockInstance().lock();
-			VaadinSession.getCurrent().setAttribute(Constants.SA_MENU_MAP,
-					lMenuMap);
+			VaadinSession.getCurrent().setAttribute(Constants.SA_MENU_MAP, lMenuMap);
 		} finally {
 			VaadinSession.getCurrent().getLockInstance().unlock();
 		}
@@ -299,15 +292,13 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 		outToolbar.addComponent(lExpand);
 		outToolbar.setExpandRatio(lExpand, 1);
 
-		final Iterator<IToolbarItem> lItems = ToolbarItemRegistry.INSTANCE
-				.getSortedItems().iterator();
+		final Iterator<IToolbarItem> lItems = ToolbarItemRegistry.INSTANCE.getSortedItems().iterator();
 		boolean lFirst = true;
 		while (lItems.hasNext()) {
 			final IToolbarItem lItem = lItems.next();
 			final IToolbarItemCreator lFactory = lItem.getCreator();
-			final Component lComponent = lFactory == null ? lItem
-					.getComponent() : lFactory.createToolbarItem(application,
-					getUser());
+			final Component lComponent = lFactory == null ? lItem.getComponent()
+					: lFactory.createToolbarItem(application, getUser());
 			if (lComponent == null) {
 				continue;
 			}
@@ -315,14 +306,12 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 			if (!lFirst) {
 				final Label lSeparator = getSeparator(inSeparator);
 				outToolbar.addComponent(lSeparator);
-				outToolbar.setComponentAlignment(lSeparator,
-						Alignment.MIDDLE_CENTER);
+				outToolbar.setComponentAlignment(lSeparator, Alignment.MIDDLE_CENTER);
 			}
 			lFirst = false;
 
 			outToolbar.addComponent(lComponent);
-			outToolbar.setComponentAlignment(lComponent,
-					Alignment.MIDDLE_CENTER);
+			outToolbar.setComponentAlignment(lComponent, Alignment.MIDDLE_CENTER);
 			lItem.registerToolbarActionListener(new IToolbarActionListener() { // NOPMD
 				@Override
 				public void processAction(final IToolbarAction inAction) {
@@ -351,18 +340,15 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 	 * @return {@link Label} the cloned label
 	 */
 	private Label getSeparator(final Label inSeparator) {
-		final Label out = new Label(inSeparator.getValue().toString(),
-				inSeparator.getContentMode());
+		final Label out = new Label(inSeparator.getValue().toString(), inSeparator.getContentMode());
 		out.setWidth(inSeparator.getWidth(), inSeparator.getWidthUnits());
 		out.setStyleName(inSeparator.getStyleName());
 		return out;
 	}
 
 	@Override
-	public Component getContentComponent(final String inControllerName)
-			throws NoControllerFoundException {
-		return UseCaseRegistry.INSTANCE.getControllerManager().getContent(
-				inControllerName);
+	public Component getContentComponent(final String inControllerName) throws NoControllerFoundException {
+		return UseCaseRegistry.INSTANCE.getControllerManager().getContent(inControllerName);
 	}
 
 	@Override
@@ -383,16 +369,11 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 	 * </p>
 	 */
 	@Override
-	public void setContextMenu(final String inMenuSetName,
-			final Class<? extends IPluggable> inControllerClass) {
+	public void setContextMenu(final String inMenuSetName, final Class<? extends IPluggable> inControllerClass) {
 		getSidebar().removeAllComponents();
 		final User lUser = getUser();
-		getSidebar().addComponent(
-				UseCaseRegistry.INSTANCE.getContextMenuManager()
-						.renderContextMenu(inMenuSetName, lUser,
-								getUserAdmin().getAuthorization(lUser),
-								createParametersForContextMenu(),
-								inControllerClass));
+		getSidebar().addComponent(UseCaseRegistry.INSTANCE.getContextMenuManager().renderContextMenu(inMenuSetName,
+				lUser, getUserAdmin().getAuthorization(lUser), createParametersForContextMenu(), inControllerClass));
 	}
 
 	/**
@@ -415,11 +396,6 @@ public class RiplaBody extends CustomComponent implements IBodyComponent { // NO
 		showDefault();
 	}
 
-	/*
-	 * Subclasses may override.
-	 * 
-	 * @see org.ripla.web.interfaces.IBodyComponent#showDefault()
-	 */
 	@Override
 	public void showDefault() {
 		final List<MenuItem> lMenuItems = menuBar.getItems();

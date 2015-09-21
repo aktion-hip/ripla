@@ -28,6 +28,7 @@ import com.vaadin.ui.Window;
  * 
  * <pre>
  * Popup.displayPopup(&quot;Look at this!&quot;, &lt;myComponent>, 300, 600);
+ * Popup.newPopup(&quot;Look at this!&quot;, &lt;myComponent>, 300, 600).setClosable(false).build();
  * </pre>
  * 
  * @author Luthiger
@@ -35,10 +36,11 @@ import com.vaadin.ui.Window;
 public final class Popup {
 
 	private Popup() {
+		// prevent instantiation
 	}
 
 	/**
-	 * Displays the specified component in a popup window.
+	 * Helper method to create a popup using a builder.
 	 * 
 	 * @param inTitle
 	 *            String the popup's title
@@ -48,22 +50,39 @@ public final class Popup {
 	 *            int the window width
 	 * @param inHeight
 	 *            int the window height
+	 * @return {@link PopupBuilder} the builder for the popup window
 	 */
-	public static void displayPopup(final String inTitle,
+	public static PopupBuilder newPopup(final String inTitle,
 			final Layout inLayout, final int inWidth, final int inHeight) {
-		final PopupWindow lPopup = new PopupWindow(inTitle, inLayout, inWidth,
-				inHeight);
-		UI.getCurrent().addWindow(lPopup);
-		lPopup.setPosition(50, 50);
+		return new Popup.PopupBuilder(inTitle, inLayout, inWidth, inHeight);
+	}
+
+	/**
+	 * Convenience method to display the specified component in a popup window.
+	 * 
+	 * @param inTitle
+	 *            String the popup's title
+	 * @param inLayout
+	 *            {@link Layout} the view component to display
+	 * @param inWidth
+	 *            int the window width
+	 * @param inHeight
+	 *            int the window height
+	 * @return {@link PopupWindow} the created popup window
+	 */
+	public static PopupWindow displayPopup(final String inTitle,
+			final Layout inLayout, final int inWidth, final int inHeight) {
+		return newPopup(inTitle, inLayout, inWidth, inHeight).setClosable(true)
+				.build();
 	}
 
 	/**
 	 * Convenience method: removes all existing popup windows.
 	 */
 	public static void removePopups() {
-		UI lCurrent = UI.getCurrent();
-		Collection<Window> lSubWindows = lCurrent.getWindows();
-		for (Window lSubWindow : lSubWindows) {
+		final UI lCurrent = UI.getCurrent();
+		final Collection<Window> lSubWindows = lCurrent.getWindows();
+		for (final Window lSubWindow : lSubWindows) {
 			if (lSubWindow instanceof PopupWindow) {
 				lCurrent.removeWindow(lSubWindow);
 			}
@@ -72,6 +91,76 @@ public final class Popup {
 
 	// ---
 
+	public static class PopupBuilder {
+
+		private transient final String title;
+		private transient final Layout layout;
+		private transient final int width;
+		private transient final int height;
+		private transient UI parent;
+		private transient boolean closable;
+		private transient int positionX = 50;
+		private transient int positionY = 50;
+
+		// prevent public instantiation
+		private PopupBuilder(final String inTitle, final Layout inLayout,
+				final int inWidth, final int inHeight) {
+			title = inTitle;
+			layout = inLayout;
+			width = inWidth;
+			height = inHeight;
+		}
+
+		/**
+		 * @param inParent
+		 *            {@link UI} the parent window
+		 * @return {@link PopupBuilder}
+		 */
+		public PopupBuilder setParent(final UI inParent) {
+			parent = inParent;
+			return this;
+		}
+
+		/**
+		 * @param inCloseable
+		 *            boolean <code>true</code> to set the popup closeable
+		 * @return {@link PopupBuilder}
+		 */
+		public PopupBuilder setClosable(final boolean inCloseable) {
+			closable = inCloseable;
+			return this;
+		}
+
+		/**
+		 * @param inPositionX
+		 *            int the windows x position
+		 * @param inPositionY
+		 *            int the windows y position
+		 * @return {@link PopupBuilder}
+		 */
+		public PopupBuilder setPosition(final int inPositionX,
+				final int inPositionY) {
+			positionX = inPositionX;
+			positionY = inPositionY;
+			return this;
+		}
+
+		/**
+		 * Builds the popup window.
+		 * 
+		 * @return {@link PopupWindow} the created popup window
+		 */
+		public PopupWindow build() {
+			final PopupWindow outPopup = new PopupWindow(title, layout, width,
+					height, closable);
+			final UI lParent = parent == null ? UI.getCurrent() : parent;
+			lParent.addWindow(outPopup);
+			outPopup.setPosition(positionX, positionY);
+			return outPopup;
+		}
+
+	}
+
 	@SuppressWarnings("serial")
 	public static class PopupWindow extends Window {
 
@@ -79,7 +168,7 @@ public final class Popup {
 		 * Private PopupWindow constructor.
 		 */
 		PopupWindow(final String inTitle, final Layout inLayout,
-				final int inWidth, final int inHeight) {
+				final int inWidth, final int inHeight, final boolean inCloseable) {
 			super(inTitle);
 			setWidth(inWidth, Unit.PIXELS);
 			setHeight(inHeight, Unit.PIXELS);
@@ -92,18 +181,21 @@ public final class Popup {
 			lLayout.setSizeFull();
 			lLayout.addComponent(inLayout);
 
-			final Button lClose = new Button(Activator.getMessages()
-					.getMessage("lookup.window.button.close"), //$NON-NLS-1$
-					new Button.ClickListener() {
-						@Override
-						public void buttonClick(final ClickEvent inEvent) {
-							UI.getCurrent().removeWindow(PopupWindow.this);
-						}
-					});
-			lClose.setClickShortcut(KeyCode.ESCAPE);
-			lClose.setImmediate(true);
-			lClose.setStyleName("ripla-lookup-close"); //$NON-NLS-1$
-			lLayout.addComponent(lClose);
+			setClosable(inCloseable);
+			if (inCloseable) {
+				final Button lClose = new Button(Activator.getMessages()
+						.getMessage("lookup.window.button.close"), //$NON-NLS-1$
+						new Button.ClickListener() {
+							@Override
+							public void buttonClick(final ClickEvent inEvent) {
+								UI.getCurrent().removeWindow(PopupWindow.this);
+							}
+						});
+				lClose.setClickShortcut(KeyCode.ESCAPE);
+				lClose.setImmediate(true);
+				lClose.setStyleName("ripla-lookup-close"); //$NON-NLS-1$
+				lLayout.addComponent(lClose);
+			}
 		};
 
 		protected void setPosition(final int inPositionX, final int inPositionY) {

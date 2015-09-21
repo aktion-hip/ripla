@@ -65,26 +65,26 @@ public final class ExtendibleMenuFactory extends MenuFactory {
 	}
 
 	private Collection<IExtendibleMenuContribution> getSorted(
-			Collection<IExtendibleMenuContribution> inContributions) {
+			final Collection<IExtendibleMenuContribution> inContributions) {
 		// distribute all contributions to their positions
-		Map<ExtendibleMenuMarker.Position, List<IExtendibleMenuContribution>> helper = new HashMap<ExtendibleMenuMarker.Position, List<IExtendibleMenuContribution>>(
+		final Map<ExtendibleMenuMarker.Position, List<IExtendibleMenuContribution>> helper = new HashMap<ExtendibleMenuMarker.Position, List<IExtendibleMenuContribution>>(
 				7);
-		for (IExtendibleMenuContribution lContribution : inContributions) {
-			Position lPosition = lContribution.getPosition();
+		for (final IExtendibleMenuContribution lContribution : inContributions) {
+			final Position lPosition = lContribution.getPosition();
 			List<IExtendibleMenuContribution> lPositionList = helper
 					.get(lPosition);
 			if (lPositionList == null) {
-				lPositionList = new ArrayList<IExtendibleMenuContribution>();
+				lPositionList = new ArrayList<IExtendibleMenuContribution>(); // NOPMD
 				helper.put(lPosition, lPositionList);
 			}
 			lPositionList.add(lContribution);
 		}
 		// sort each position's list
-		ArrayList<IExtendibleMenuContribution> out = new ArrayList<IExtendibleMenuContribution>(
+		final List<IExtendibleMenuContribution> out = new ArrayList<IExtendibleMenuContribution>(
 				inContributions.size());
-		for (Entry<Position, List<IExtendibleMenuContribution>> lPositionSet : helper
+		for (final Entry<Position, List<IExtendibleMenuContribution>> lPositionSet : helper
 				.entrySet()) {
-			switch (lPositionSet.getKey().getType()) {
+			switch (lPositionSet.getKey().getType()) { // NOPMD
 			case APPEND:
 				out.addAll(getWithSort(lPositionSet.getValue(), true));
 				break;
@@ -102,7 +102,8 @@ public final class ExtendibleMenuFactory extends MenuFactory {
 	}
 
 	private List<IExtendibleMenuContribution> getWithSort(
-			List<IExtendibleMenuContribution> inToSort, boolean inAscending) {
+			final List<IExtendibleMenuContribution> inToSort,
+			final boolean inAscending) {
 		Collections.sort(inToSort, new ContributionComparator(inAscending));
 		return inToSort;
 	}
@@ -115,7 +116,7 @@ public final class ExtendibleMenuFactory extends MenuFactory {
 		for (final IExtendibleMenuContribution lContribution : inContributions) {
 			final ExtendibleMenuMarker.Position lPosition = lContribution
 					.getPosition();
-			switch (lPosition.getType()) {
+			switch (lPosition.getType()) { // NOPMD
 			case INSERT_BEFORE:
 				insert(lPosition.getMarkerID(), lContribution, 0);
 				break;
@@ -183,7 +184,7 @@ public final class ExtendibleMenuFactory extends MenuFactory {
 	public MenuItem createMenu(final MenuBar inMenuBar,
 			final Resource inSubMenuIcon,
 			final Map<Integer, IMenuCommand> inMap, final Command inCommand,
-			final Authorization inAuthorization, String inMenuTagFilter) {
+			final Authorization inAuthorization, final String inMenuTagFilter) {
 		if (!checkPermissions(menu.getPermission(), inAuthorization)) {
 			return null;
 		}
@@ -233,20 +234,30 @@ public final class ExtendibleMenuFactory extends MenuFactory {
 		return outItem;
 	}
 
+	@Override
+	public String getProviderSymbolicName() {
+		final IExtMenuItem lItem = contributions.get(0);
+		if (lItem == null || lItem.getContribution() == null) {
+			return null;
+		}
+		return FrameworkUtil.getBundle(lItem.getContribution().getClass())
+				.getSymbolicName();
+	}
+
 	// --- inner classes ---
 
 	private static class ContributionComparator implements
 			Comparator<IExtendibleMenuContribution> {
 
-		private int ascending;
+		private final transient int ascending;
 
-		protected ContributionComparator(boolean inAscending) {
+		protected ContributionComparator(final boolean inAscending) {
 			ascending = inAscending ? 1 : -1;
 		}
 
 		@Override
-		public int compare(IExtendibleMenuContribution inContribution1,
-				IExtendibleMenuContribution inContribution2) {
+		public int compare(final IExtendibleMenuContribution inContribution1,
+				final IExtendibleMenuContribution inContribution2) {
 			return ascending
 					* inContribution1.getLabel().compareTo(
 							inContribution2.getLabel());
@@ -307,13 +318,6 @@ public final class ExtendibleMenuFactory extends MenuFactory {
 		public IExtendibleMenuContribution getContribution() {
 			return contribution;
 		}
-	}
-
-	@Override
-	public String getProviderSymbolicName() {
-		return FrameworkUtil.getBundle(
-				contributions.get(0).getContribution().getClass())
-				.getSymbolicName();
 	}
 
 }

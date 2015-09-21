@@ -22,13 +22,10 @@ import org.ripla.interfaces.IAppConfiguration;
 import org.ripla.interfaces.IAuthenticator;
 import org.ripla.interfaces.IRiplaEventDispatcher;
 import org.ripla.interfaces.IWorkflowListener;
-import org.ripla.services.IExtendibleMenuContribution;
-import org.ripla.services.IPermissionEntry;
 import org.ripla.util.PreferencesHelper;
 import org.ripla.web.controllers.RiplaBody;
 import org.ripla.web.interfaces.IBodyComponent;
 import org.ripla.web.internal.services.ConfigManager;
-import org.ripla.web.internal.services.PermissionHelper;
 import org.ripla.web.internal.services.RiplaEventDispatcher;
 import org.ripla.web.internal.services.SkinRegistry;
 import org.ripla.web.internal.services.UseCaseRegistry;
@@ -75,7 +72,7 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 
 	private final PreferencesHelper preferences = createPreferencesHelper();
 	private final ConfigManager configManager = new ConfigManager();
-	private final PermissionHelper permissionHelper = new PermissionHelper();
+	// private final PermissionHelper permissionHelper = new PermissionHelper();
 	private RiplaEventDispatcher eventDispatcher;
 	private ToolbarItemFactory toolbarItemFactory;
 
@@ -214,7 +211,7 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 		lLayout.addComponent(bodyView);
 		lLayout.setExpandRatio(bodyView, 1);
 
-		if (!beforeLogin(this)) {
+		if (!beforeLogin(this, bodyView, inConfiguration)) {
 			return false;
 		}
 
@@ -248,17 +245,24 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 
 	/**
 	 * Hook for application configuration.<br />
-	 * Subclasses may override to plug in a configuration workflow.
+	 * Subclasses may override to plug in a configuration workflow.<br />
+	 * Use <code>inBodyView.addComponent(getDftView(inConfiguration))</code> to
+	 * set the application's layout before starting the workflow.
 	 * 
 	 * @param inWorkflowListener
 	 *            {@link IWorkflowListener} the listener of the application
 	 *            workflow configuration
+	 * @param inBodyView
+	 *            Layout the body of the application's main window
+	 * @param inConfiguration
+	 *            IAppConfiguration the application's configuration object
 	 * @return boolean <code>true</code> in case there's no need of application
 	 *         configuration and, therefore, the startup process can continue,
 	 *         <code>false</code> if the startup is handed over to the
 	 *         application configuration workflow.
 	 */
-	protected boolean beforeLogin(final IWorkflowListener inWorkflowListener) {
+	protected boolean beforeLogin(final IWorkflowListener inWorkflowListener,
+			final Layout inBodyView, final IAppConfiguration inConfiguration) {
 		return true;
 	}
 
@@ -318,7 +322,7 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 
 		eventDispatcher.setBodyComponent(out, this);
 
-		IRequestParameter requestParameter = RiplaRequestHandler
+		final IRequestParameter requestParameter = RiplaRequestHandler
 				.getParameterFromSession();
 		if (requestParameter == null) {
 			out.showDefault();
@@ -371,6 +375,36 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 				UseCaseRegistry.INSTANCE.getUserAdmin());
 		out.addComponent(lLogin);
 		out.setExpandRatio(lLogin, 1);
+		return out;
+	}
+
+	/**
+	 * Creates the application's default view to be added to the body view.<br />
+	 * Usage: <code>bodyView.addComponent(getDftView(inConfiguration))</code>
+	 * 
+	 * @param inConfiguration
+	 *            {@link IAppConfiguration}
+	 * @return {@link Component} the component to add to the body view for that
+	 *         the application's layout can be displayed without content
+	 */
+	protected Component getDftView(final IAppConfiguration inConfiguration) {
+		final VerticalLayout out = new VerticalLayout();
+		out.setStyleName("ripla-body");
+		out.setSizeFull();
+
+		final ISkin lSkin = SkinRegistry.INSTANCE.getActiveSkin();
+		if (lSkin.hasHeader()) {
+			final Component lHeader = lSkin.getHeader(inConfiguration
+					.getAppName());
+			out.addComponent(lHeader);
+			out.setExpandRatio(lHeader, 0);
+		}
+
+		if (lSkin.hasFooter()) {
+			final Component lFooter = lSkin.getFooter();
+			out.addComponent(lFooter);
+			out.setExpandRatio(lFooter, 0);
+		}
 		return out;
 	}
 
@@ -447,12 +481,12 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 	 * </p>
 	 * <p>
 	 * This method is best called in the subclass's
-	 * <code>setUserAdmin(UserAdmin inUserAdmin)</code> method:
+	 * <code>beforeInitializeLayout()</code> method:
 	 * 
 	 * <pre>
-	 * public void setUserAdmin(UserAdmin inUserAdmin) {
-	 * 	super.setUserAdmin(inUserAdmin);
-	 * 	Group lAdministrators = (Group) inUserAdmin.createRole(&quot;ripla.admin&quot;,
+	 * private void beforeInitializeLayout() {
+	 * 	UserAdmin userAdmin = getUserAdmin();
+	 * 	Group administrators = (Group) userAdmin.createRole(&quot;ripla.admin&quot;,
 	 * 			Role.GROUP);
 	 * 	initializePermissions();
 	 * }
@@ -461,7 +495,16 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 	 * </p>
 	 */
 	protected void initializePermissions() {
-		permissionHelper.initializePermissions();
+		UseCaseRegistry.INSTANCE.getPermissionHelper().initializePermissions();
+	}
+
+	/**
+	 * Makes the OSGi <code>UserAdmin</code> available for subclasses.
+	 * 
+	 * @return {@link UserAdmin}
+	 */
+	protected UserAdmin getUserAdmin() {
+		return UseCaseRegistry.INSTANCE.getUserAdmin();
 	}
 
 	/**
@@ -498,44 +541,6 @@ public class RiplaApplication extends OSGiUI implements IWorkflowListener { // N
 	public void unsetPreferences(final PreferencesService inPreferences) {
 		preferences.dispose();
 		LOG.debug("Removed the OSGi preferences service.");
-	}
-
-	public void setUserAdmin(final UserAdmin inUserAdmin) {
-		UseCaseRegistry.INSTANCE.setUserAdmin(inUserAdmin);
-		permissionHelper.setUserAdmin(inUserAdmin);
-		LOG.debug("The OSGi user admin service is made available.");
-	}
-
-	public void unsetUserAdmin(final UserAdmin inUserAdmin) {
-		UseCaseRegistry.INSTANCE.setUserAdmin(null);
-		permissionHelper.setUserAdmin(null);
-		LOG.debug("Removed the OSGi user admin service is made available.");
-	}
-
-	public void registerMenuContribution(
-			final IExtendibleMenuContribution inMenuContribution) {
-		LOG.debug("Registered extendible menu contribution '{}'.",
-				inMenuContribution.getExtendibleMenuID());
-		UseCaseRegistry.INSTANCE.registerMenuContribution(inMenuContribution);
-	}
-
-	public void unregisterMenuContribution(
-			final IExtendibleMenuContribution inMenuContribution) {
-		LOG.debug("Unregistered extendible menu contribution '{}'.",
-				inMenuContribution.getExtendibleMenuID());
-		UseCaseRegistry.INSTANCE.unregisterMenuContribution(inMenuContribution);
-	}
-
-	public void registerPermission(final IPermissionEntry inPermission) {
-		LOG.debug("Registered permission '{}'.",
-				inPermission.getPermissionName());
-		permissionHelper.addPermission(inPermission);
-	}
-
-	public void unregisterPermission(final IPermissionEntry inPermission) {
-		LOG.debug("Unregistered permission '{}'.",
-				inPermission.getPermissionName());
-		permissionHelper.removePermission(inPermission);
 	}
 
 	public void setConfiAdmin(final ConfigurationAdmin inConfigAdmin) {
