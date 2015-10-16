@@ -97,15 +97,13 @@ public abstract class AbstractFormCreator {
 			while (fields.hasNext()) {
 				Field<?> field = fields.next();
 				if (field.isRequired() && !field.isValid()) {
-					((AbstractComponent) field)
-							.setComponentError(new UserError(""));
+					((AbstractComponent) field).setComponentError(new UserError(""));
 				}
 				if (field.isRequired()) {
 					if (field.isValid()) {
 						((AbstractComponent) field).setComponentError(null);
 					} else {
-						((AbstractComponent) field)
-								.setComponentError(new UserError(""));
+						((AbstractComponent) field).setComponentError(new UserError(""));
 					}
 				}
 			}
@@ -136,9 +134,9 @@ public abstract class AbstractFormCreator {
 	 *            {@link AbstractField}
 	 * @return {@link Field}
 	 */
-	protected Field<?> addFieldRequired(final String inFieldID,
-			final AbstractField<?> inField) {
+	protected Field<?> addFieldRequired(final String inFieldID, final AbstractField<?> inField) {
 		inField.setRequired(true);
+		inField.setStyleName("ripla-required-field");
 		inField.setImmediate(true);
 		return addField(inFieldID, inField);
 	}
@@ -155,10 +153,9 @@ public abstract class AbstractFormCreator {
 	 *            message <code>The field "FieldName" must not be empty!</code>
 	 * @return {@link Field}
 	 */
-	protected Field<?> addFieldRequired(final String inFieldID,
-			final AbstractField<?> inField, final String inRequiredFieldLbl) {
-		inField.setRequiredError(messages.getFormattedMessage(
-				"errmsg.error.not.empty", inRequiredFieldLbl)); //$NON-NLS-1$
+	protected Field<?> addFieldRequired(final String inFieldID, final AbstractField<?> inField,
+			final String inRequiredFieldLbl) {
+		inField.setRequiredError(messages.getFormattedMessage("errmsg.error.not.empty", inRequiredFieldLbl)); //$NON-NLS-1$
 		return addFieldRequired(inFieldID, inField);
 	}
 
@@ -198,8 +195,7 @@ public abstract class AbstractFormCreator {
 	 *            message <code>The field "FieldName" must not be empty!</code>
 	 * @return {@link Field} the created field
 	 */
-	protected Field<String> addFieldRequired(final String inFieldID,
-			final String inRequiredFieldLbl) {
+	protected Field<String> addFieldRequired(final String inFieldID, final String inRequiredFieldLbl) {
 		final TextField out = new TextField();
 		addFieldRequired(inFieldID, out, inRequiredFieldLbl);
 		return out;
