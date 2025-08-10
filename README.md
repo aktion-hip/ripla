@@ -6,9 +6,9 @@ Rich Platform project for Java web applications.
 Web Page
 --------
 
-http://aktion-hip.github.com/ripla/
+https://aktion-hip.github.io/ripla/
 
 Downloads
 ---------
 
-http://aktion-hip.github.io/ripla/downloads/
+https://aktion-hip.github.io/ripla/downloads/
